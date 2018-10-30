@@ -2,18 +2,20 @@
 
 let data = new RenderData();
 
-let mod = new Rectangle(new Vector2d(10,0));
-mod.setColor = "#6dff6d";
-mod.setDimensions = [30, 20];
-let act = new Actor( mod );
+let mod = new Rectangle(new Vector2d(50,200));
+mod.setColor = "#FF0000";
+mod.setDimensions = [30, 50];
+let act = new Card( mod , 'green', 4);
+act.setPosition = new Vector2d(0,0);
 data.addObj(act);
 
-mod = new Circle(new Vector2d(80,50));
-mod.setColor = "#0000ff";
-mod.setDimensions = [40];
-act = new Actor( mod );
-data.addObj(act);
 
 let rend = new Rendering(data);
 
-rend.update();
+let controller = new Controller(data, rend);
+
+let lo = function () {
+    controller.loop();
+}
+
+setInterval(lo, 10);

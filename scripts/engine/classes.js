@@ -1,26 +1,4 @@
 
-class Vector2d {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-    }
-    get getX() {
-        return this.x;
-    }
-    set setX(x) {
-        this.x = x;
-    }
-    get getY() {
-        return this.x;
-    }
-    set setY(x) {
-        this.x = x;
-    }
-    coordinate(x, y) {
-        this.x = x;
-        this.y = y;
-    }
-}
 
 class SimpleShape {
     constructor(position) {
@@ -66,6 +44,11 @@ class Circle extends SimpleShape {
         this.dimensions.push(10);
     }
 
+    set setDimensions(dimensions) {
+        
+        this.dimensions = [ dimensions[0] ];
+    }
+    
     render(window) {
         var ctx = window.getContext("2d");
         ctx.beginPath();
@@ -75,6 +58,8 @@ class Circle extends SimpleShape {
         ctx.strokeStyle = this.color;
         ctx.stroke();
     }
+
+
 }
 
 class IRender {
@@ -94,6 +79,10 @@ class Actor extends IRender {
     render(window) {
         this.renderModel.render(window);
     }
+    set setPosition(position) {
+        this.renderModel.setPosition = position;
+    }
+    onMouseClick() {}
 }
 
 class RenderData {
@@ -113,14 +102,47 @@ class Rendering {
     } 
 
     update(){
-
         let i = 0;
         for(i = 0; i < this.renderData.renderObjects.length; i++) {
             this.renderData.renderObjects[i].render(this.window);
         }
-
-        //var ctx = this.window.getContext("2d");
-        //ctx.fillStyle="#FF0000";
-        //ctx.fillRect(20,20,1000,1000); 
     }
+}
+
+class Physics {
+    constructor(data) {
+        this.data = data;
+    }
+
+    checkOverlaping() {
+        this.checkMouseClickActorEvent();
+    }
+
+    // checking if mouse has clicked one of the elements on screen
+    checkMouseClickActorEvent() {
+        if (InputController.leftMouseButtonClicked) {
+            let i = 0;
+            let d = this.data.renderObjects;
+
+            // finding first element from top to down on which mouse is over
+            for (i = d.length-1; i >= 0; i--) {
+                if (pointOverRectangle(InputController.mousePosition, d[i].renderModel) 
+                    || pointOverCircle(point, d[i].renderModel)) {
+                    d[i].onMouseClick();
+                    break;
+                }
+            }
+        }
+    }
+
+    // check if point is inside Rectangle
+    pointOverRectangle(point, rectangle) {
+        return false;
+    }
+
+    // check if point is inside Circle
+    pointOverCircle(point, circle) {
+        return false;
+    }
+
 }
