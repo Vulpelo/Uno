@@ -21,6 +21,16 @@ class Card extends Actor {
         }
         model.color = tmp;
     }
+
+    onMouseClick() {
+        let mod = new Circle(new Vector2d(0,0));
+        mod.setDimensions = [60];
+        mod.setColor = "#FF00FF";
+        let nA = new Actor(mod);
+
+        RenderData.spawnActor(nA);
+        console.log("I got clicked");
+    }
 }
 
 class Player {

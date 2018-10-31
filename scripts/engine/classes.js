@@ -66,6 +66,7 @@ class IRender {
     constructor() {
 
     }
+
     render(window) {
         document.write("RENDER");
     }
@@ -76,37 +77,51 @@ class Actor extends IRender {
         super();
         this.renderModel = renderModel;
     }
+
     render(window) {
         this.renderModel.render(window);
     }
+
     set setPosition(position) {
         this.renderModel.setPosition = position;
     }
+
     onMouseClick() {}
 }
 
 class RenderData {
     constructor() {
-        this.renderObjects = [];
-        
     }
+
     addObj(obj) {
-        this.renderObjects.push(obj);
+        RenderData.renderObjects.push(obj);
+    }
+
+    static spawnActor(actor, pos=0) {
+        let tmp = RenderData.renderObjects;
+        if (pos <= 0) {
+            tmp.push(actor);
+        }
+        else {
+            tmp = tmp.slice(0, pos).concat([actor]).concat(tmp.slice(pos));
+        }
+        RenderData.renderObjects = tmp;
     }
 }
 
+RenderData.renderObjects = [];
 RenderData.window = document.getElementById("window");
 
 class Rendering {
     constructor(renderData) {
         this.renderData = renderData;
         this.window = document.getElementById("window");
-    } 
+    }
 
     update(){
         let i = 0;
-        for(i = 0; i < this.renderData.renderObjects.length; i++) {
-            this.renderData.renderObjects[i].render(this.window);
+        for(i = 0; i < RenderData.renderObjects.length; i++) {
+            RenderData.renderObjects[i].render(this.window);
         }
     }
 }
@@ -124,14 +139,13 @@ class Physics {
     checkMouseClickActorEvent() {
         if (InputController.leftMouseButtonClicked == true) {
             let i = 0;
-            let d = this.data.renderObjects;
+            let d = RenderData.renderObjects;
 
             // finding first element from top to down on which mouse is over
             for (i = d.length-1; i >= 0; i--) {
                 if ( this.pointOverRectangle(InputController.mousePosition, d[i].renderModel)
                     || this.pointOverCircle(InputController.mousePosition, d[i].renderModel)) {
                     d[i].onMouseClick();
-                    console.log("rectangle clicked");
                     break;
                 }
             }
@@ -149,7 +163,7 @@ class Physics {
     pointOverCircle(point, circle) {
         if(circle.dimensions.length == 1) {
             let vec = point.sub(circle.position);
-            return vec.abs() >= circle.dimensions[0];
+            return vec.abs() <= circle.dimensions[0];
         }
         return false;
     }
