@@ -9,7 +9,7 @@ class Controller {
     loop() {
         this.physics.checkOverlaping();
         this.render.update();
+        InputController.reset();
     }
 
 }
-

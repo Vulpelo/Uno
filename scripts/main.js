@@ -3,7 +3,6 @@
 let data = new RenderData();
 
 let mod = new Rectangle(new Vector2d(50,200));
-mod.setColor = "#FF0000";
 mod.setDimensions = [30, 50];
 let act = new Card( mod , 'green', 4);
 act.setPosition = new Vector2d(0,0);

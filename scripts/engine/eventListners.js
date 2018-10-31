@@ -1,5 +1,9 @@
 
 class InputController {
+    static reset() {
+        InputController.leftMouseButtonClicked = false;
+    }
+
     static keyDownHandler(e) {
 
     }
@@ -9,15 +13,13 @@ class InputController {
     }
     
     static mouseMoveHandler(e) {
-        InputController.mousePosition.setX = e.clientX;
-        InputController.mousePosition.setY = e.clientY;
+        InputController.mousePosition.setX = e.clientX - RenderData.window.offsetLeft;
+        InputController.mousePosition.setY = e.clientY - RenderData.window.offsetTop;
     }
     
     static mouseClickHandler(e) {
         if ("which" in e) {
-            document.write("HI");
-            InputController.leftMouseButtonClicked = e.which === 3;
-            document.write(InputController.leftMouseButtonClicked);
+            InputController.leftMouseButtonClicked = (e.which == 1);
         }
     }
 }
