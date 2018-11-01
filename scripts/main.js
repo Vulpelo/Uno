@@ -2,12 +2,28 @@
 
 let data = new RenderData();
 
-let mod = new Rectangle(new Vector2d(50,200));
-mod.setDimensions = [30, 50];
-let act = new Card( mod , 'green', 4);
-act.setPosition = new Vector2d(0,0);
-data.addObj(act);
 
+let t = new Table();
+t.start();
+
+// let gC = new Player();
+// data.addObj(gC);
+
+// let mod = new Rectangle(new Vector2d(50,200));
+// let act = new Card( mod , 'green', 4); data.addObj(act);
+// gC.addCard(act);
+
+// mod = new Rectangle(new Vector2d(50,200));
+// act = new Card(mod, 'blue', 1); data.addObj(act);
+// gC.addCard(act);
+
+// mod = new Rectangle(new Vector2d(50,200));
+// act = new Card(mod, 'yellow', 1); data.addObj(act);
+// gC.addCard(act);
+
+// mod = new Rectangle(new Vector2d(50,200));
+// act = new Card(mod, 'red', 1); data.addObj(act);
+// gC.addCard(act);
 
 let rend = new Rendering(data);
 
