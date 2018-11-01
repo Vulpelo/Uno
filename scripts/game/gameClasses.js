@@ -1,7 +1,7 @@
 
 class Card extends Actor {
     constructor(color, symbol, table) {
-        super(new Rectangle(new Vector2d(0,0)));
+        super();
         this.played = false;
         this.table = table;
         this.color = color;
@@ -21,8 +21,9 @@ class Card extends Actor {
             tmp = '#FFFF00';
             break;
         }
-        this.renderModel.color = tmp;
-        this.renderModel.setDimensions = [30,50];
+        this.renderModel = [new Rectangle(new Vector2d(0,0))]
+        this.renderModel[0].color = tmp;
+        this.renderModel[0].setDimensions = [30,50];
     }
 
     onMouseClick() {
@@ -43,8 +44,8 @@ class Player extends Actor {
         for (let i=0; i<this.arrCards.length; i++) {
             this.arrCards[i].setPosition =
                 new Vector2d(RenderData.window.clientWidth/2 + (i - Math.floor(this.arrCards.length/2)) *
-                1/2*this.arrCards[i].renderModel.getDimensions[0] - this.arrCards[i].renderModel.getDimensions[0],
-                    RenderData.window.clientHeight - this.arrCards[i].renderModel.getDimensions[1]);
+                1/2*this.arrCards[i].renderModel[0].getDimensions[0] - this.arrCards[i].renderModel[0].getDimensions[0],
+                    RenderData.window.clientHeight - this.arrCards[i].renderModel[0].getDimensions[1]);
         }
     }
 

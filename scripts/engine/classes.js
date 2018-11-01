@@ -1,10 +1,24 @@
 
+class GUI {
+    constructor() {
+        this.interactable = true;
+    }
 
-class SimpleShape {
+    set Interactable(is) {
+        this.interactable = is;
+    }
+
+    get Interactable() {
+        return this.interactable;
+    }
+}
+
+class SimpleShape extends GUI {
     constructor(position) {
-       this.position = position;
-       this.dimensions = [];
-       this.color = '#FF0000';
+        super();
+        this.position = position;
+        this.dimensions = [];
+        this.color = '#FF0000';
     }
     set setPosition(position) {
         this.position = position;
@@ -81,27 +95,25 @@ class IRender {
 }
 
 class Actor extends IRender {
-    constructor(renderModel) {
+    constructor() {
         super();
-        this.renderModel = renderModel;
-        // this.renderModel = [renderModel];
+        this.renderModel = [];
+    }
+
+    set setModel(model) {
+        this.renderModel = model;
     }
 
     render(window) {
-        // for (let i=0; i<this.renderModel.length; i++) {
-        //     this.renderModel[i].render(window);
-        // }
-
-        if (this.renderModel != null){
-            this.renderModel.render(window);
+        for (let i=0; i<this.renderModel.length; i++) {
+            this.renderModel[i].render(window);
         }
     }
 
     set setPosition(position) {
-        if (this.renderModel != null){
-            this.renderModel.setPosition = position;
-
-        }        
+        for (let i = 0; i<this.renderModel.length; i++) {
+            this.renderModel[i].setPosition = position;
+        }
     }
 
     onMouseClick() {}
@@ -178,11 +190,16 @@ class Physics {
 
             // finding first element from top to down on which mouse is over
             for (i = d.length-1; i >= 0; i--) {
-                if ( d[i].renderModel != null && ( this.pointOverRectangle(InputController.mousePosition, d[i].renderModel)
-                    || this.pointOverCircle(InputController.mousePosition, d[i].renderModel) )) {
-                    d[i].onMouseClick();
-                    break;
+                for (let j=d[i].renderModel.length-1; j >= 0; j--) {
+                    if ( d[i].renderModel[j].Interactable == true 
+                        && ( this.pointOverRectangle(InputController.mousePosition, d[i].renderModel[j])
+                        || this.pointOverCircle(InputController.mousePosition, d[i].renderModel[j]) )) 
+                    {
+                        d[i].onMouseClick(d[i].renderModel[j]);
+                        return;
+                    }
                 }
+
             }
         }
     }
