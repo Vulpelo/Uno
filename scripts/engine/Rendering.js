@@ -6,6 +6,20 @@ class RenderData {
         RenderData.renderObjects.push(obj);
     }
 
+    update() {
+        for (let i=0; i<RenderData.destroyObjects.length; i++) {
+            if (RenderData.renderObjects.includes(RenderData.destroyObjects[i]))
+            {
+                this.removeFromPosition(RenderData.renderObjects.indexOf(RenderData.destroyObjects[i]));
+            }
+        }
+        RenderData.destroyObjects = [];
+    }
+
+    removeFromPosition(index) {
+        RenderData.renderObjects = RenderData.renderObjects.slice(0, index).concat(RenderData.renderObjects.slice(index+1));
+    }
+
     static putObjectInPos(obj, nr) {
         if (nr <= 0) {
             RenderData.renderObjects.push(obj);
@@ -19,7 +33,6 @@ class RenderData {
         RenderData.putObjectInPos(actor, pos);
     }
 
-
     static setElementToRenderLayer(obj, nr) {
         let index = RenderData.renderObjects.indexOf(obj);
         // taking out object
@@ -27,9 +40,14 @@ class RenderData {
 
         RenderData.putObjectInPos(obj, nr);
     }
+
+    static Destroy(object) {
+        RenderData.destroyObjects.push(object);
+    }
 }
 
 RenderData.renderObjects = [];
+RenderData.destroyObjects = [];
 RenderData.window = document.getElementById("window");
 
 class Rendering {
@@ -40,6 +58,8 @@ class Rendering {
     }
 
     update(){
+        this.renderData.update();
+
         this.ctx.clearRect(0,0, this.window.clientWidth, this.window.clientHeight);
         let i = 0;
         for(i = 0; i < RenderData.renderObjects.length; i++) {

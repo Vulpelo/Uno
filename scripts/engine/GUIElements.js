@@ -1,8 +1,13 @@
 class GUIElement {
     constructor(position) {
+        if (position) {
+            this.relativePosition = position;
+        }
+        else {
+            this.relativePosition = new Vector2d(0,0);
+        }
+        this.position = new Vector2d(0,0);
         this.interactable = true;
-        this.position = position;
-        this.relativePosition = new Vector2d(0,0);
         this.color = "#000000";
     }
 
@@ -77,23 +82,26 @@ class SimpleShape extends GUIElement {
 class Rectangle extends SimpleShape {
     constructor(position) {
         super(position);
-        this.dimensions.push(10);
-        this.dimensions.push(10);
+        this.dimensions = [10,10];
+    }
+
+    clone() {
+        let tmp = new Rectangle(new Vector2d(this.relativePosition.getX, this.relativePosition.getY));
+        tmp.setDimensions = [this.dimensions[0], this.dimensions[1]];
+        tmp.Interactable = this.Interactable;
+        tmp.setColor = this.color;
+
+        return tmp;
     }
 
     render(window) {
         let ctx = window.getContext("2d");
         ctx.beginPath();
         ctx.strokeStyle = "#000000";
-        ctx.rect(this.position.getX, this.position.getY,
-            this.dimensions[0], this.dimensions[1]);
+        ctx.rect(this.position.getX, this.position.getY, this.dimensions[0], this.dimensions[1]);
         ctx.stroke(); 
         ctx.fillStyle = this.color;
         ctx.fill();
-
-        // ctx.fillStyle = this.color;
-        // ctx.strokeStyle = '#FFFFFF';
-        // ctx.fillRect(this.position.getX, this.position.getY, this.dimensions[0], this.dimensions[1]); 
     }
 }
 
