@@ -45,7 +45,7 @@ class Card extends Actor {
 
 class Player extends Actor {
     constructor() {
-        super(null);
+        super();
         this.arrCards = [];
     }
 
@@ -70,6 +70,21 @@ class Player extends Actor {
     }
 }
 
+class PileOfCards extends Actor {
+    constructor(table) {
+        super();
+        this.renderModel = [new Rectangle(new Vector2d(10,10))];
+        this.renderModel[0].setColor = "#111111";
+        this.renderModel[0].setDimensions = [30,50];
+
+        this.table = table;
+    }
+
+    onMouseClick() {
+        this.table.giveActualPlayerCard();
+    }
+}
+
 class Table {
     constructor() {
         this.colors = ["red", "green", "blue", "yellow"];
@@ -81,6 +96,9 @@ class Table {
         this.clockwiseQueueDirection = true;
         this.actualPlayer = 0;
         this.players = [];
+
+        this.pile = new PileOfCards(this);
+        RenderData.spawnActor(this.pile);
 
         // player 1
         let gC = new Player();
@@ -104,6 +122,10 @@ class Table {
         let card = this.randomCard();
         RenderData.spawnActor(card);
         this.players[player_i].addCard(card);
+    }
+
+    giveActualPlayerCard() {
+        this.giveCard(this.actualPlayer);
     }
 
     randomCard() {

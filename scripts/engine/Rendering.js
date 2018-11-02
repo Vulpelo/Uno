@@ -45,9 +45,5 @@ class Rendering {
         for(i = 0; i < RenderData.renderObjects.length; i++) {
             RenderData.renderObjects[i].render(this.window);
         }
-
-        this.ctx.font = "16px Arial";
-        this.ctx.fillStyle = "#FF0F0f";
-        this.ctx.fillText("PUBAJA, ", 0,20);
     }
 }
