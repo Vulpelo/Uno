@@ -4,10 +4,10 @@ class Card extends Actor {
         super();
         this.played = false;
         this.table = table;
-        this.color = color;
+        this.cardColor = color;
         this.symbol = symbol;
         let tmp = '#000000';
-        switch (this.color) {
+        switch (color) {
         case 'red':
             tmp = '#FF0000';
             break;
@@ -21,15 +21,24 @@ class Card extends Actor {
             tmp = '#FFFF00';
             break;
         }
-        this.renderModel = [new Rectangle(new Vector2d(0,0))]
+        this.renderModel = [new Rectangle(new Vector2d(0,0)), new Text()];
         this.renderModel[0].color = tmp;
         this.renderModel[0].setDimensions = [30,50];
+
+        this.renderModel[1].Text = symbol;
+    }
+
+    get Symbol() {
+        return this.symbol;
+    }
+
+    get CardColor() {
+        return this.cardColor;
     }
 
     onMouseClick() {
-        if (!this.played) {
+        if (!this.played && this.table.canBeThrown(this)) {
             this.played = true;
-            this.table.canBeThrown(this);
         }
     }
 }
@@ -76,6 +85,8 @@ class Table {
         // player 1
         let gC = new Player();
         this.addPlayer(gC);
+
+        this.setNewActualCard(this.randomCard());
     }
 
     start() {
@@ -103,14 +114,24 @@ class Table {
 
     setNewActualCard(card) {
         RenderData.setElementToRenderLayer(card, 0);
+        if (this.actualCard != null) {
+            this.actualCard.renderModel.pop();
+        }
         this.actualCard = card;
         card.setPosition = this.center;
     }
 
     canBeThrown(card) {
-        console.log("TAK");
-        this.players[0].removeCard(card);
-        this.setNewActualCard(card);
+        if (this.actualCard.CardColor == card.CardColor || this.actualCard.Symbol == card.Symbol) {
+            console.log("TAK");
+            this.players[0].removeCard(card);
+            this.setNewActualCard(card);
+            return true;
+        } 
+        else {
+            console.log("NIE");
+            return false;
+        }        
     }
 
 }
