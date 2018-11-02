@@ -14,7 +14,11 @@ class Table {
         RenderData.spawnActor(this.pile);
 
         // player 1
-        let gC = new Player();
+        let gC = new Player(new Vector2d(RenderData.window.clientWidth/2, RenderData.window.clientHeight));
+        this.addPlayer(gC);
+
+        // player 2
+        gC = new Player(new Vector2d(RenderData.window.clientWidth/2, 100));
         this.addPlayer(gC);
 
         this.setNewActualCard(this.randomCard());
@@ -42,6 +46,10 @@ class Table {
         let card = this.randomCard();
         RenderData.spawnActor(card);
         this.players[player_i].addCard(card);
+    }
+
+    get ActualPlayer() {
+        return this.actualPlayer;
     }
 
     reversePlayersQueue() {
@@ -91,12 +99,16 @@ class Table {
         card.setPosition = this.center;
     }
 
+    isActualPlayerCard(card) {
+        return this.players[this.actualPlayer].hasCard(card);
+    }
+
     canBeThrown(card) {
-        if ( !this.blockInteraction 
+        if ( this.isActualPlayerCard(card) && !this.blockInteraction 
             && (this.actualCard.CardColor == this.colors[4] || card.CardColor == this.colors[4] 
             || this.actualCard.CardColor == card.CardColor || this.actualCard.Symbol == card.Symbol) )
         {
-            this.players[0].removeCard(card);
+            this.players[this.actualPlayer].removeCard(card);
             this.setNewActualCard(card);
             return true;
         } 

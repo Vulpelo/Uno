@@ -68,6 +68,7 @@ class Card extends Actor {
         for (let i=0; i<2; i++){
             this.table.giveNextPlayerCard();
         }
+        this.skipPower();
     }
 
     plus4Power() {
@@ -75,6 +76,7 @@ class Card extends Actor {
             this.table.giveNextPlayerCard();
         }
         this.changeColorPower();
+        this.skipPower();
     }
 
     changeColorPower() {
