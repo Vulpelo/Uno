@@ -6,7 +6,7 @@ class Card extends Actor {
         this.cardColor = color;
         this.symbol = symbol;
 
-        this.renderModel = [new Rectangle(new Vector2d(0,0)), new Text()];
+        this.renderModel = [new Rectangle(new Vector2d(0,0)), new Text(new Vector2d(0,0))];
         this.renderModel[0].color = this.cardColor;
         this.renderModel[0].setDimensions = [30,50];
 
@@ -26,7 +26,7 @@ class Card extends Actor {
     }
 
     onMouseClick() {
-        if (!this.played && this.table.canBeThrown(this)) {
+        if (!this.played && this.table.throwCard(this)) {
             this.played = true;
             this.power();
             this.table.endTurn();

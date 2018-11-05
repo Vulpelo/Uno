@@ -43,8 +43,8 @@ class GUIElement {
 }
 
 class Text extends GUIElement {
-    constructor() {
-        super();
+    constructor(position) {
+        super(position);
         this.interactable = false;
         this.text = "None";
         this.fontStyle ="16px Arial"; 

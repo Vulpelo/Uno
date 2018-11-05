@@ -22,6 +22,11 @@ class Table {
         this.addPlayer(gC);
 
         this.setNewActualCard(this.randomCard());
+
+        this.hud = new MyHUD(new Vector2d(0, 0));
+        RenderData.spawnActor(this.hud);
+
+        this.hud.Text = "Player " + this.actualPlayer.toString();
     }
 
     get BlockInteraction() {
@@ -103,7 +108,13 @@ class Table {
         return this.players[this.actualPlayer].hasCard(card);
     }
 
-    canBeThrown(card) {
+    canThrowCard(card) {
+        return (this.actualCard.CardColor == this.colors[4] || card.CardColor == this.colors[4] 
+        || this.actualCard.CardColor == card.CardColor || this.actualCard.Symbol == card.Symbol);
+    }
+
+    // If the card was thown function return's true.
+    throwCard(card) {
         if ( this.isActualPlayerCard(card) && !this.blockInteraction 
             && (this.actualCard.CardColor == this.colors[4] || card.CardColor == this.colors[4] 
             || this.actualCard.CardColor == card.CardColor || this.actualCard.Symbol == card.Symbol) )
@@ -117,7 +128,40 @@ class Table {
         }        
     }
 
+    canThrowAnyCard(player) {
+        for (let i=0; i<player.arrCards.length; i++) {
+            if (this.canThrowCard(player.arrCards[i])) {
+                return true;
+            } 
+        }
+        return false;
+    }
+
+    canHaveUno(player) {
+        if (player.arrCards.length == 2) {
+            return this.canThrowAnyCard(player);
+        }
+        return false;
+    }
+
+    
+
     endTurn() {
+        // if actual player has no cards he won
+        if (this.players[this.actualPlayer].arrCards.length == 0) {
+            this.hud.Text = "Player " + this.actualPlayer.toString() + " WON";
+            return;
+        }
+
+        // set next player as new actual player
         this.actualPlayer = this.getNextPlayerIndex();
+
+        // show UNO button if new actual player has two cards and one can be thrown
+        if (this.canHaveUno(this.players[this.actualPlayer])) {
+            let u = new UnoGUI(this);
+            RenderData.spawnActor(u);
+        }
+
+        this.hud.Text = "Player " + this.actualPlayer.toString();
     }
 }
