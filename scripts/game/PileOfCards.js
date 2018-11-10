@@ -9,8 +9,9 @@ class PileOfCards extends Actor {
     }
 
     onMouseClick() {
-        if (!this.table.BlockInteraction && !this.table.canThrowAnyCard(this.table.players[this.table.actualPlayer])){
+        if (!this.table.BlockInteraction && !this.table.canThrowAnyCard(this.table.players[this.table.actualPlayer])) {
             this.table.giveActualPlayerCard();
+            this.table.unoGuiShow(this.table.players[this.table.actualPlayer]);
         }
     }
 }

@@ -3,11 +3,17 @@ class Table {
         this.colors = ["red", "green", "blue", "yellow", "black"];
         this.startAmountOfCards = 7;
         this.blockInteraction = false;
+        this.clockwiseQueue = false;
 
         this.center = new Vector2d(RenderData.window.clientWidth/2, RenderData.window.clientHeight/2);
 
         this.actualCard = null;
         this.actualPlayer = 0;
+        this.endTurnActualPlayer = 1;
+
+        // TODO: this instead instant draw cards
+        this.amountOfCardsDraw = 0;
+        
         this.players = [];
 
         this.pile = new PileOfCards(this);
@@ -15,10 +21,22 @@ class Table {
 
         // player 1
         let gC = new Player(new Vector2d(RenderData.window.clientWidth/2, RenderData.window.clientHeight));
+        gC.Rotation = Vector2d.Up();
         this.addPlayer(gC);
 
         // player 2
+        gC = new Player(new Vector2d(RenderData.window.clientWidth*0.8, RenderData.window.clientHeight/2));
+        gC.Rotation = Vector2d.Right();
+        this.addPlayer(gC);
+
+        // player 3
         gC = new Player(new Vector2d(RenderData.window.clientWidth/2, 100));
+        gC.Rotation = Vector2d.Up();
+        this.addPlayer(gC);
+
+        // player 4
+        gC = new Player(new Vector2d(RenderData.window.clientWidth*0.2, RenderData.window.clientHeight/2));
+        gC.Rotation = Vector2d.Left();
         this.addPlayer(gC);
 
         this.setNewActualCard(this.randomCard());
@@ -49,6 +67,7 @@ class Table {
 
     giveCard(player_i) {
         let card = this.randomCard();
+
         RenderData.spawnActor(card);
         this.players[player_i].addCard(card);
     }
@@ -58,7 +77,8 @@ class Table {
     }
 
     reversePlayersQueue() {
-        this.players = this.players.reverse();
+        this.clockwiseQueue = !this.clockwiseQueue;
+        //this.players = this.players.reverse();
     }
 
     giveActualPlayerCard() {
@@ -66,20 +86,48 @@ class Table {
     }
 
     giveNextPlayerCard() {
-        this.giveCard(this.getNextPlayerIndex());
+        this.giveCard(this.getNextPlayerIndex(this.actualPlayer));
     }
 
-    getNextPlayerIndex() {
+    getNextPlayerIndex(actualIndex) {
         let index = 0;
-        index = this.actualPlayer + 1;
-        if (index >= this.players.length) {
-            index = 0;
+        if (this.clockwiseQueue) {
+            index = actualIndex - 1;
+            if (index < 0) {
+                index = this.players.length - 1;
+            }
+        }
+        else {
+            index = actualIndex + 1;
+            if (index >= this.players.length) {
+                index = 0;
+            }
+        }
+        return index;
+    }
+
+    getPlayerFromToIndex(fromIndex, steps) {
+        // removing full loops around queue
+        let index = steps%this.players.length;
+
+        if (this.clockwiseQueue) {
+            index = fromIndex - index;
+            if (index < 0) {
+                index += this.players.length;
+            }
+        }
+        else {
+            index += fromIndex;
+            if (index >= this.players.length) {
+                index -= this.players.length;
+            }
         }
         return index;
     }
 
     skipPlayer() {
-        this.actualPlayer = this.getNextPlayerIndex();
+        // this.actualPlayer = 
+        this.endTurnActualPlayer++;// = this.getNextPlayerIndex(this.endTurnActualPlayer); 
     }
 
     randomCard() {
@@ -92,7 +140,8 @@ class Table {
         else {
             randColor = Math.floor(Math.random() * 4);
         }
-        return new Card(this.colors[randColor], randSymbol, this);
+        let card = new Card(this.colors[randColor], randSymbol, this);
+        return card;
     }
 
     setNewActualCard(card) {
@@ -144,7 +193,14 @@ class Table {
         return false;
     }
 
-    
+    // show UnoGUI button if player has two cards and one can be thrown
+    unoGuiShow(player) {
+        if (this.canHaveUno(player)) {
+            let u = new UnoGUI(this);
+            RenderData.spawnActor(u);
+        }
+    }
+
 
     endTurn() {
         // if actual player has no cards he won
@@ -154,13 +210,10 @@ class Table {
         }
 
         // set next player as new actual player
-        this.actualPlayer = this.getNextPlayerIndex();
+        this.actualPlayer = this.getPlayerFromToIndex(this.actualPlayer, this.endTurnActualPlayer);
+        this.endTurnActualPlayer = 1; //this.getNextPlayerIndex(this.endTurnActualPlayer);
 
-        // show UNO button if new actual player has two cards and one can be thrown
-        if (this.canHaveUno(this.players[this.actualPlayer])) {
-            let u = new UnoGUI(this);
-            RenderData.spawnActor(u);
-        }
+        this.unoGuiShow(this.players[this.actualPlayer]);
 
         this.hud.Text = "Player " + this.actualPlayer.toString();
     }

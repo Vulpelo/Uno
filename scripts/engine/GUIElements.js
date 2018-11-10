@@ -7,6 +7,7 @@ class GUIElement {
             this.relativePosition = new Vector2d(0,0);
         }
         this.position = new Vector2d(0,0);
+        this.rotation = Vector2d.Up();
         this.interactable = true;
         this.color = "#000000";
     }
@@ -25,6 +26,10 @@ class GUIElement {
     
     get getPosition() {
         return this.position;
+    }
+
+    set setRotation(direction) {
+        this.rotation = direction;
     }
 
     set RelativePosition(rPosition) {
@@ -96,12 +101,13 @@ class Rectangle extends SimpleShape {
 
     render(window) {
         let ctx = window.getContext("2d");
-        ctx.beginPath();
-        ctx.strokeStyle = "#000000";
-        ctx.rect(this.position.getX, this.position.getY, this.dimensions[0], this.dimensions[1]);
-        ctx.stroke(); 
+        
+        ctx.save();
+        ctx.translate(this.position.getX, this.position.getY);
+        ctx.rotate(this.rotation.radAngle());
         ctx.fillStyle = this.color;
-        ctx.fill();
+        ctx.fillRect(0,0, this.dimensions[0], this.dimensions[1]);
+        ctx.restore();
     }
 }
 

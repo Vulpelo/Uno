@@ -29,6 +29,8 @@ class ChangeColorGUI extends Actor {
 
         this.table.BlockInteraction = false;
 
+        this.table.endTurn();
+
         RenderData.Destroy(this);
     }
 }

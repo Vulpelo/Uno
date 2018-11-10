@@ -13,7 +13,8 @@ class UnoGUI extends Actor {
     }
 
     onMouseClick(model) {
-        // TODO: When clicked player can't be made to draw two cards
+        // TODO: When clicked, player can't be made to draw two cards
+
         RenderData.Destroy(this);
     }
 }

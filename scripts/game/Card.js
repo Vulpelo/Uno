@@ -29,7 +29,8 @@ class Card extends Actor {
         if (!this.played && this.table.throwCard(this)) {
             this.played = true;
             this.power();
-            this.table.endTurn();
+            if (this.cardColor != "black")
+                this.table.endTurn();
         }
     }
 
@@ -75,8 +76,8 @@ class Card extends Actor {
         for (let i=0; i<4; i++){
             this.table.giveNextPlayerCard();
         }
-        this.changeColorPower();
         this.skipPower();
+        this.changeColorPower();
     }
 
     changeColorPower() {

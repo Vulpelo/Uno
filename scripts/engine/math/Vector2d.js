@@ -30,4 +30,25 @@ class Vector2d {
     add(vector) {
         return new Vector2d(this.x+vector.getX, this.y+vector.getY);
     }
+
+    radAngle() {
+        return Math.atan(this.y / this.x);
+    }
+
+    degAngle() {
+        return Math.atan(this.y / this.x) * Math.PI / 180;
+    }
+
+    static Up() {
+        return new Vector2d(-1, 0);
+    }
+    static Right() {
+        return new Vector2d(0, 1);
+    }
+    static Down() {
+        return new Vector2d(1, 0);
+    }
+    static Left() {
+        return new Vector2d(0, -1);
+    }
 }
