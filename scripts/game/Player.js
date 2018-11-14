@@ -1,16 +1,18 @@
 class Player extends Actor {
-    constructor(centerPos) {
+    constructor(centerPos, nr) {
         super();
         this.arrCards = [];
-        this.centerPosition = centerPos;
+        this.Position = centerPos;
+        this.Rotation = Vector2d.Right();
+        this.number = nr;
     }
 
     updateCardsPosition() {
         for (let i=0; i<this.arrCards.length; i++) {
-            this.arrCards[i].setPosition =
-                new Vector2d(this.centerPosition.getX + (i - Math.floor(this.arrCards.length/2)) *
+            this.arrCards[i].Position =
+                new Vector2d((i - Math.floor(this.arrCards.length/2)) *
                 1/2*this.arrCards[i].renderModel[0].getDimensions[0] - this.arrCards[i].renderModel[0].getDimensions[0],
-                this.centerPosition.getY - this.arrCards[i].renderModel[0].getDimensions[1]);
+                -this.arrCards[i].renderModel[0].getDimensions[1]);
         }
     }
 
@@ -19,7 +21,16 @@ class Player extends Actor {
     }
 
     addCard(newCard) {
+        newCard.Parent = this;
         this.arrCards.push(newCard);
+        if (this.number == 1) {
+            this.Rotation = Vector2d.Left();
+            //newCard.Rotation = Vector2d.Left();
+        }
+        else if (this.number == 3) {
+            this.Rotation = Vector2d.Right();
+            //newCard.Rotation = Vector2d.Right();
+        }
         this.updateCardsPosition();
     }
 

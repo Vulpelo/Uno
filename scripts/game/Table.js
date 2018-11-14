@@ -20,22 +20,22 @@ class Table {
         RenderData.spawnActor(this.pile);
 
         // player 1
-        let gC = new Player(new Vector2d(RenderData.window.clientWidth/2, RenderData.window.clientHeight));
+        let gC = new Player(new Vector2d(RenderData.window.clientWidth/2, RenderData.window.clientHeight), 0);
         gC.Rotation = Vector2d.Up();
         this.addPlayer(gC);
 
         // player 2
-        gC = new Player(new Vector2d(RenderData.window.clientWidth*0.8, RenderData.window.clientHeight/2));
+        gC = new Player(new Vector2d(RenderData.window.clientWidth*0.8, RenderData.window.clientHeight/2), 1);
         gC.Rotation = Vector2d.Right();
         this.addPlayer(gC);
 
         // player 3
-        gC = new Player(new Vector2d(RenderData.window.clientWidth/2, 100));
+        gC = new Player(new Vector2d(RenderData.window.clientWidth/2, 100), 2);
         gC.Rotation = Vector2d.Up();
         this.addPlayer(gC);
 
         // player 4
-        gC = new Player(new Vector2d(RenderData.window.clientWidth*0.2, RenderData.window.clientHeight/2));
+        gC = new Player(new Vector2d(RenderData.window.clientWidth*0.2, RenderData.window.clientHeight/2), 3);
         gC.Rotation = Vector2d.Left();
         this.addPlayer(gC);
 
@@ -126,8 +126,7 @@ class Table {
     }
 
     skipPlayer() {
-        // this.actualPlayer = 
-        this.endTurnActualPlayer++;// = this.getNextPlayerIndex(this.endTurnActualPlayer); 
+        this.endTurnActualPlayer++; 
     }
 
     randomCard() {
@@ -147,10 +146,11 @@ class Table {
     setNewActualCard(card) {
         RenderData.setElementToRenderLayer(card, 0);
         if (this.actualCard != null) {
-            this.actualCard.renderModel.pop();
+            RenderData.Destroy(this.actualCard);
         }
         this.actualCard = card;
-        card.setPosition = this.center;
+        this.actualCard.Parent = null;
+        card.Position = this.center;
     }
 
     isActualPlayerCard(card) {

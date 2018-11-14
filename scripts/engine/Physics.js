@@ -32,8 +32,8 @@ class Physics {
     // check if point is inside Rectangle
     pointOverRectangle(point, rectangle) {
         return (rectangle.dimensions.length == 2 
-                && point.getX <= rectangle.position.getX + rectangle.dimensions[0] && point.getX >= rectangle.position.getX 
-                && point.getY >= rectangle.position.getY && point.getY <= rectangle.position.getY + rectangle.dimensions[1])
+                && point.getX <= rectangle.getWorldPosition().getX + rectangle.dimensions[0] && point.getX >= rectangle.getWorldPosition().getX 
+                && point.getY >= rectangle.getWorldPosition().getY && point.getY <= rectangle.getWorldPosition().getY + rectangle.dimensions[1]);
     }
 
     // check if point is inside Circle

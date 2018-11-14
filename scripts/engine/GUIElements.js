@@ -1,15 +1,21 @@
 class GUIElement {
     constructor(position) {
+        this.parent = null;
         if (position) {
-            this.relativePosition = position;
+            this.position = position;
         }
         else {
-            this.relativePosition = new Vector2d(0,0);
+            this.position = new Vector2d(0,0);
         }
-        this.position = new Vector2d(0,0);
-        this.rotation = Vector2d.Up();
+        //this.position = new Vector2d(0,0);
+        //this.worldRotation = Vector2d.Up();
+        this.relativeRotation = Vector2d.Up();
         this.interactable = true;
         this.color = "#000000";
+    }
+
+    set Parent(parent) {
+        this.parent = parent;
     }
 
     set Interactable(is) {
@@ -21,23 +27,50 @@ class GUIElement {
     }
     
     set setPosition(position) {
-        this.position = position.add(this.relativePosition);
+        this.position = position;
     }
     
     get getPosition() {
         return this.position;
     }
 
-    set setRotation(direction) {
-        this.rotation = direction;
+    set setRelativeRotation(direction) {
+        this.relativeRotation = direction;
+    }
+
+    set setWorldRotation(direction) {
+        this.worldRotation = direction;
+    }
+
+    getWorldPosition() {
+        if (this.parent) {
+            return this.position.add(this.parent.getWorldPosition());
+        }
+        return this.position;
+    }
+
+    set RelativeRotation(relativeRotation) {
+        this.relativeRotation = relativeRotation;
+    }
+
+    get RelativeRotation() {
+        return this.RelativeRotation;
+    }
+
+    get getWorldRotation() {
+        if (this.parent) {
+            return this.relativeRotation.radAngle() + this.parent.Rotation;
+        }
+        return this.relativeRotation.radAngle();
+        //return this.worldRotation.add(this.relativeRotation).normalize();
     }
 
     set RelativePosition(rPosition) {
-        this.relativePosition = rPosition;
+        this.position = rPosition;
     }
 
     get RelativePosition() {
-        return this.relativePosition;
+        return this.position;
     }
 
     set setColor(color) {
@@ -62,9 +95,11 @@ class Text extends GUIElement {
     render(window) {
         let ctx = window.getContext("2d");
 
+        let pos = this.getWorldPosition();
+
         ctx.font = this.fontStyle;
         ctx.fillStyle = this.color;
-        ctx.fillText(this.text, this.position.getX, this.getPosition.getY);
+        ctx.fillText(this.text, pos.getX, pos.getY);
     }
 }
 
@@ -91,7 +126,7 @@ class Rectangle extends SimpleShape {
     }
 
     clone() {
-        let tmp = new Rectangle(new Vector2d(this.relativePosition.getX, this.relativePosition.getY));
+        let tmp = new Rectangle(new Vector2d(this.position.getX, this.position.getY));
         tmp.setDimensions = [this.dimensions[0], this.dimensions[1]];
         tmp.Interactable = this.Interactable;
         tmp.setColor = this.color;
@@ -102,9 +137,15 @@ class Rectangle extends SimpleShape {
     render(window) {
         let ctx = window.getContext("2d");
         
+        let pos = this.getWorldPosition();
+        // let pos = Vector2d.fromAngleLength( this.getWorldRotation, this.position.length());
+
+        if (this.parent) {
+            pos.add(this.parent.Position);
+        }
         ctx.save();
-        ctx.translate(this.position.getX, this.position.getY);
-        ctx.rotate(this.rotation.radAngle());
+        ctx.translate(pos.getX, pos.getY);
+        //ctx.rotate(this.getWorldRotation);
         ctx.fillStyle = this.color;
         ctx.fillRect(0,0, this.dimensions[0], this.dimensions[1]);
         ctx.restore();

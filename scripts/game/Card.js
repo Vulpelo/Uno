@@ -6,11 +6,13 @@ class Card extends Actor {
         this.cardColor = color;
         this.symbol = symbol;
 
-        this.renderModel = [new Rectangle(new Vector2d(0,0)), new Text(new Vector2d(0,0))];
-        this.renderModel[0].color = this.cardColor;
-        this.renderModel[0].setDimensions = [30,50];
+        let rM = [new Rectangle(new Vector2d(0,0)), new Text(new Vector2d(0,0))];
+        rM[0].color = this.cardColor;
+        rM[0].setDimensions = [30,50];
 
-        this.renderModel[1].Text = symbol;
+        rM[1].Text = symbol;
+
+        this.setModel = rM;
     }
 
     get Symbol() {

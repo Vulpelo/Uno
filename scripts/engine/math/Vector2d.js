@@ -39,6 +39,20 @@ class Vector2d {
         return Math.atan(this.y / this.x) * Math.PI / 180;
     }
 
+    length() {
+        return Math.sqrt( this.x * this.y);
+    }
+
+    normalize() {
+        return new Vector2d(this.x/this.length(), this.y/this.length());
+    }
+
+    /* Creates vector2d based on it's length and angle. Angle 0 degrees points up. Angle is going clockwise. */
+    static fromAngleLength(angle, length) {
+        let s = angle * Math.PI/180;
+        return new Vector2d(length * Math.sin(s), -length * Math.cos(s));
+    }
+
     static Up() {
         return new Vector2d(-1, 0);
     }
