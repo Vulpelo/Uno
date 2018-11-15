@@ -36,7 +36,16 @@ class Vector2d {
     }
 
     degAngle() {
-        return Math.atan(this.y / this.x) * Math.PI / 180;
+        let tmp = Math.atan(-this.y / (this.x)) * 180 / Math.PI;
+        if (this.x == 0) {
+            if (this.y >= 0) {
+                return 0;
+            }
+            else {
+                return 180;
+            }
+        }
+        return tmp;
     }
 
     length() {
@@ -45,6 +54,11 @@ class Vector2d {
 
     normalize() {
         return new Vector2d(this.x/this.length(), this.y/this.length());
+    }
+
+    rotate(rad) {
+        //let rad = angle * Math.PI/180;
+        return new Vector2d( Math.cos(rad)*this.x - Math.sin(rad)*this.y , Math.sin(rad)*this.x + Math.cos(rad)*this.y );
     }
 
     /* Creates vector2d based on it's length and angle. Angle 0 degrees points up. Angle is going clockwise. */

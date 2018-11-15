@@ -18,6 +18,7 @@ class ChangeColorGUI extends Actor {
         rM[3].setDimensions = [30, 30];
 
         this.setModel = rM;
+        
         this.Position = new Vector2d(RenderData.window.clientWidth/2, RenderData.window.clientHeight/4);
 
         this.table.BlockInteraction = true;

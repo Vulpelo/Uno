@@ -21,22 +21,22 @@ class Table {
 
         // player 1
         let gC = new Player(new Vector2d(RenderData.window.clientWidth/2, RenderData.window.clientHeight), 0);
-        gC.Rotation = Vector2d.Up();
+        gC.Rotation = 0;
         this.addPlayer(gC);
 
         // player 2
         gC = new Player(new Vector2d(RenderData.window.clientWidth*0.8, RenderData.window.clientHeight/2), 1);
-        gC.Rotation = Vector2d.Right();
+        gC.Rotation = 0;
         this.addPlayer(gC);
 
         // player 3
         gC = new Player(new Vector2d(RenderData.window.clientWidth/2, 100), 2);
-        gC.Rotation = Vector2d.Up();
+        gC.Rotation = 0;
         this.addPlayer(gC);
 
         // player 4
         gC = new Player(new Vector2d(RenderData.window.clientWidth*0.2, RenderData.window.clientHeight/2), 3);
-        gC.Rotation = Vector2d.Left();
+        gC.Rotation = 0;
         this.addPlayer(gC);
 
         this.setNewActualCard(this.randomCard());
@@ -78,7 +78,6 @@ class Table {
 
     reversePlayersQueue() {
         this.clockwiseQueue = !this.clockwiseQueue;
-        //this.players = this.players.reverse();
     }
 
     giveActualPlayerCard() {

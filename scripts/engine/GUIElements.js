@@ -1,15 +1,16 @@
 class GUIElement {
     constructor(position) {
         this.parent = null;
+
         if (position) {
             this.position = position;
         }
         else {
             this.position = new Vector2d(0,0);
         }
-        //this.position = new Vector2d(0,0);
-        //this.worldRotation = Vector2d.Up();
-        this.relativeRotation = Vector2d.Up();
+
+        this.rotation = 0;
+
         this.interactable = true;
         this.color = "#000000";
     }
@@ -26,22 +27,13 @@ class GUIElement {
         return this.interactable;
     }
     
-    set setPosition(position) {
+
+    set Position(position) {
         this.position = position;
     }
-    
-    get getPosition() {
+    get Position() {
         return this.position;
     }
-
-    set setRelativeRotation(direction) {
-        this.relativeRotation = direction;
-    }
-
-    set setWorldRotation(direction) {
-        this.worldRotation = direction;
-    }
-
     getWorldPosition() {
         if (this.parent) {
             return this.position.add(this.parent.getWorldPosition());
@@ -49,28 +41,27 @@ class GUIElement {
         return this.position;
     }
 
-    set RelativeRotation(relativeRotation) {
-        this.relativeRotation = relativeRotation;
-    }
 
-    get RelativeRotation() {
-        return this.RelativeRotation;
+    set Rotation(radians) {
+        this.rotation = radians;
     }
-
-    get getWorldRotation() {
+    // return's value in radians
+    get Rotation() {
+        return this.rotation;
+    }
+    getWorldRotation() {
         if (this.parent) {
-            return this.relativeRotation.radAngle() + this.parent.Rotation;
+            return this.rotation + this.parent.getWorldRotation();
         }
-        return this.relativeRotation.radAngle();
-        //return this.worldRotation.add(this.relativeRotation).normalize();
+        return this.rotation;
     }
 
-    set RelativePosition(rPosition) {
-        this.position = rPosition;
-    }
 
-    get RelativePosition() {
-        return this.position;
+    getHighestParent() {
+        if (this.parent) {
+            return this.parent.getHighestParent();
+        }
+        return this;
     }
 
     set setColor(color) {
@@ -95,11 +86,20 @@ class Text extends GUIElement {
     render(window) {
         let ctx = window.getContext("2d");
 
-        let pos = this.getWorldPosition();
+        // calculating offset of model
+        let p = this.getWorldPosition().sub(this.getHighestParent().Position);
 
+        // new relative position depending on angle
+        let nPos = p.rotate( this.getWorldRotation() );
+        let pos = this.getHighestParent().Position.add(nPos); 
+
+        ctx.save();
+        ctx.translate(pos.getX, pos.getY);
+        ctx.rotate(this.getWorldRotation());
         ctx.font = this.fontStyle;
         ctx.fillStyle = this.color;
-        ctx.fillText(this.text, pos.getX, pos.getY);
+        ctx.fillText(this.text, 0, 0);
+        ctx.restore();
     }
 }
 
@@ -136,16 +136,17 @@ class Rectangle extends SimpleShape {
 
     render(window) {
         let ctx = window.getContext("2d");
-        
-        let pos = this.getWorldPosition();
-        // let pos = Vector2d.fromAngleLength( this.getWorldRotation, this.position.length());
 
-        if (this.parent) {
-            pos.add(this.parent.Position);
-        }
+        // calculating offset of model
+        let p = this.getWorldPosition().sub(this.getHighestParent().Position);
+
+        // new relative position depending on angle
+        let nPos = p.rotate( this.getWorldRotation() );
+        let pos = this.getHighestParent().Position.add(nPos); 
+
         ctx.save();
         ctx.translate(pos.getX, pos.getY);
-        //ctx.rotate(this.getWorldRotation);
+        ctx.rotate(this.getWorldRotation());
         ctx.fillStyle = this.color;
         ctx.fillRect(0,0, this.dimensions[0], this.dimensions[1]);
         ctx.restore();

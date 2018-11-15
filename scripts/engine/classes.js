@@ -15,8 +15,8 @@ class Actor extends IRender {
         this.parent = null;
 
         this.renderModel = [];
-        this.Position = new Vector2d(0, 0);
-        this.rotation = Vector2d.Up();
+        this.position = new Vector2d(0, 0);
+        this.rotation = 0;
     }
 
     set Parent(parent) {
@@ -30,28 +30,25 @@ class Actor extends IRender {
         }
     }
 
-    set Rotation(nRot) {
-        this.rotation = nRot;
-        //for (let i = 0; i<this.renderModel.length; i++) {
-        //    this.renderModel[i].setWorldRotation = nRot;
-        //}
+    set Rotation(radians) {
+        this.rotation = radians;
     }
-
     get Rotation() {
+        return this.rotation;
+    }
+    getWorldRotation() {
         if (this.parent) {
-            return this.rotation.radAngle() + this.parent.Rotation;
+            return this.rotation + this.parent.getWorldRotation();
         }
-        return this.rotation.radAngle();
+        return this.rotation;
     }
 
     get Position() {
         return this.position;
     }
-
     set Position(position) {
         this.position = position;
     }
-
     getWorldPosition() {
         if (this.parent) {
             return this.position.add(this.parent.getWorldPosition());
@@ -59,17 +56,18 @@ class Actor extends IRender {
         return this.position;
     }
 
+    getHighestParent() {
+        if (this.parent) {
+            return this.parent.getHighestParent();
+        }
+        return this;
+    }
+
     render(window) {
         for (let i=0; i<this.renderModel.length; i++) {
             this.renderModel[i].render(window);
         }
     }
-
-    // set setPosition(position) {
-    //     for (let i = 0; i<this.renderModel.length; i++) {
-    //         this.renderModel[i].setPosition = position;
-    //     }
-    // }
 
     onMouseClick() {}
 }

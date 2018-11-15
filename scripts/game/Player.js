@@ -3,7 +3,7 @@ class Player extends Actor {
         super();
         this.arrCards = [];
         this.Position = centerPos;
-        this.Rotation = Vector2d.Right();
+        this.rotation = 0;
         this.number = nr;
     }
 
@@ -23,14 +23,14 @@ class Player extends Actor {
     addCard(newCard) {
         newCard.Parent = this;
         this.arrCards.push(newCard);
-        if (this.number == 1) {
-            this.Rotation = Vector2d.Left();
-            //newCard.Rotation = Vector2d.Left();
-        }
-        else if (this.number == 3) {
-            this.Rotation = Vector2d.Right();
-            //newCard.Rotation = Vector2d.Right();
-        }
+        // if (this.number == 1) {
+        //     this.Rotation = 1;
+        //     //newCard.Rotation = Vector2d.Left();
+        // }
+        // else if (this.number == 3) {
+        //     this.Rotation = 1;
+        //     //newCard.Rotation = Vector2d.Right();
+        // }
         this.updateCardsPosition();
     }
 
