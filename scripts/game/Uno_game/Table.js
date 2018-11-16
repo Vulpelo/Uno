@@ -17,6 +17,7 @@ class Table {
         this.players = [];
 
         this.pile = new PileOfCards(this);
+        this.pile.Position = new Vector2d(15, 25);
         RenderData.spawnActor(this.pile);
 
         // player 1
@@ -25,8 +26,8 @@ class Table {
         this.addPlayer(gC);
 
         // player 2
-        gC = new Player(new Vector2d(RenderData.window.clientWidth*0.8, RenderData.window.clientHeight/2), 1);
-        gC.Rotation = 0;
+        gC = new Player(new Vector2d(RenderData.window.clientWidth*0.95, RenderData.window.clientHeight/2), 1);
+        gC.Rotation = Math.PI/2*3;
         this.addPlayer(gC);
 
         // player 3
@@ -35,8 +36,8 @@ class Table {
         this.addPlayer(gC);
 
         // player 4
-        gC = new Player(new Vector2d(RenderData.window.clientWidth*0.2, RenderData.window.clientHeight/2), 3);
-        gC.Rotation = 0;
+        gC = new Player(new Vector2d(RenderData.window.clientWidth*0.05, RenderData.window.clientHeight/2), 3);
+        gC.Rotation = Math.PI/2;
         this.addPlayer(gC);
 
         this.setNewActualCard(this.randomCard());

@@ -36,12 +36,21 @@ class Physics {
         let additionalAngle = Math.PI/2;
         let dims = [ rectangle.dimensions[1]/2, rectangle.dimensions[0]/2 ];
 
+
+        // calculating offset of model
+        let p = rectangle.getWorldPosition().sub(rectangle.getHighestParent().Position);
+
+        // new relative position depending on angle
+        let nPos = p.rotate( rectangle.getWorldRotation() );
+        let pos = rectangle.getHighestParent().Position.add(nPos); 
+
+        
         for (let i = 0; i < 2; i++) {
 			// New perspective vector
             let P = Vector2d.fromAngleLength(rectangle.getWorldRotation() + additionalAngle*i, 1);
 
             // let rec = new Vector2d(rectangle.getWorldPosition.getX, -rectangle.getWorldPosition.getY);
-			let distance = point.sub( rectangle.getWorldPosition() );
+			let distance = point.sub( pos );
 
             // fabs(distance * P) - distance between circle and rectangle on new perspective
             let dist = Math.abs(distance.dot(P));
