@@ -1,6 +1,6 @@
-class Model {
+class Model extends Object {
     constructor(position) {
-        this.parent = null;
+        super();
 
         if (position) {
             this.position = position;
@@ -9,14 +9,8 @@ class Model {
             this.position = new Vector2d(0,0);
         }
 
-        this.rotation = 0;
-
         this.interactable = true;
         this.color = "#000000";
-    }
-
-    set Parent(parent) {
-        this.parent = parent;
     }
 
     set Interactable(is) {
@@ -27,43 +21,6 @@ class Model {
         return this.interactable;
     }
     
-
-    set Position(position) {
-        this.position = position;
-    }
-    get Position() {
-        return this.position;
-    }
-    getWorldPosition() {
-        if (this.parent) {
-            return this.position.add(this.parent.getWorldPosition());
-        }
-        return this.position;
-    }
-
-
-    set Rotation(radians) {
-        this.rotation = radians;
-    }
-    // return's value in radians
-    get Rotation() {
-        return this.rotation;
-    }
-    getWorldRotation() {
-        if (this.parent) {
-            return this.rotation + this.parent.getWorldRotation();
-        }
-        return this.rotation;
-    }
-
-
-    getHighestParent() {
-        if (this.parent) {
-            return this.parent.getHighestParent();
-        }
-        return this;
-    }
-
     set setColor(color) {
         this.color = color;
     }
@@ -86,12 +43,7 @@ class Text extends Model {
     render(window) {
         let ctx = window.getContext("2d");
 
-        // calculating offset of model
-        let p = this.getWorldPosition().sub(this.getHighestParent().Position);
-
-        // new relative position depending on angle
-        let nPos = p.rotate( this.getWorldRotation() );
-        let pos = this.getHighestParent().Position.add(nPos); 
+        let pos = this.getWorldPosition();
 
         ctx.save();
         ctx.translate(pos.getX, pos.getY);
@@ -137,12 +89,7 @@ class Rectangle extends SimpleShape {
     render(window) {
         let ctx = window.getContext("2d");
 
-        // calculating offset of model
-        let p = this.getWorldPosition().sub(this.getHighestParent().Position);
-
-        // new relative position depending on angle
-        let nPos = p.rotate( this.getWorldRotation() );
-        let pos = this.getHighestParent().Position.add(nPos); 
+        let pos = this.getWorldPosition();
 
         ctx.save();
         ctx.translate(pos.getX , pos.getY);
@@ -173,6 +120,5 @@ class Circle extends SimpleShape {
         ctx.strokeStyle = '#000000';
         ctx.stroke();
     }
-
 
 }

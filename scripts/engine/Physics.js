@@ -37,14 +37,15 @@ class Physics {
         let dims = [ rectangle.dimensions[1]/2, rectangle.dimensions[0]/2 ];
 
 
-        // calculating offset of model
-        let p = rectangle.getWorldPosition().sub(rectangle.getHighestParent().Position);
+        // // calculating offset of model
+        // let p = rectangle.getWorldPosition().sub(rectangle.getHighestParent().Position);
 
-        // new relative position depending on angle
-        let nPos = p.rotate( rectangle.getWorldRotation() );
-        let pos = rectangle.getHighestParent().Position.add(nPos); 
+        // // new relative position depending on angle
+        // let nPos = p.rotate( rectangle.getWorldRotation() );
+        // let pos = rectangle.getHighestParent().Position.add(nPos); 
 
-        
+        let pos = rectangle.getWorldPosition();
+
         for (let i = 0; i < 2; i++) {
 			// New perspective vector
             let P = Vector2d.fromAngleLength(rectangle.getWorldRotation() + additionalAngle*i, 1);
