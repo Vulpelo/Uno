@@ -30,6 +30,10 @@ class Vector2d {
     add(vector) {
         return new Vector2d(this.x+vector.getX, this.y+vector.getY);
     }
+    // multiplies two vectors. Returns a number
+    dot(vector) {
+        return this.x*vector.getX + this.y*vector.getY;
+    }
 
     radAngle() {
         return Math.atan(this.y / this.x);
@@ -61,22 +65,22 @@ class Vector2d {
         return new Vector2d( Math.cos(rad)*this.x - Math.sin(rad)*this.y , Math.sin(rad)*this.x + Math.cos(rad)*this.y );
     }
 
-    /* Creates vector2d based on it's length and angle. Angle 0 degrees points up. Angle is going clockwise. */
-    static fromAngleLength(angle, length) {
-        let s = angle * Math.PI/180;
-        return new Vector2d(length * Math.sin(s), -length * Math.cos(s));
+    /* Creates vector2d based on it's length and angle. Angle 0 radians points up. Angle is going clockwise. */
+    static fromAngleLength(radians, length) {
+        // let s = degAngle * Math.PI/180;
+        return new Vector2d(length * Math.sin(radians), -length * Math.cos(radians));
     }
 
     static Up() {
-        return new Vector2d(-1, 0);
+        return new Vector2d(0, -1);
     }
     static Right() {
-        return new Vector2d(0, 1);
-    }
-    static Down() {
         return new Vector2d(1, 0);
     }
+    static Down() {
+        return new Vector2d(0, 1);
+    }
     static Left() {
-        return new Vector2d(0, -1);
+        return new Vector2d(-1, 0);
     }
 }

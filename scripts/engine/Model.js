@@ -1,4 +1,4 @@
-class GUIElement {
+class Model {
     constructor(position) {
         this.parent = null;
 
@@ -71,7 +71,7 @@ class GUIElement {
     render(window) {};
 }
 
-class Text extends GUIElement {
+class Text extends Model {
     constructor(position) {
         super(position);
         this.interactable = false;
@@ -103,7 +103,7 @@ class Text extends GUIElement {
     }
 }
 
-class SimpleShape extends GUIElement {
+class SimpleShape extends Model {
     constructor(position) {
         super(position);
         this.dimensions = [];
@@ -145,10 +145,10 @@ class Rectangle extends SimpleShape {
         let pos = this.getHighestParent().Position.add(nPos); 
 
         ctx.save();
-        ctx.translate(pos.getX, pos.getY);
+        ctx.translate(pos.getX , pos.getY);
         ctx.rotate(this.getWorldRotation());
         ctx.fillStyle = this.color;
-        ctx.fillRect(0,0, this.dimensions[0], this.dimensions[1]);
+        ctx.fillRect(-this.dimensions[0]/2, -this.dimensions[1]/2, this.dimensions[0], this.dimensions[1]);
         ctx.restore();
     }
 }

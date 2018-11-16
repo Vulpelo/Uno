@@ -3,7 +3,7 @@ class Controller {
     constructor(model, render) {
         this.model = model;
         this.render = render;
-        this.physics = new Physics(model);
+        this.physics = new Physics(this.model);
     }
 
     loop() {
