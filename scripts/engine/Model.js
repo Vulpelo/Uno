@@ -1,12 +1,14 @@
-class GUIElement {
+class Model extends Object {
     constructor(position) {
+        super();
+
         if (position) {
-            this.relativePosition = position;
+            this.position = position;
         }
         else {
-            this.relativePosition = new Vector2d(0,0);
+            this.position = new Vector2d(0,0);
         }
-        this.position = new Vector2d(0,0);
+
         this.interactable = true;
         this.color = "#000000";
     }
@@ -19,22 +21,6 @@ class GUIElement {
         return this.interactable;
     }
     
-    set setPosition(position) {
-        this.position = position.add(this.relativePosition);
-    }
-    
-    get getPosition() {
-        return this.position;
-    }
-
-    set RelativePosition(rPosition) {
-        this.relativePosition = rPosition;
-    }
-
-    get RelativePosition() {
-        return this.relativePosition;
-    }
-
     set setColor(color) {
         this.color = color;
     }
@@ -42,9 +28,9 @@ class GUIElement {
     render(window) {};
 }
 
-class Text extends GUIElement {
-    constructor() {
-        super();
+class Text extends Model {
+    constructor(position) {
+        super(position);
         this.interactable = false;
         this.text = "None";
         this.fontStyle ="16px Arial"; 
@@ -57,13 +43,19 @@ class Text extends GUIElement {
     render(window) {
         let ctx = window.getContext("2d");
 
+        let pos = this.getWorldPosition();
+
+        ctx.save();
+        ctx.translate(pos.getX, pos.getY);
+        ctx.rotate(this.getWorldRotation());
         ctx.font = this.fontStyle;
         ctx.fillStyle = this.color;
-        ctx.fillText(this.text, this.position.getX, this.getPosition.getY);
+        ctx.fillText(this.text, 0, 0);
+        ctx.restore();
     }
 }
 
-class SimpleShape extends GUIElement {
+class SimpleShape extends Model {
     constructor(position) {
         super(position);
         this.dimensions = [];
@@ -86,7 +78,7 @@ class Rectangle extends SimpleShape {
     }
 
     clone() {
-        let tmp = new Rectangle(new Vector2d(this.relativePosition.getX, this.relativePosition.getY));
+        let tmp = new Rectangle(new Vector2d(this.position.getX, this.position.getY));
         tmp.setDimensions = [this.dimensions[0], this.dimensions[1]];
         tmp.Interactable = this.Interactable;
         tmp.setColor = this.color;
@@ -96,12 +88,15 @@ class Rectangle extends SimpleShape {
 
     render(window) {
         let ctx = window.getContext("2d");
-        ctx.beginPath();
-        ctx.strokeStyle = "#000000";
-        ctx.rect(this.position.getX, this.position.getY, this.dimensions[0], this.dimensions[1]);
-        ctx.stroke(); 
+
+        let pos = this.getWorldPosition();
+
+        ctx.save();
+        ctx.translate(pos.getX , pos.getY);
+        ctx.rotate(this.getWorldRotation());
         ctx.fillStyle = this.color;
-        ctx.fill();
+        ctx.fillRect(-this.dimensions[0]/2, -this.dimensions[1]/2, this.dimensions[0], this.dimensions[1]);
+        ctx.restore();
     }
 }
 
@@ -125,6 +120,5 @@ class Circle extends SimpleShape {
         ctx.strokeStyle = '#000000';
         ctx.stroke();
     }
-
 
 }

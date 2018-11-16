@@ -29,11 +29,43 @@ class Physics {
         }
     }
 
-    // check if point is inside Rectangle
+    // check if point is inside Rectangle. Returns boolean.
     pointOverRectangle(point, rectangle) {
-        return (rectangle.dimensions.length == 2 
-                && point.getX <= rectangle.position.getX + rectangle.dimensions[0] && point.getX >= rectangle.position.getX 
-                && point.getY >= rectangle.position.getY && point.getY <= rectangle.position.getY + rectangle.dimensions[1])
+
+        // to determine one and second side of rectangle
+        let additionalAngle = Math.PI/2;
+        let dims = [ rectangle.dimensions[1]/2, rectangle.dimensions[0]/2 ];
+
+
+        // // calculating offset of model
+        // let p = rectangle.getWorldPosition().sub(rectangle.getHighestParent().Position);
+
+        // // new relative position depending on angle
+        // let nPos = p.rotate( rectangle.getWorldRotation() );
+        // let pos = rectangle.getHighestParent().Position.add(nPos); 
+
+        let pos = rectangle.getWorldPosition();
+
+        for (let i = 0; i < 2; i++) {
+			// New perspective vector
+            let P = Vector2d.fromAngleLength(rectangle.getWorldRotation() + additionalAngle*i, 1);
+
+            // let rec = new Vector2d(rectangle.getWorldPosition.getX, -rectangle.getWorldPosition.getY);
+			let distance = point.sub( pos );
+
+            // fabs(distance * P) - distance between circle and rectangle on new perspective
+            let dist = Math.abs(distance.dot(P));
+			if (dist > dims[i]) {
+				//not touching for sure
+				return false;
+			}
+        }
+        return true;
+
+        // OLD for not rotated objects
+        // return (rectangle.dimensions.length == 2 
+        //         && point.getX <= rectangle.getWorldPosition().getX + rectangle.dimensions[0] && point.getX >= rectangle.getWorldPosition().getX 
+        //         && point.getY >= rectangle.getWorldPosition().getY && point.getY <= rectangle.getWorldPosition().getY + rectangle.dimensions[1]);
     }
 
     // check if point is inside Circle
