@@ -35,6 +35,7 @@ class Vector2d {
         return this.x*vector.getX + this.y*vector.getY;
     }
 
+    // Angle is 0 when vector points up (-y). Angle rises clockwise from 0 to 2*PI - 0.(0)1
     radAngle() {
         let angle = Math.PI/2;
 
@@ -46,6 +47,7 @@ class Vector2d {
         return angle;
     }
 
+    // Angle is 0 when vector points up (-y). Angle rises clockwise from 0 to 359.(9)
     degAngle() {
         return this.radAngle() * 180 / Math.PI;
     }
