@@ -32,46 +32,37 @@ class Physics {
     // check if point is inside Rectangle. Returns boolean.
     pointOverRectangle(point, rectangle) {
 
-        // to determine one and second side of rectangle
-        let additionalAngle = Math.PI/2;
-        let dims = [ rectangle.dimensions[1]/2, rectangle.dimensions[0]/2 ];
+            if (rectangle.dimensions.length == 2) {
 
+            // to determine one and second side of rectangle
+            let additionalAngle = Math.PI/2;
+            let dims = [ rectangle.dimensions[1]/2, rectangle.dimensions[0]/2 ];
 
-        // // calculating offset of model
-        // let p = rectangle.getWorldPosition().sub(rectangle.getHighestParent().Position);
+            let pos = rectangle.getWorldPosition();
 
-        // // new relative position depending on angle
-        // let nPos = p.rotate( rectangle.getWorldRotation() );
-        // let pos = rectangle.getHighestParent().Position.add(nPos); 
+            for (let i = 0; i < 2; i++) {
+                // New perspective vector
+                let P = Vector2d.fromAngleLength(rectangle.getWorldRotation() + additionalAngle*i, 1);
 
-        let pos = rectangle.getWorldPosition();
+                // let rec = new Vector2d(rectangle.getWorldPosition.getX, -rectangle.getWorldPosition.getY);
+                let distance = point.sub( pos );
 
-        for (let i = 0; i < 2; i++) {
-			// New perspective vector
-            let P = Vector2d.fromAngleLength(rectangle.getWorldRotation() + additionalAngle*i, 1);
-
-            // let rec = new Vector2d(rectangle.getWorldPosition.getX, -rectangle.getWorldPosition.getY);
-			let distance = point.sub( pos );
-
-            // fabs(distance * P) - distance between circle and rectangle on new perspective
-            let dist = Math.abs(distance.dot(P));
-			if (dist > dims[i]) {
-				//not touching for sure
-				return false;
-			}
+                // fabs(distance * P) - distance between circle and rectangle on new perspective
+                let dist = Math.abs(distance.dot(P));
+                if (dist > dims[i]) {
+                    //not touching for sure
+                    return false;
+                }
+            }
+            return true;
         }
-        return true;
-
-        // OLD for not rotated objects
-        // return (rectangle.dimensions.length == 2 
-        //         && point.getX <= rectangle.getWorldPosition().getX + rectangle.dimensions[0] && point.getX >= rectangle.getWorldPosition().getX 
-        //         && point.getY >= rectangle.getWorldPosition().getY && point.getY <= rectangle.getWorldPosition().getY + rectangle.dimensions[1]);
+        return false;
     }
 
     // check if point is inside Circle
     pointOverCircle(point, circle) {
         if(circle.dimensions.length == 1) {
-            let vec = point.sub(circle.position);
+            let vec = point.sub(circle.getWorldPosition());
             return vec.abs() <= circle.dimensions[0];
         }
         return false;

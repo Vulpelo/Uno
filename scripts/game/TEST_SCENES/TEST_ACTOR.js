@@ -22,3 +22,20 @@ class TEST_ACTOR extends Actor {
         }
     }
 } 
+
+
+class TEST_Angle extends Actor {
+    constructor() {
+        super();
+
+        let rM = [new Circle(new Vector2d(0,0))]
+        rM[0].dimensions = [100];
+        rM[0].color = "red";
+        this.setModel = rM;
+    }
+
+    onMouseClick() {
+        let tmpVec = InputController.mousePosition.sub(this.Position);
+        console.log(tmpVec.degAngle() + " deg");
+    }
+}

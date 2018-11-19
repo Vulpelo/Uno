@@ -36,20 +36,18 @@ class Vector2d {
     }
 
     radAngle() {
-        return Math.atan(this.y / this.x);
+        let angle = Math.PI/2;
+
+        if (this.x < 0) {
+            angle += Math.PI;
+        }
+
+        angle += Math.atan(this.y / this.x);
+        return angle;
     }
 
     degAngle() {
-        let tmp = Math.atan(-this.y / (this.x)) * 180 / Math.PI;
-        if (this.x == 0) {
-            if (this.y >= 0) {
-                return 0;
-            }
-            else {
-                return 180;
-            }
-        }
-        return tmp;
+        return this.radAngle() * 180 / Math.PI;
     }
 
     length() {

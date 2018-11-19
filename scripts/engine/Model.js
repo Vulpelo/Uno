@@ -113,12 +113,17 @@ class Circle extends SimpleShape {
     
     render(window) {
         var ctx = window.getContext("2d");
+        let pos = this.getWorldPosition();
+
+        ctx.save();
+        ctx.translate(pos.getX , pos.getY);
         ctx.beginPath();
-        ctx.arc(this.position.getX, this.position.getY, this.dimensions[0], 0, 2*Math.PI);
+        ctx.arc(0, 0, this.dimensions[0], 0, 2*Math.PI);
         ctx.fillStyle = this.color;
         ctx.fill();
         ctx.strokeStyle = '#000000';
         ctx.stroke();
+        ctx.restore();
     }
 
 }

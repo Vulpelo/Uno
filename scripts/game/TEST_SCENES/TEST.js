@@ -20,6 +20,9 @@ class TEST {
 
         RenderData.spawnActor(c2);
 
+        let ang = new TEST_Angle();
+        ang.Position = new Vector2d(400, 300);
+        RenderData.spawnActor(ang);
     }
 
     start() {
