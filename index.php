@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>UNO</title>
-    </head>
+<?php
 
-    <body>
-        <canvas id="window" width="500" height="400"></canvas>
-        <?php include_once(dirname(__DIR__).'/UNO/scripts/scripts.php'); ?>
-    </body>
-</html>
+// daje dostęp do klasy
+require_once('Routing.php');
+
+$routing = new Routing();
+$routing->run();
+
+?>
