@@ -125,5 +125,30 @@ class Circle extends SimpleShape {
         ctx.stroke();
         ctx.restore();
     }
+}
+
+
+class MImage extends SimpleShape {
+    constructor(position, imageSorce) {
+        super(position);
+        this.image = imageSorce;
+    }
+
+    render(window) {
+        let pos = this.getWorldPosition();
+
+        var ctx = window.getContext('2d');
+        var img = new Image();
+        img.src = this.image;
+        
+
+        ctx.save();
+        ctx.translate(pos.getX , pos.getY);
+        ctx.rotate(this.getWorldRotation());
+        ctx.drawImage(img, -img.width/2, -img.height/2);
+        ctx.beginPath();
+        ctx.stroke();
+        ctx.restore();
+    }
 
 }

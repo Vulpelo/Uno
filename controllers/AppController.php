@@ -8,6 +8,7 @@ class AppController
     {
         // pobieranie danych z servera
         $this->request = strtolower( $_SERVER['REQUEST_METHOD'] );
+        session_start(); // TODO: wywołuje się kilka razy, powinno się zrobić nową klasę Session
     }
 
     public function isGet()

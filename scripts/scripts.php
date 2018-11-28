@@ -5,4 +5,4 @@ include_once(dirname(__DIR__).'/scripts/game/gameScripts.html');
 
 ?>
 
-<script src="scripts/mainUno.js"></script>
+<script src="./scripts/mainUno.js"></script>
