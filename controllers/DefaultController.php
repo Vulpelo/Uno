@@ -22,25 +22,21 @@ class DefaultController extends AppController
         public function login()
         {
             $mapper = new UserMapper();
-
+            
             if ($this->isPost()) {
                 $user = $mapper->getUser($_POST['email']);
 
-                if (!$user) {
-                    $this->render('login');
-                }
-                if ($_POST['password'] !== $user->getPassword()) {
-                    $this->render('login');
-                } 
-                else {
-                    $_SESSION['id_user'] = $user->getId();
-                    $_SESSION['role'] = $user->getRole();
+                // If user exists
+                if ($user) {
+                    // if password is right
+                    if ($_POST['password'] === $user->getPassword()) {
+                        $_SESSION['id_user'] = $user->getId();
+                        $_SESSION['role'] = $user->getRole();
 
-                    $this->render('index', ['name' => $_SESSION['id_user']]);
-                    exit();
+                        $this->render('index', ['name' => $_SESSION['id_user']]);
+                        exit();
+                    }
                 }
-
-                var_dump($_POST);
             }
             $this->render('login');
         }

@@ -36,7 +36,7 @@ class Routing
         //localhost:8000?page=login
         // isset() - sprawdzanie czy taka zmienna wogule istnieje
         $page = isset($_GET['page']) 
-            && isset( $this->routes[$_GET['page']] ) ? $_GET['page'] : 'index';
+            && isset( $this->routes[$_GET['page']] ) ? $_GET['page'] : 'login';
         
         if ($this->routes[$page])
         {
