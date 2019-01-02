@@ -19,13 +19,17 @@ class Routing
                 'controller' => 'DefaultController',
                 'action' => 'login'
             ],
-            'game' => [
+            'joinGame' => [
                 'controller' => 'GameController',
-                'action' => 'game'
+                'action' => 'joinGame'
             ],
             'serverList' => [
                 'controller' => 'ServerController',
                 'action' => 'serverList'
+            ],
+            'leaveServer' => [
+                'controller' => 'ServerController',
+                'action' => 'leaveServer'
             ]
         ];
     }

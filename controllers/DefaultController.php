@@ -22,7 +22,7 @@ class DefaultController extends AppController
         public function login()
         {
             $mapper = new UserMapper();
-            
+               
             if ($this->isPost()) {
                 $user = $mapper->getUser($_POST['email']);
 
@@ -33,7 +33,7 @@ class DefaultController extends AppController
                         $_SESSION['id_user'] = $user->getId();
                         $_SESSION['role'] = $user->getRole();
 
-                        $this->render('index', ['name' => $_SESSION['id_user']]);
+                        $this->render('index', ['name' => $user->getName()]);
                         exit();
                     }
                 }

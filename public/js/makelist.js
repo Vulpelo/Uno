@@ -9,7 +9,14 @@ function addElement(index, id, name)
 
     cell1.innerHTML = name;
     cell2.innerHTML = "cos";
-    cell3.innerHTML = `<button onclick=join(this.value) value=`+ id +`>join<br>`;
+    // cell3.innerHTML = `<button onclick=join(this.value) value=`+ id +`>join<br>`;
+    cell3.innerHTML = `
+    <form action="?page=joinGame" method="POST">
+        <input type="hidden" name="id_board" value="` + id + `">
+        <input type="hidden" name="name" value="` + name + `">
+        <input type="submit" value="Join">
+    </form>
+    `;
 }
 
 function createTableList(boardsIds, boardNames) {
@@ -18,6 +25,12 @@ function createTableList(boardsIds, boardNames) {
     }
 }
 
-function join(name) {
-    console.log(name);
-}
+// function join(name) {
+//     MQuarry.send({
+//         type: "POST",
+//         url: "?page=login",
+//         data: ""
+//     }, function() {
+//         console.log("DONE");
+//     });
+// }

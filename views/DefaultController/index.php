@@ -8,6 +8,11 @@
 <p>
     Hello to homepage of UNO game mr. <?= $name ?>!
 </p>
+
+<form method="post" action="?page=serverList">
+    <input type="submit" value="Find game">
+</form>
+
 </body>
 
 </html> 
