@@ -13,7 +13,7 @@ class GameController extends AppController {
         $userUpdate = new UserUpdate();
         $userUpdate->setTable($_SESSION['id_user'], $_POST['id_board']);
 
-        $this->render('game', ['name'=>$_POST['name']]);
+        $this->render('game', ['name'=>$_POST['name'], 'id_table'=>$_POST['id_board']]);
     }
 }
 

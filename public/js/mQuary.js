@@ -15,9 +15,18 @@ class MQuarry {
         let xhttp = new XMLHttpRequest();         
         xhttp.open(params["type"], params["url"], true);
 
-        let vars = params["data"];
+        // telling that data is send
 
-        xhttp.onreadystatechange = onreadystatechange;
+        let vars = params["data"];
+        if (vars !== ""){
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        }
+
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                onreadystatechange(this);
+            }
+        };
         xhttp.send(vars);
     }
 }

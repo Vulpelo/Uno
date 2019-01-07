@@ -27,15 +27,42 @@ class UserMapper {
             $user['surname'], 
             $user['email'], 
             $user['password'], 
-            $user['role']
+            $user['id_role']
         );
         return $user;
     }
 
     // do rejestrowania
     public function setUser() {
-
+        // TODO: register user
     }
+
+    public function getUsersFromTable($id_table) {
+        if ($id_table !== NULL) {
+
+            $stmt = $this->database->connect()->prepare(
+                'SELECT * FROM user WHERE id_table = :id_table'
+            );
+            $stmt->bindParam(':id_table', $id_table, PDO::PARAM_STR);
+            $stmt->execute();
+
+            $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            for ($i = 0; $i < count($users); $i++) {
+                $users[$i] = new User(
+                    $users[$i]['id_user'], 
+                    $users[$i]['name'], 
+                    $users[$i]['surname'], 
+                    $users[$i]['email'], 
+                    $users[$i]['password'], 
+                    $users[$i]['id_role']
+                ); 
+            }
+        }
+
+        return $users;
+    }
+
 }
 
 ?>

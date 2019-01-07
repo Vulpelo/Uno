@@ -15,7 +15,7 @@
     </div>
     <div class="column">
         <h2>Table: <?= $name ?></h2>
-        <table id='ServerList'>
+        <table id='PlayerList'>
             <form action="?page=leaveServer" method="POST">
                 <input type="submit" value="Leave">
             </form>
@@ -28,7 +28,12 @@
     </div>
 </div>
 
-    <?php include_once(dirname(__DIR__).'/../scripts/scripts.php'); ?>
+    <script src="./public/js/game_site/updateTable.js"></script>
 
+    <script>
+        startUpdatePlayerList(<?= $id_table ?>);
+    </script>
+
+    <?php include_once(dirname(__DIR__).'/../scripts/scripts.php'); ?>
 </body>
 </html> 
