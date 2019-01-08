@@ -27,7 +27,8 @@ class UserMapper {
             $user['surname'], 
             $user['email'], 
             $user['password'], 
-            $user['id_role']
+            $user['id_role'],
+            $user['id_table']
         );
         return $user;
     }
@@ -55,7 +56,8 @@ class UserMapper {
                     $users[$i]['surname'], 
                     $users[$i]['email'], 
                     $users[$i]['password'], 
-                    $users[$i]['id_role']
+                    $users[$i]['id_role'],
+                    $users[$i]['id_table']
                 ); 
             }
         }

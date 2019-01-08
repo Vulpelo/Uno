@@ -54,6 +54,8 @@ class Object {
         return this;
     }
 
+    eventTick() {}
+
     render(window) {
         console.log("RENDER");
     }

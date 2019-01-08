@@ -34,6 +34,6 @@
         startUpdatePlayerList(<?= $id_table ?>);
     </script>
 
-    <?php include_once(dirname(__DIR__).'/../scripts/scripts.php'); ?>
+    <?php include_once(dirname(__DIR__).'/../scripts/gameScripts.php'); ?>
 </body>
 </html> 

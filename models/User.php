@@ -8,13 +8,14 @@ class User {
     private $password;
     private $role;
 
-    public function __construct($id, $username, $surname,  $email, $password, $role){
+    public function __construct($id, $username, $surname,  $email, $password, $role, $idTable){
         $this->id = $id;
         $this->name = $username;
         $this->surname = $surname;
         $this->email = $email;
         $this->password = $password;
         $this->role = $role;
+        $this->idTable = $idTable;
     }
 
     public function getId() {
@@ -63,6 +64,14 @@ class User {
 
     public function setEmail($email) : void {
         $this->email = $email;
+    }
+
+    public function getIdTable() {
+        return $this->idTable;
+    }
+
+    public function setIdTable($idTable) : void {
+        $this->idTable = $idTable;
     }
 }
 

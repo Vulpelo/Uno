@@ -57,7 +57,7 @@ class Rendering {
         this.ctx = this.window.getContext("2d");
     }
 
-    update(){
+    update() {
         this.renderData.update();
 
         this.ctx.clearRect(0,0, this.window.clientWidth, this.window.clientHeight);

@@ -23,6 +23,10 @@ class Routing
                 'controller' => 'GameController',
                 'action' => 'joinGame'
             ],
+            'userList' => [
+                'controller' => 'GameController',
+                'action' => 'userList'
+            ],
             'serverList' => [
                 'controller' => 'ServerController',
                 'action' => 'serverList'

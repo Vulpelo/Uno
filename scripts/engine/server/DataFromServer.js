@@ -1,0 +1,6 @@
+
+class DataFromServer {
+    constructor() {
+        
+    }
+}

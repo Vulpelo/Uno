@@ -2,10 +2,9 @@
 
 let data = new RenderData();
 
-// let t = new Table();
-let t = new TEST();
+let t = new Table();
+// let t = new TEST();
 t.start();
-
 
 let rend = new Rendering(data);
 

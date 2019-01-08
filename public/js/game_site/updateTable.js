@@ -31,8 +31,8 @@ function updatePlayerList() {
     console.log(id_table);
 
     MQuarry.send({
-        type: "POST",
-        url: "./public/js/game_site/updateTableHandler.php",
+        type: "POST", //?page=nazwa // powinno działać przez Routing.php
+        url: "?page=userList",//"./public/js/game_site/updateTableHandler.php",
         data: "id_table="+id_table
         }, updateTable);
 }
