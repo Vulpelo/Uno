@@ -14,8 +14,7 @@ class MQuarry {
     static send(params, onreadystatechange) {
         let xhttp = new XMLHttpRequest();         
         xhttp.open(params["type"], params["url"], true);
-
-        // telling that data is send
+        xhttp.responseType = "json";
 
         let vars = params["data"];
         if (vars !== ""){
@@ -24,7 +23,7 @@ class MQuarry {
 
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                onreadystatechange(this);
+                onreadystatechange(this.response);
             }
         };
         xhttp.send(vars);

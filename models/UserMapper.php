@@ -48,18 +48,6 @@ class UserMapper {
             $stmt->execute();
 
             $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            for ($i = 0; $i < count($users); $i++) {
-                $users[$i] = new User(
-                    $users[$i]['id_user'], 
-                    $users[$i]['name'], 
-                    $users[$i]['surname'], 
-                    $users[$i]['email'], 
-                    $users[$i]['password'], 
-                    $users[$i]['id_role'],
-                    $users[$i]['id_table']
-                ); 
-            }
         }
 
         return $users;

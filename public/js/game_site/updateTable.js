@@ -2,24 +2,22 @@ let id_table = null;
 let len=0;
 let oldPlayers;
 
-function updateTable(xhttp) {
-    let players = xhttp.responseText.split(';');
-
+function updateTable(players) {
     if (players.length > 0) {
         let table = document.getElementById("PlayerList");
         
         console.log(players);
 
 
-        for (let i=0; i<len-1; i++) {
+        for (let i=0; i<len; i++) {
             table.deleteRow(1);
         }
 
-        for (let i=0; i<players.length-1; i++) {
+        for (let i=0; i<players.length; i++) {
             let row = table.insertRow(i+1);
             let cell1 = row.insertCell(0);
         
-            cell1.innerHTML = players[i].split(',')[1];
+            cell1.innerHTML = players[i]['name'];
         }
 
         len = players.length;

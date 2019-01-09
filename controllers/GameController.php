@@ -18,15 +18,12 @@ class GameController extends AppController {
 
     public function userList() {
         $uMapper = new UserMapper();
+
+        header('Content-type: application/json');
+        http_response_code(200);
+
         $users = $uMapper->getUsersFromTable($_POST['id_table']);
-
-        // header('Content-type: application/json');
-        // http_response_code(200);
-
-        for ($i=0; $i< count($users); $i++) {
-            echo $users[$i]->getId().',';
-            echo $users[$i]->getName().';';
-        }
+        echo $users ? json_encode($users) : '';
     }
 }
 
