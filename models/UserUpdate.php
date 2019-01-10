@@ -12,7 +12,7 @@ class UserUpdate {
     public function setTable($userID, $newTable) {
         $stmt = $this->database->connect()->prepare(
             'UPDATE user
-                SET id_table = :newTable
+                SET id_board = :newTable
             WHERE id_user = :userID'
         );
         $stmt->bindParam(':newTable', $newTable, PDO::PARAM_INT);

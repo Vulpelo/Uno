@@ -3,6 +3,8 @@
 require_once ('AppController.php');
 require_once(__DIR__.'/../models/UserUpdate.php');
 require_once(__DIR__.'/../models/UserMapper.php');
+require_once(__DIR__.'/../models/UserMapperDB.php');
+
 
 class GameController extends AppController {
     public function __construct() {
@@ -17,7 +19,7 @@ class GameController extends AppController {
     }
 
     public function userList() {
-        $uMapper = new UserMapper();
+        $uMapper = new UserMapperDB();
 
         header('Content-type: application/json');
         http_response_code(200);
@@ -25,6 +27,11 @@ class GameController extends AppController {
         $users = $uMapper->getUsersFromTable($_POST['id_table']);
         echo $users ? json_encode($users) : '';
     }
+
+    public function gameDataUpdate() {
+        
+    }
+
 }
 
 ?>

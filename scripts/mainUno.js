@@ -11,10 +11,6 @@ let rend = new Rendering(data);
 let controller = new Controller(data, rend);
 
 
-
-
-
-
 let MAIN_LOOP = function () {
     controller.loop();
 }

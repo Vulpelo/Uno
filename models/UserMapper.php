@@ -28,7 +28,7 @@ class UserMapper {
             $user['email'], 
             $user['password'], 
             $user['id_role'],
-            $user['id_table']
+            $user['id_board']
         );
         return $user;
     }
@@ -40,16 +40,14 @@ class UserMapper {
 
     public function getUsersFromTable($id_table) {
         if ($id_table !== NULL) {
-
             $stmt = $this->database->connect()->prepare(
-                'SELECT * FROM user WHERE id_table = :id_table'
+                'SELECT * FROM user WHERE id_board = :id_table'
             );
             $stmt->bindParam(':id_table', $id_table, PDO::PARAM_STR);
             $stmt->execute();
 
             $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
-
         return $users;
     }
 
