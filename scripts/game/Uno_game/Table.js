@@ -1,18 +1,17 @@
 class Table {
     constructor() {
         this.colors = ["red", "green", "blue", "yellow", "black"];
-        this.startAmountOfCards = 7;
+        this.startAmountOfCards = 7; // TODO: move to server
         this.blockInteraction = false;
-        this.clockwiseQueue = false;
+        this.clockwiseQueue = false; // TODO: get from server
 
         this.center = new Vector2d(RenderData.window.clientWidth/2, RenderData.window.clientHeight/2);
 
-        this.actualCard = null;
-        this.actualPlayer = 0;
+        this.actualCard = null; // TODO: get from server
+        this.actualPlayer = 1; // TODO: get from server
         this.endTurnActualPlayer = 1;
 
-        // TODO: this instead instant draw cards
-        this.amountOfCardsDraw = 0;
+        this.amountOfCardsDraw = 0; // TODO: this instead instant draw cards
         
         this.players = [];
 
@@ -20,33 +19,47 @@ class Table {
         this.pile.Position = new Vector2d(15, 25);
         RenderData.spawnActor(this.pile);
 
-        // player 1
-        let gC = new Player(new Vector2d(RenderData.window.clientWidth/2, RenderData.window.clientHeight), 0);
-        gC.Rotation = 0;
-        this.addPlayer(gC);
-
-        // player 2
-        gC = new Player(new Vector2d(RenderData.window.clientWidth*0.95, RenderData.window.clientHeight/2), 1);
-        gC.Rotation = Math.PI/2*3;
-        this.addPlayer(gC);
-
-        // player 3
-        gC = new Player(new Vector2d(RenderData.window.clientWidth/2, 100), 2);
-        gC.Rotation = 0;
-        this.addPlayer(gC);
-
-        // player 4
-        gC = new Player(new Vector2d(RenderData.window.clientWidth*0.05, RenderData.window.clientHeight/2), 3);
-        gC.Rotation = Math.PI/2;
-        this.addPlayer(gC);
-
-        this.setNewActualCard(this.randomCard());
+        this.createPlayers(Server.data.users.length);
 
         this.hud = new MyHUD(new Vector2d(0, 0));
         RenderData.spawnActor(this.hud);
 
         this.hud.Text = "Player " + this.actualPlayer.toString();
+
+
+        this.tableController = new TableController(this);
+        RenderData.spawnActor(this.tableController);
     }
+
+    get ActualCard() {
+        return this.actualCard;
+    }
+    set ActualCard(newCard) {
+        this.actualCard = newCard;
+        this.actualCard.Position = this.center;
+    }
+
+    createPlayers(amount) {
+        let pos = [new Vector2d(RenderData.window.clientWidth/2, RenderData.window.clientHeight), 
+            new Vector2d(RenderData.window.clientWidth*0.95, RenderData.window.clientHeight/2), 
+            new Vector2d(RenderData.window.clientWidth/2, 100),
+            new Vector2d(RenderData.window.clientWidth*0.05, RenderData.window.clientHeight/2)];
+
+        let rot = [0, Math.PI/2*3, 0, Math.PI/2];
+        
+        for (let i=0; i<amount; i++) {
+            this.createPlayer(pos[(i+pos.length-Server.data.user.player_nr)%pos.length], rot[(i+pos.length-Server.data.user.player_nr)%pos.length],
+                i,
+                Server.data.users[i].name);
+        }
+    }
+
+    createPlayer(position, rotation, nr, name) {
+        let gC = new Player(position, nr, name, this);
+        gC.Rotation = rotation;
+        this.addPlayer(gC);
+    }
+
 
     get BlockInteraction() {
         return this.blockInteraction;
@@ -56,9 +69,18 @@ class Table {
     }
 
     start() {
-        for (let i=0; i<this.players.length * this.startAmountOfCards; i++) {
-            this.giveCard(i%this.players.length);
-        }
+        // for (let i=0; i<Server.data.users.length; i++) {
+        //     if (i == Server.data.user.player_nr) {
+        //         for (let j=0; j<Server.data.cards.length; j++) {
+        //             this.giveSpecificCard(i, Server.data.cards[j].symbol, Server.data.cards[j].color);
+        //         }
+        //     }
+        //     else {
+        //         for (let j=0; j<Server.data.users[i].card_count; j++) {
+        //             this.giveCard(i);
+        //         }
+        //     }
+        // }
     }
 
     addPlayer(player) {
@@ -66,12 +88,19 @@ class Table {
         this.players.push(player);
     }
 
-    giveCard(player_i) {
-        let card = this.randomCard();
+    // giveSpecificCard(player_i, symbol, color) {
+    //     let card = new Card(color, symbol, this);
 
-        RenderData.spawnActor(card);
-        this.players[player_i].addCard(card);
-    }
+    //     RenderData.spawnActor(card);
+    //     this.players[player_i].addCard(card);
+    // }
+
+    // giveCard(player_i) {
+    //     let card = this.randomCard();
+
+    //     RenderData.spawnActor(card);
+    //     this.players[player_i].addCard(card);
+    // }
 
     get ActualPlayer() {
         return this.actualPlayer;
@@ -143,32 +172,23 @@ class Table {
         return card;
     }
 
-    setNewActualCard(card) {
-        RenderData.setElementToRenderLayer(card, 0);
-        if (this.actualCard != null) {
-            RenderData.Destroy(this.actualCard);
-        }
-        this.actualCard = card;
-        this.actualCard.Parent = null;
-        card.Position = this.center;
-    }
-
     isActualPlayerCard(card) {
         return this.players[this.actualPlayer].hasCard(card);
     }
 
     canThrowCard(card) {
-        return (this.actualCard.CardColor == this.colors[4] || card.CardColor == this.colors[4] 
+        return this.isActualPlayerCard(card) && (this.actualCard.CardColor == this.colors[4] || card.CardColor == this.colors[4] 
         || this.actualCard.CardColor == card.CardColor || this.actualCard.Symbol == card.Symbol);
     }
 
     // If the card was thown function return's true.
     throwCard(card) {
-        if ( this.isActualPlayerCard(card) && !this.blockInteraction 
-            && (this.actualCard.CardColor == this.colors[4] || card.CardColor == this.colors[4] 
+        //this.isActualPlayerCard(card) && !this.blockInteraction 
+        //&& 
+        if ( (this.actualCard.CardColor == this.colors[4] || card.CardColor == this.colors[4] 
             || this.actualCard.CardColor == card.CardColor || this.actualCard.Symbol == card.Symbol) )
         {
-            this.players[this.actualPlayer].removeCard(card);
+            // this.players[this.actualPlayer].removeCard(card);
             this.setNewActualCard(card);
             return true;
         } 

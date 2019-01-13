@@ -38,18 +38,18 @@ class UserMapper {
         // TODO: register user
     }
 
-    public function getUsersFromTable($id_table) {
-        if ($id_table !== NULL) {
-            $stmt = $this->database->connect()->prepare(
-                'SELECT * FROM user WHERE id_board = :id_table'
-            );
-            $stmt->bindParam(':id_table', $id_table, PDO::PARAM_STR);
-            $stmt->execute();
+    // public function getUsersFromTable($id_table) {
+    //     if ($id_table !== NULL) {
+    //         $stmt = $this->database->connect()->prepare(
+    //             'SELECT * FROM user WHERE id_board = :id_table'
+    //         );
+    //         $stmt->bindParam(':id_table', $id_table, PDO::PARAM_STR);
+    //         $stmt->execute();
 
-            $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }
-        return $users;
-    }
+    //         $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    //     }
+    //     return $users;
+    // }
 
 }
 

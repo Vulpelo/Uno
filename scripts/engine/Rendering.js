@@ -42,7 +42,9 @@ class RenderData {
     }
 
     static Destroy(object) {
-        RenderData.destroyObjects.push(object);
+        if (object != null) {
+            RenderData.destroyObjects.push(object);
+        }
     }
 }
 

@@ -27,6 +27,14 @@ class Routing
                 'controller' => 'GameController',
                 'action' => 'userList'
             ],
+            'gameDataUpdate' => [
+                'controller' => 'GameController',
+                'action' => 'gameDataUpdate'
+            ],
+            'gameThrowCard' => [
+                'controller' => 'GameController',
+                'action' => 'gameThrowCard'
+            ],
             'serverList' => [
                 'controller' => 'ServerController',
                 'action' => 'serverList'

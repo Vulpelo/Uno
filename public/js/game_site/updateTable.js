@@ -6,9 +6,6 @@ function updateTable(players) {
     if (players.length > 0) {
         let table = document.getElementById("PlayerList");
         
-        console.log(players);
-
-
         for (let i=0; i<len; i++) {
             table.deleteRow(1);
         }
@@ -26,8 +23,6 @@ function updateTable(players) {
 }
 
 function updatePlayerList() {
-    console.log(id_table);
-
     MQuarry.send({
         type: "POST", //?page=nazwa // powinno działać przez Routing.php
         url: "?page=userList",//"./public/js/game_site/updateTableHandler.php",
@@ -40,4 +35,3 @@ function startUpdatePlayerList(idTable) {
     updatePlayerList();
     setInterval(updatePlayerList, 2000);
 }
-

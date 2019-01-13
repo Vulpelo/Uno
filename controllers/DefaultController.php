@@ -31,7 +31,7 @@ class DefaultController extends AppController
                     // if password is right
                     if ($_POST['password'] === $user->getPassword()) {
                         $_SESSION['id_user'] = $user->getId();
-                        $_SESSION['id_table'] = $user->getId();
+                        $_SESSION['id_board'] = NULL;
                         $_SESSION['role'] = $user->getRole();
 
                         $this->render('index', ['name' => $user->getName()]);

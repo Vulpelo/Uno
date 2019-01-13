@@ -1,10 +1,18 @@
 class Player extends Actor {
-    constructor(centerPos, nr) {
+    constructor(centerPos, nr, name, table) {
         super();
+        this.table = table;
+        this.name = name;
         this.arrCards = [];
         this.Position = centerPos;
         this.rotation = 0;
         this.number = nr;
+
+        let rM = [new Text(new Vector2d(0,0))];
+
+        rM[0].Text = this.name;
+
+        this.setModel = rM;
     }
 
     updateCardsPosition() {
@@ -31,7 +39,57 @@ class Player extends Actor {
         //     this.Rotation = 1;
         //     //newCard.Rotation = Vector2d.Right();
         // }
+        RenderData.spawnActor(newCard);
+
         this.updateCardsPosition();
+    }
+
+    eventTick() {
+        this.arrCards.forEach(element => {
+            RenderData.Destroy(element);    
+        });
+        this.arrCards = [];
+        
+        // if main player
+        if (Server.data.user.player_nr == this.number) {
+            for (let j=0; j<Server.data.cards.length; j++) {
+                this.giveSpecificCard(Server.data.cards[j].id_card, Server.data.cards[j].symbol, Server.data.cards[j].color);
+            }
+        }
+        // other players you cant see cards
+        else {
+            for (let i=0; i<Server.data.users[this.number].card_count; i++) {
+                let card = new Card(-1, 'red', 2, this.table);
+                this.addCard(card);
+            }
+        }
+    }
+
+    giveSpecificCard(id, symbol, color) {
+        let card = new Card(id, color, symbol, this.table);
+
+        this.addCard(card);
+    }
+
+    giveCard(player_i) {
+        let card = this.randomCard();
+
+        RenderData.spawnActor(card);
+        this.players[player_i].addCard(card);
+    }
+
+    randomCard() {
+        let randSymbol = Math.floor(Math.random() * 15);
+        let randColor;
+        // wild card
+        if (randSymbol > 12) {
+            randColor = 4;
+        }
+        else {
+            randColor = Math.floor(Math.random() * 4);
+        }
+        let card = new Card(this.colors[randColor], randSymbol, this);
+        return card;
     }
 
     removeCard(card) {

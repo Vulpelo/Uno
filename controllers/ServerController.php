@@ -24,7 +24,7 @@ class ServerController extends AppController {
         //TODO: remove player from board in database
         $userUpdate = new UserUpdate();
         $userUpdate->setTable($_SESSION['id_user'], NULL);
-        $_SESSION['id_table'] = NULL;
+        $_SESSION['id_board'] = NULL;
 
         $this->serverList();
     }
