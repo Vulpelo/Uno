@@ -51,7 +51,6 @@ class GameController extends AppController {
 
         $data = ['user'=> $user, 'cards'=> $cards, 'users'=> $users, 'board'=> $board, 'actualCard'=> $card];
         $this->data = $data;
-        return $data;
     }
 
     public function gameDataUpdate() {
@@ -65,8 +64,7 @@ class GameController extends AppController {
         $cardUpdate->removeAllUserCardsOnBoard(0, $_SESSION['id_board']);
         $cardUpdate->throwCard($_POST['id_card']);
 
-        // dataUpdate();
-        $data = $this->dataUpdate();
+        $this->dataUpdate();
 
         $nrOfPlayers = count($this->data['users']);
         $actual = $this->data['board']['actual_player'];
