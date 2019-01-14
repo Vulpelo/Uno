@@ -1,6 +1,7 @@
 class Card extends Actor {
-    constructor(color, symbol, table) {
+    constructor(id, color, symbol, table) {
         super();
+        this.id = id;
         this.played = false;
         this.table = table;
         this.cardColor = color;
@@ -14,6 +15,9 @@ class Card extends Actor {
         rM[1].Text = symbol;
 
         this.setModel = rM;
+    }
+    get Id() {
+        return this.id;
     }
 
     get Symbol() {
@@ -29,12 +33,21 @@ class Card extends Actor {
     }
 
     onMouseClick() {
-        if (!this.played && this.table.throwCard(this)) {
-            this.played = true;
-            this.power();
-            if (this.cardColor != "black")
-                this.table.endTurn();
+        if (Server.data.board.actual_player == Server.data.user.player_nr
+            && this.table.canThrowCard(this)) {
+
+            MQuarry.send({
+                type: "POST",
+                url: "?page=gameThrowCard",
+                data: "id_card="+this.id
+              }, this.update);
+        // RenderData.Destroy(this);
         }
+    }
+
+    update(data) {
+        Server.data = data;
+        // console.log(data);
     }
 
     power() {

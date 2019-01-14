@@ -113,12 +113,42 @@ class Circle extends SimpleShape {
     
     render(window) {
         var ctx = window.getContext("2d");
+        let pos = this.getWorldPosition();
+
+        ctx.save();
+        ctx.translate(pos.getX , pos.getY);
         ctx.beginPath();
-        ctx.arc(this.position.getX, this.position.getY, this.dimensions[0], 0, 2*Math.PI);
+        ctx.arc(0, 0, this.dimensions[0], 0, 2*Math.PI);
         ctx.fillStyle = this.color;
         ctx.fill();
         ctx.strokeStyle = '#000000';
         ctx.stroke();
+        ctx.restore();
+    }
+}
+
+
+class MImage extends SimpleShape {
+    constructor(position, imageSorce) {
+        super(position);
+        this.image = imageSorce;
+    }
+
+    render(window) {
+        let pos = this.getWorldPosition();
+
+        var ctx = window.getContext('2d');
+        var img = new Image();
+        img.src = this.image;
+        
+
+        ctx.save();
+        ctx.translate(pos.getX , pos.getY);
+        ctx.rotate(this.getWorldRotation());
+        ctx.drawImage(img, -img.width/2, -img.height/2);
+        ctx.beginPath();
+        ctx.stroke();
+        ctx.restore();
     }
 
 }

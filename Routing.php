@@ -1,0 +1,70 @@
+<?php
+
+require_once('controllers/DefaultController.php');
+require_once('controllers/GameController.php');
+require_once("controllers/ServerController.php");
+
+class Routing
+{
+    public $routes = [];
+
+    public function __construct()
+    {
+        $this->routes = [
+            'index' => [
+                'controller' => 'DefaultController',
+                'action' => 'index'
+            ], 
+            'login' => [
+                'controller' => 'DefaultController',
+                'action' => 'login'
+            ],
+            'joinGame' => [
+                'controller' => 'GameController',
+                'action' => 'joinGame'
+            ],
+            'userList' => [
+                'controller' => 'GameController',
+                'action' => 'userList'
+            ],
+            'gameDataUpdate' => [
+                'controller' => 'GameController',
+                'action' => 'gameDataUpdate'
+            ],
+            'gameThrowCard' => [
+                'controller' => 'GameController',
+                'action' => 'gameThrowCard'
+            ],
+            'serverList' => [
+                'controller' => 'ServerController',
+                'action' => 'serverList'
+            ],
+            'leaveServer' => [
+                'controller' => 'ServerController',
+                'action' => 'leaveServer'
+            ]
+        ];
+    }
+
+
+    public function run()
+    {
+        //localhost:8000?page=login
+        // isset() - sprawdzanie czy taka zmienna wogule istnieje
+        $page = isset($_GET['page']) 
+            && isset( $this->routes[$_GET['page']] ) ? $_GET['page'] : 'login';
+        
+        if ($this->routes[$page])
+        {
+            $controller = $this->routes[$page]['controller'];
+            $action = $this->routes[$page]['action'];
+
+            // tworzenie klasy z nazwą zapisaną w stringu
+            $object = new $controller;
+            $object->$action();
+        }
+        
+    }
+}
+
+?>

@@ -35,21 +35,21 @@ class Vector2d {
         return this.x*vector.getX + this.y*vector.getY;
     }
 
+    // Angle is 0 when vector points up (-y). Angle rises clockwise from 0 to 2*PI - 0.(0)1
     radAngle() {
-        return Math.atan(this.y / this.x);
+        let angle = Math.PI/2;
+
+        if (this.x < 0) {
+            angle += Math.PI;
+        }
+
+        angle += Math.atan(this.y / this.x);
+        return angle;
     }
 
+    // Angle is 0 when vector points up (-y). Angle rises clockwise from 0 to 359.(9)
     degAngle() {
-        let tmp = Math.atan(-this.y / (this.x)) * 180 / Math.PI;
-        if (this.x == 0) {
-            if (this.y >= 0) {
-                return 0;
-            }
-            else {
-                return 180;
-            }
-        }
-        return tmp;
+        return this.radAngle() * 180 / Math.PI;
     }
 
     length() {
