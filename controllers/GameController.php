@@ -29,11 +29,19 @@ class GameController extends AppController {
         $userUpdate->setTable($_SESSION['id_user'], $_POST['id_board']);
         $_SESSION['id_board'] = $_POST['id_board'];
 
+        // setting host
+        $youHost = 0;
         $host = $userMapper->getHostFromTable($_POST['id_board']);
-        if ($host->getId() === NULL) {
+        if ($host->getId() == NULL) {
             if ($_SESSION['role'] !== 'ADMIN') {
                 $userUpdate->setRole($_SESSION['id_user'], 2);
+                $_SESSION['role'] = "HOST";
+                $youHost = 1;
             }
+        }
+        else if ($host->getId() == $_SESSION['id_user']) {
+            $youHost = 1;
+            $_SESSION['role'] = "HOST";
         }
 
         // changes player_nr
@@ -43,7 +51,7 @@ class GameController extends AppController {
             $userUpdate->setPlayerNr($users[$i]['id_user'], $i);
         }
 
-        $this->render('game', ['name'=>$_POST['name'], 'id_table'=>$_POST['id_board']]);
+        $this->render('game', ['id_user'=>$_SESSION['id_user'], 'name'=>$_POST['name'], 'id_table'=>$_POST['id_board'], 'showStartButton'=>$youHost]);
     }
 
     public function startGame() {

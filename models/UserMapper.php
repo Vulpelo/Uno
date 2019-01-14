@@ -11,6 +11,30 @@ class UserMapper {
 
     }
 
+    public function getUserById($id_user) {
+        $stmt = $this->database->connect()->prepare(
+            "SELECT user.id_user, user.name, user.surname, user.email, user.password, role.name AS role, user.id_board  
+            FROM user LEFT outer JOIN role ON user.id_role = role.id_role
+            WHERE id_user = :id_user"
+        );
+        // SELECT * FROM user WHERE email = :email'
+        $stmt->bindParam(':id_user', $id_user, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $user = new User(
+            $user['id_user'], 
+            $user['name'], 
+            $user['surname'], 
+            $user['email'], 
+            $user['password'], 
+            $user['role'],
+            $user['id_board']
+        );
+        return $user;
+    }
+
     // do logowania
     public function getUser(string $email) : User {
         $stmt = $this->database->connect()->prepare(

@@ -14,7 +14,9 @@ class UserMapperDB {
     public function getUsersFromBoardList($id_table) {
         if ($id_table !== NULL) {
             $stmt = $this->database->connect()->prepare(
-                'SELECT * FROM user WHERE id_board = :id_table'
+                // 'SELECT * FROM user WHERE id_board = :id_table'
+                'SELECT user.id_user, user.name, user.player_nr, role.name as "role" FROM user LEFT JOIN role ON user.id_role = role.id_role
+                WHERE id_board = :id_table'
             );
             $stmt->bindParam(':id_table', $id_table, PDO::PARAM_STR);
             $stmt->execute();

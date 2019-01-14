@@ -21,11 +21,10 @@
             <form action="?page=leaveServer" method="POST">
                 <input type="submit" value="Leave">
             </form>
-            <?php 
-            if (true) {
-                echo '<button onclick="startGame()">Start</button>';
-            }
-            ?>
+
+            <div id="startButtonPlace"> 
+            </div>
+
             <tr>
                 <th>Player</th>
                 <th>Cards</th>
@@ -35,8 +34,8 @@
     </div>
 </div>
 
-
     <script>
+        start(<?= $showStartButton ?>, <?= $id_user ?>);
         startUpdatePlayerList(<?= $id_table ?>);
     </script>
 
