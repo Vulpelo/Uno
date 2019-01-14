@@ -31,6 +31,15 @@ class Table {
         RenderData.spawnActor(this.tableController);
     }
 
+    set ActualPlayer(newActual) {
+        this.actualPlayer = newActual;
+        this.Hud.Text = "Player " + Server.data.board.actual_player + " turn";
+    }
+
+    get Hud() {
+        return this.hud;
+    }
+
     get ActualCard() {
         return this.actualCard;
     }

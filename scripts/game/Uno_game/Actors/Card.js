@@ -46,6 +46,7 @@ class Card extends Actor {
     }
 
     update(data) {
+        // Server.data = data;
         console.log(data);
     }
 

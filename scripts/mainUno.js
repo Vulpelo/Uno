@@ -11,7 +11,9 @@ function sleep(ms) {
 }
   
 async function demo() {
-    await sleep(2000);
+    while (Server.data == null) {
+        await sleep(1000);
+    }
     t = new Table();
     // let t = new TEST();
     t.start();

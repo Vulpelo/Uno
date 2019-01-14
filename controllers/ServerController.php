@@ -2,7 +2,7 @@
 
 require_once("AppController.php");
 
-require_once(__DIR__.'/../models/UserUpdate.php');
+require_once(__DIR__.'/../models/Update/UserUpdate.php');
 
 require_once(__DIR__.'/../models/BoardMapper.php');
 require_once(__DIR__.'/../models/Board.php');
