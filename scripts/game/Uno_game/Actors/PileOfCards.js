@@ -12,9 +12,22 @@ class PileOfCards extends Actor {
     }
 
     onMouseClick() {
-        if (!this.table.BlockInteraction && !this.table.canThrowAnyCard(this.table.players[this.table.actualPlayer])) {
-            this.table.giveActualPlayerCard();
-            this.table.unoGuiShow(this.table.players[this.table.actualPlayer]);
+        if (Server.data.board.actual_player == Server.data.user.player_nr
+            && !this.table.canThrowAnyCard(this.table.players[this.table.actualPlayer])) {
+            MQuarry.send({
+                type: "POST",
+                url: "?page=gamePileOfCards",
+                data: ""
+              }, this.update);
+
+            // this.table.giveActualPlayerCard();
+            // this.table.unoGuiShow(this.table.players[this.table.actualPlayer]);
         }
+    }
+    
+    update(data) {
+        Server.data = data;
+        console.log(data);
+
     }
 }

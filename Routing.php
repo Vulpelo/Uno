@@ -35,6 +35,10 @@ class Routing
                 'controller' => 'GameController',
                 'action' => 'gameThrowCard'
             ],
+            'gamePileOfCards' => [
+                'controller' => 'GameController',
+                'action' => 'gamePileOfCards'
+            ],
             'serverList' => [
                 'controller' => 'ServerController',
                 'action' => 'serverList'

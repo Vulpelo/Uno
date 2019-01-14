@@ -12,9 +12,11 @@ require_once(__DIR__.'/../models/BoardMapperDB.php');
 
 class GameController extends AppController {
     private $data;
+    private $colors;
 
     public function __construct() {
         parent::__construct();
+        $this->colors = ["red", "green", "blue", "yellow", "black"];
     }
 
     public function joinGame() {
@@ -51,6 +53,24 @@ class GameController extends AppController {
 
         $data = ['user'=> $user, 'cards'=> $cards, 'users'=> $users, 'board'=> $board, 'actualCard'=> $card];
         $this->data = $data;
+    }
+
+    private function randomCard() {
+        $cardUpdate = new CardUpdate();
+
+        $randSymbol = rand(0, 14);// Math.floor(Math.random() * 15);
+        $randColor;
+        // wild card
+        if ($randSymbol > 12) {
+            $randColor = 4;
+        }
+        else {
+            $randColor = rand(0,3);// Math.floor(Math.random() * 4);
+        }
+        $randColor = $this->colors[$randColor];
+
+        // $cardUpdate->addCard("red", 14, $_SESSION['id_user'], $_SESSION['id_board']);
+        $cardUpdate->addCard($randColor, $randSymbol, $_SESSION['id_user'], $_SESSION['id_board']);
     }
 
     public function gameDataUpdate() {
@@ -94,6 +114,30 @@ class GameController extends AppController {
 
         $this->dataUpdate();
 
+        echo $this->data ? json_encode($this->data) : '';
+    }
+
+    public function gamePileOfCards() {
+        // $this->randomCard();
+        $cardUpdate = new CardUpdate();
+
+        $randSymbol = rand(0, 14);// Math.floor(Math.random() * 15);
+        $randColor;
+        // wild card
+        if ($randSymbol > 12) {
+            $randColor = 4;
+        }
+        else {
+            $randColor = rand(0,3);// Math.floor(Math.random() * 4);
+        }
+        $randColor = $this->colors[$randColor];
+
+        $cardUpdate->addCard($randColor, $randSymbol, $_SESSION['id_user'], $_SESSION['id_board']);
+
+        // $cardUpdate->addCard($randColor, $randSymbol, $_SESSION['id_user'], $_SESSION['id_board']);
+
+
+        $this->dataUpdate();
         echo $this->data ? json_encode($this->data) : '';
     }
 }
