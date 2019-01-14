@@ -30,9 +30,16 @@ class CardUpdate {
         $stmt->execute();
     }
 
+    public function removeAllCardsOnBoard($id_board) {
+        $stmt = $this->database->connect()->prepare(
+            'DELETE FROM card 
+            WHERE id_board = :id_board'
+        );
+        $stmt->bindParam(':id_board', $id_board, PDO::PARAM_STR);
+        $stmt->execute();
+    }
+
     public function addCard($color, $symbol, $id_user, $id_board) {
-            //'INSERT INTO card (color, symbol, id_user, id_board) VALUES (:id_color, :id_symbol, :id_user, :id_board)
-            // 'INSERT INTO card (id_card, color, symbol, id_user, id_board) VALUES (NULL, :id_color, :id_symbol, :id_user, :id_board)'
         $stmt = $this->database->connect()->prepare(
             "INSERT INTO card (id_card, color, symbol, id_user, id_board) VALUES (NULL, :id_color, :id_symbol, :id_user, :id_board)"
         );

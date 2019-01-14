@@ -13,18 +13,54 @@ require_once(__DIR__.'/../models/BoardMapperDB.php');
 class GameController extends AppController {
     private $data;
     private $colors;
+    private $startNrOfCards;
 
     public function __construct() {
         parent::__construct();
         $this->colors = ["red", "green", "blue", "yellow", "black"];
+        $this->startNrOfCards = 7;
     }
 
     public function joinGame() {
         $userUpdate = new UserUpdate();
+        $userMapper = new UserMapper();
+        $userMapperDB = new UserMapperDB();
+
         $userUpdate->setTable($_SESSION['id_user'], $_POST['id_board']);
         $_SESSION['id_board'] = $_POST['id_board'];
 
+        $host = $userMapper->getHostFromTable($_POST['id_board']);
+        if ($host->getId() === NULL) {
+            if ($_SESSION['role'] !== 'ADMIN') {
+                $userUpdate->setRole($_SESSION['id_user'], 2);
+            }
+        }
+
+        // changes player_nr
+        $users = $userMapperDB->getUsersFromBoard($_SESSION['id_board']);
+
+        for ($i = 0; $i < count($users); $i++) {
+            $userUpdate->setPlayerNr($users[$i]['id_user'], $i);
+        }
+
         $this->render('game', ['name'=>$_POST['name'], 'id_table'=>$_POST['id_board']]);
+    }
+
+    public function startGame() {
+        $this->dataUpdate();
+        $cardUpdate = new CardUpdate();
+
+        $cardUpdate->removeAllCardsOnBoard($_SESSION['id_board']);
+
+        for ($i=0; $i < count($this->data['users']); $i++) {
+            for ($j=0; $j < $this->startNrOfCards; $j++) {
+                $this->randomCard($this->data['users'][$i]['id_user'], $this->data['board']['id_board']);
+            }
+        }
+
+        $this->randomCard(0, $this->data['board']['id_board']);
+        // echo count($this->data['users']);
+        echo $this->data ? json_encode($this->data) : '';
     }
 
     public function userList() {
@@ -48,14 +84,14 @@ class GameController extends AppController {
         $user = $uMapper->getUser($_SESSION['id_user']);
         $card = $cardMapper->getCard(0, $_SESSION['id_board']);
         $cards = $cardMapper->getCards($_SESSION['id_user']);
-        $users = $uMapper->getUsersFromBoard( $_SESSION['id_board'], $_SESSION['id_user'] );
+        $users = $uMapper->getUsersFromBoard( $_SESSION['id_board']);
         $board = $boardMapper->getBoard($_SESSION['id_board']); 
 
         $data = ['user'=> $user, 'cards'=> $cards, 'users'=> $users, 'board'=> $board, 'actualCard'=> $card];
         $this->data = $data;
     }
 
-    private function randomCard() {
+    private function randomCard($id_user, $id_board) {
         $cardUpdate = new CardUpdate();
 
         $randSymbol = rand(0, 14);// Math.floor(Math.random() * 15);
@@ -70,7 +106,7 @@ class GameController extends AppController {
         $randColor = $this->colors[$randColor];
 
         // $cardUpdate->addCard("red", 14, $_SESSION['id_user'], $_SESSION['id_board']);
-        $cardUpdate->addCard($randColor, $randSymbol, $_SESSION['id_user'], $_SESSION['id_board']);
+        $cardUpdate->addCard($randColor, $randSymbol, $id_user, $id_board);
     }
 
     public function gameDataUpdate() {
@@ -118,21 +154,21 @@ class GameController extends AppController {
     }
 
     public function gamePileOfCards() {
-        // $this->randomCard();
-        $cardUpdate = new CardUpdate();
+        $this->randomCard($_SESSION['id_user'], $_SESSION['id_board']);
+        // $cardUpdate = new CardUpdate();
 
-        $randSymbol = rand(0, 14);// Math.floor(Math.random() * 15);
-        $randColor;
-        // wild card
-        if ($randSymbol > 12) {
-            $randColor = 4;
-        }
-        else {
-            $randColor = rand(0,3);// Math.floor(Math.random() * 4);
-        }
-        $randColor = $this->colors[$randColor];
+        // $randSymbol = rand(0, 14);// Math.floor(Math.random() * 15);
+        // $randColor;
+        // // wild card
+        // if ($randSymbol > 12) {
+        //     $randColor = 4;
+        // }
+        // else {
+        //     $randColor = rand(0,3);// Math.floor(Math.random() * 4);
+        // }
+        // $randColor = $this->colors[$randColor];
 
-        $cardUpdate->addCard($randColor, $randSymbol, $_SESSION['id_user'], $_SESSION['id_board']);
+        // $cardUpdate->addCard($randColor, $randSymbol, $_SESSION['id_user'], $_SESSION['id_board']);
 
         // $cardUpdate->addCard($randColor, $randSymbol, $_SESSION['id_user'], $_SESSION['id_board']);
 

@@ -14,8 +14,11 @@ class UserMapper {
     // do logowania
     public function getUser(string $email) : User {
         $stmt = $this->database->connect()->prepare(
-            'SELECT * FROM user WHERE email = :email'
+            "SELECT user.id_user, user.name, user.surname, user.email, user.password, role.name AS role, user.id_board  
+            FROM user LEFT outer JOIN role ON user.id_role = role.id_role
+            WHERE email = :email"
         );
+        // SELECT * FROM user WHERE email = :email'
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->execute();
 
@@ -27,7 +30,31 @@ class UserMapper {
             $user['surname'], 
             $user['email'], 
             $user['password'], 
-            $user['id_role'],
+            $user['role'],
+            $user['id_board']
+        );
+        return $user;
+    }
+
+    public function getHostFromTable($id_board) {
+        $stmt = $this->database->connect()->prepare(
+            "SELECT user.id_user, user.name, user.surname, user.email, user.password, role.name AS role, user.id_board  
+            FROM user LEFT outer JOIN role ON user.id_role = role.id_role
+            WHERE role.name = 'HOST' AND
+            user.id_board = :id_board"
+        );
+        $stmt->bindParam(':id_board', $id_board, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $user = new User(
+            $user['id_user'], 
+            $user['name'], 
+            $user['surname'], 
+            $user['email'], 
+            $user['password'], 
+            $user['role'],
             $user['id_board']
         );
         return $user;

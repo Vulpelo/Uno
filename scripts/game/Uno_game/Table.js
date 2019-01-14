@@ -8,7 +8,7 @@ class Table {
         this.center = new Vector2d(RenderData.window.clientWidth/2, RenderData.window.clientHeight/2);
 
         this.actualCard = null; // TODO: get from server
-        this.actualPlayer = 1; // TODO: get from server
+        this.actualPlayer = 1;
         this.endTurnActualPlayer = 1;
 
         this.amountOfCardsDraw = 0; // TODO: this instead instant draw cards
@@ -31,9 +31,17 @@ class Table {
         RenderData.spawnActor(this.tableController);
     }
 
+    get Players() {
+        return this.players;
+    }
+
+    get ActualPlayer() {
+        return this.actualPlayer;
+    }
+
     set ActualPlayer(newActual) {
         this.actualPlayer = newActual;
-        this.Hud.Text = "Player " + Server.data.board.actual_player + " turn";
+        this.Hud.Text = Server.data.users[Server.data.board.actual_player].name + "'s turn";
     }
 
     get Hud() {
@@ -49,6 +57,7 @@ class Table {
     }
 
     createPlayers(amount) {
+        this.removePlayers();
         let pos = [new Vector2d(RenderData.window.clientWidth/2, RenderData.window.clientHeight), 
             new Vector2d(RenderData.window.clientWidth*0.95, RenderData.window.clientHeight/2), 
             new Vector2d(RenderData.window.clientWidth/2, 100),
@@ -57,7 +66,8 @@ class Table {
         let rot = [0, Math.PI/2*3, 0, Math.PI/2];
         
         for (let i=0; i<amount; i++) {
-            this.createPlayer(pos[(i+pos.length-Server.data.user.player_nr)%pos.length], rot[(i+pos.length-Server.data.user.player_nr)%pos.length],
+            this.createPlayer(pos[(i+pos.length-Server.data.user.player_nr)%pos.length],
+                rot[(i+pos.length-Server.data.user.player_nr)%pos.length],
                 i,
                 Server.data.users[i].name);
         }
@@ -92,6 +102,14 @@ class Table {
         // }
     }
 
+    removePlayers() {
+        for (let i=0; i<this.players.length; i++) {
+            this.players[i].destructor();
+            RenderData.Destroy(this.players[i]);
+        }
+        this.players = [];
+    }
+
     addPlayer(player) {
         RenderData.spawnActor(player);
         this.players.push(player);
@@ -111,9 +129,7 @@ class Table {
     //     this.players[player_i].addCard(card);
     // }
 
-    get ActualPlayer() {
-        return this.actualPlayer;
-    }
+
 
     reversePlayersQueue() {
         this.clockwiseQueue = !this.clockwiseQueue;

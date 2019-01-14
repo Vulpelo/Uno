@@ -43,6 +43,7 @@ class RenderData {
 
     static Destroy(object) {
         if (object != null) {
+            object.ToBeDestroyed = true;
             RenderData.destroyObjects.push(object);
         }
     }

@@ -2,6 +2,8 @@
 <html>
 <?php include_once(dirname(__DIR__).'/head.html'); ?>
 
+<script src="./public/js/game_site/updateTable.js"></script>
+
 <body>
 
 <div class="header">
@@ -19,6 +21,11 @@
             <form action="?page=leaveServer" method="POST">
                 <input type="submit" value="Leave">
             </form>
+            <?php 
+            if (true) {
+                echo '<button onclick="startGame()">Start</button>';
+            }
+            ?>
             <tr>
                 <th>Player</th>
                 <th>Cards</th>
@@ -28,7 +35,6 @@
     </div>
 </div>
 
-    <script src="./public/js/game_site/updateTable.js"></script>
 
     <script>
         startUpdatePlayerList(<?= $id_table ?>);

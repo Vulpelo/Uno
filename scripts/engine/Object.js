@@ -3,7 +3,16 @@ class Object {
         this.parent = null;
         this.position = new Vector2d(0, 0);
         this.rotation = 0;
+        this.toBeDestroyed = false;
     }    
+
+    set ToBeDestroyed($bool) {
+        this.toBeDestroyed = $bool;
+    }
+
+    get ToBeDestroyed() {
+        return this.toBeDestroyed;
+    }
 
     set Parent(parent) {
         this.parent = parent;
