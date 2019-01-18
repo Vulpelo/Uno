@@ -2,6 +2,7 @@
 
 // Zwraca błąd servera jeżeli niebędzie tej klasy, lub będzie wielokrotnie wczytane
 require_once("AppController.php");
+require_once(__DIR__.'/../models/Update/UserUpdate.php');
 require_once(__DIR__.'/../models/UserMapper.php');
 require_once(__DIR__.'/../models/User.php');
 
@@ -37,13 +38,13 @@ class AdminController extends AppController
     
         public function userDelete(): void
         {
-            if (!isset($_POST['id'])) {
+            if (!isset($_POST['id_user'])) {
                 http_response_code(404);
                 return;
             }
     
-            $user = new UserMapper();
-            $user->delete((int)$_POST['id']);
+            $user = new UserUpdate();
+            $user->deleteUser((int)$_POST['id_user']);
     
             http_response_code(200);
         }

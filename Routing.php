@@ -28,6 +28,10 @@ class Routing
                 'controller' => 'AdminController',
                 'action' => 'admin_users'
             ],
+            'userDelete' => [
+                'controller' => 'AdminController',
+                'action' => 'userDelete'
+            ],
             'adminPanel' => [
                 'controller' => 'AdminController',
                 'action' => 'adminPanel'
