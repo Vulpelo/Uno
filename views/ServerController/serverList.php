@@ -5,6 +5,7 @@
 <script src="./public/js/makelist.js"></script>
 
 <body>
+<?php include_once(dirname(__DIR__).'/navBar.html'); ?>
 
 <h1>SERVER LIST</h1>
 

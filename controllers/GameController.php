@@ -51,7 +51,7 @@ class GameController extends AppController {
             $userUpdate->setPlayerNr($users[$i]['id_user'], $i);
         }
 
-        $this->render('game', ['id_user'=>$_SESSION['id_user'], 'name'=>$_POST['name'], 'id_table'=>$_POST['id_board'], 'showStartButton'=>$youHost]);
+        $this->render('game', ['session' => $_SESSION, 'id_user'=>$_SESSION['id_user'], 'name'=>$_POST['name'], 'id_table'=>$_POST['id_board'], 'showStartButton'=>$youHost]);
     }
 
     public function startGame() {
@@ -163,23 +163,6 @@ class GameController extends AppController {
 
     public function gamePileOfCards() {
         $this->randomCard($_SESSION['id_user'], $_SESSION['id_board']);
-        // $cardUpdate = new CardUpdate();
-
-        // $randSymbol = rand(0, 14);// Math.floor(Math.random() * 15);
-        // $randColor;
-        // // wild card
-        // if ($randSymbol > 12) {
-        //     $randColor = 4;
-        // }
-        // else {
-        //     $randColor = rand(0,3);// Math.floor(Math.random() * 4);
-        // }
-        // $randColor = $this->colors[$randColor];
-
-        // $cardUpdate->addCard($randColor, $randSymbol, $_SESSION['id_user'], $_SESSION['id_board']);
-
-        // $cardUpdate->addCard($randColor, $randSymbol, $_SESSION['id_user'], $_SESSION['id_board']);
-
 
         $this->dataUpdate();
         echo $this->data ? json_encode($this->data) : '';

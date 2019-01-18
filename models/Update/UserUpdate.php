@@ -41,6 +41,16 @@ class UserUpdate {
         $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
         $stmt->execute();
     }
+
+    public function logout($id_user) {
+        $stmt = $this->database->connect()->prepare(
+            'UPDATE user
+                SET id_board = null
+            WHERE id_user = :userID'
+        );
+        $stmt->bindParam(':userID', $userID, PDO::PARAM_INT);
+        $stmt->execute();
+    }
 }
 
 ?>

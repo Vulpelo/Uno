@@ -26,6 +26,17 @@ class UserMapperDB {
         return $users;
     }
 
+    public function getAllUsers() {
+        $stmt = $this->database->connect()->prepare(
+            'SELECT user.id_user, user.name, user.player_nr, user.surname, user.email, role.name as "role" 
+            FROM user LEFT JOIN role ON user.id_role = role.id_role'
+        );
+        $stmt->execute();
+
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $users;
+    }
+
     // get players at the table and amount of cards they have
     public function getUsersFromBoard($id_board) {
         $stmt = $this->database->connect()->prepare(
@@ -34,7 +45,7 @@ class UserMapperDB {
                 user LEFT JOIN role ON user.id_role = role.id_role
                 LEFT JOIN card ON user.id_user = card.id_user
                     
-            WHERE user.id_board = 1 
+            WHERE user.id_board = :id_board 
                 GROUP BY user.id_user
                 ORDER BY user.player_nr ASC'
         );

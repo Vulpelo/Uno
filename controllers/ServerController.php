@@ -19,7 +19,7 @@ class ServerController extends AppController {
         $mapper = new BoardMapper();
         $boards = $mapper->getBoards();
 
-        $this->render('serverList', ['boards'=>$boards]);
+        $this->render('serverList', ['session' => $_SESSION, 'boards'=>$boards]);
     }
 
     public function leaveServer() {

@@ -82,7 +82,7 @@ function showStartButton(theHost) {
 function hostSet(players) {
     let is = 0;
     for (let i=0; i<players.length; i++) {
-        if (players[i]['role'] == "HOST") {
+        if (players[i]['role'] == "HOST" || players[i]['role'] == "ADMIN") {
             if (players[i]['id_user'] == id_user) {
                 is = 1;
             }

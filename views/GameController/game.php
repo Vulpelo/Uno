@@ -5,6 +5,7 @@
 <script src="./public/js/game_site/updateTable.js"></script>
 
 <body>
+<?php include_once(dirname(__DIR__).'/navBar.html'); ?>
 
 <div class="header">
     <h1>GAME</h1>

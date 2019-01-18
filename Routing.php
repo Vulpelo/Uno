@@ -1,5 +1,6 @@
 <?php
 
+require_once('controllers/AdminController.php');
 require_once('controllers/DefaultController.php');
 require_once('controllers/GameController.php');
 require_once("controllers/ServerController.php");
@@ -18,6 +19,18 @@ class Routing
             'login' => [
                 'controller' => 'DefaultController',
                 'action' => 'login'
+            ],
+            'logout' => [
+                'controller' => 'DefaultController',
+                'action' => 'logout'
+            ],
+            'admin_users' => [
+                'controller' => 'AdminController',
+                'action' => 'admin_users'
+            ],
+            'adminPanel' => [
+                'controller' => 'AdminController',
+                'action' => 'adminPanel'
             ],
             'joinGame' => [
                 'controller' => 'GameController',

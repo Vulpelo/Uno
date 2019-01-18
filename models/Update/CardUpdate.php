@@ -30,6 +30,15 @@ class CardUpdate {
         $stmt->execute();
     }
 
+    public function removeAllUserCards($id_user) {
+        $stmt = $this->database->connect()->prepare(
+            'DELETE FROM card 
+            WHERE id_user = :id_user'
+        );
+        $stmt->bindParam(':id_user', $id_user, PDO::PARAM_STR);
+        $stmt->execute();
+    }
+
     public function removeAllCardsOnBoard($id_board) {
         $stmt = $this->database->connect()->prepare(
             'DELETE FROM card 
