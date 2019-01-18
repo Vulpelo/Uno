@@ -63,6 +63,13 @@ class UserUpdate {
             );
             $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
             $stmt->execute();
+
+            $stmt = $db->prepare(
+                'DELETE FROM card 
+                WHERE id_user = :id_user'
+            );
+            $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
+            $stmt->execute();
             
             $db->commit();
         }
