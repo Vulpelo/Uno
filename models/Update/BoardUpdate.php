@@ -61,6 +61,16 @@ class BoardUpdate {
         }
     }
 
+    public function boardReactive($id_board) {
+        $stmt = $this->database->connect()->prepare(
+            'UPDATE board
+            SET last_active_date = CURRENT_TIMESTAMP
+            WHERE id_board = :id_board'
+        );
+        $stmt->bindParam(':id_board', $id_board, PDO::PARAM_STR);
+        $stmt->execute();
+    }
+
 }
 
 ?>

@@ -85,9 +85,13 @@ class GameController extends AppController {
         $uMapper = new UserMapperDB();
         $cardMapper = new CardMapperDB();
         $boardMapper = new BoardMapperDB();
+        $boardUpdate = new BoardUpdate();
+
 
         header('Content-type: application/json');
         http_response_code(200);
+
+        $boardUpdate->boardReactive($_SESSION['id_board']);
 
         $user = $uMapper->getUser($_SESSION['id_user']);
         $card = $cardMapper->getCard(0, $_SESSION['id_board']);
