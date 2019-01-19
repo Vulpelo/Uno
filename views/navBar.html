@@ -1,6 +1,6 @@
 <script src="./public/js/navBar.js"></script>
 
-<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+<div class="d-flex flex-column flex-md-row align-items-center p-2 px-md-4 mb-3 bg-blue border-bottom box-shadow text-light">
         <h5 class="my-0 mr-md-auto font-weight-normal">Uno game</h5>
         <nav class="my-2 my-md-0 mr-md-3">
           <!-- <a class="p-2 text-dark" href="#">Features</a> -->
@@ -8,12 +8,12 @@
           <?php 
             if ($session !== null) {
               if ($session['role'] == "ADMIN") {
-                echo '<a class="btn btn-outline"  href="?page=adminPanel">Admin panel</a> ';
+                echo '<a class="btn btn-warning btn-sm"  href="?page=adminPanel">Admin panel</a>';
               }
             } 
           ?> 
 
-          <a class="p-2 text-dark" href="">
+          <a class="text-light" href="?page=index">
               <?php 
               if($session['username'] == null) {
                 echo "";
@@ -27,10 +27,10 @@
       
           <?php 
             if($session == null) {
-              echo '<a class="btn btn-outline-primary"  href="?page=login">Log in</a> ';
+              echo '<a class="btn btn-primary btn-sm"  href="?page=login">Log in</a> ';
             } 
             else {
-              echo '<a class="btn btn-outline-danger"  href="?page=logout">Log out</a> ';
+              echo '<a class="btn btn-danger btn-sm"  href="?page=logout">Log out</a> ';
             }
           ?> 
   </div>

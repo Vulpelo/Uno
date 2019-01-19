@@ -5,14 +5,15 @@
 <body>
 <?php include_once(dirname(__DIR__).'/navBar.html'); ?>
 
-<h1>HOMEPAGE</h1>
-<p>
-    Hello to homepage of UNO game mr. <?= $session['username'] ?>!
-</p>
+<div class="container">
 
-<form method="post" action="?page=serverList">
-    <input type="submit" value="Find game">
-</form>
+    <div class="starter-template">
+        <h1>Homepage</h1>
+        <p class="lead">Hello to homepage of UNO game <?= $session['username'] ?>!</p>
+        <a class="btn btn-primary"  href="?page=serverList">Find game</a>
+    </div>
+
+</div>
 
 </body>
 

@@ -64,7 +64,7 @@ function showStartButton(theHost) {
             let b = document.getElementById("startButtonPlace");
 
             let elem = document.createElement("div");
-            elem.innerHTML = '<button onclick="startGame()">Start</button>';
+            elem.innerHTML = '<button class="btn btn-primary btn-sm" onclick="startGame()">Start</button>';
             elem.id = "startButton";
         
             b.appendChild(elem);

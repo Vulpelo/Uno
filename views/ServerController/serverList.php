@@ -13,8 +13,8 @@
 
         <button class="btn btn-primary" type="button" onclick="createBoard()">Create board</button>
 
-        <table class="table table-hover">
-            <thead>
+        <table class="table table-striped">
+            <thead class="thead-dark">
             <tr>
                 <th>Server name</th>
                 <th>sth</th>

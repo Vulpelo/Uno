@@ -56,17 +56,18 @@ RenderData.window = document.getElementById("window");
 class Rendering {
     constructor(renderData) {
         this.renderData = renderData;
-        this.window = document.getElementById("window");
-        this.ctx = this.window.getContext("2d");
+        this.ctx = RenderData.window.getContext("2d");
     }
 
     update() {
         this.renderData.update();
 
-        this.ctx.clearRect(0,0, this.window.clientWidth, this.window.clientHeight);
+        RenderData.window = document.getElementById("window");
+
+        this.ctx.clearRect(0,0, RenderData.window.clientWidth, RenderData.window.clientHeight);
         let i = 0;
         for(i = 0; i < RenderData.renderObjects.length; i++) {
-            RenderData.renderObjects[i].render(this.window);
+            RenderData.renderObjects[i].render(RenderData.window);
         }
     }
 }

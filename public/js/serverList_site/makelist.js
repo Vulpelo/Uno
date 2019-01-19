@@ -9,12 +9,11 @@ function addElement(index, id, name)
 
     cell1.innerHTML = name;
     cell2.innerHTML = "cos";
-    // cell3.innerHTML = `<button onclick=join(this.value) value=`+ id +`>join<br>`;
     cell3.innerHTML = `
     <form action="?page=joinGame" method="POST">
         <input type="hidden" name="id_board" value="` + id + `">
         <input type="hidden" name="name" value="` + name + `">
-        <input type="submit" value="Join">
+        <button type="submit" class="btn btn-primary">Join</button>
     </form>
     `;
 }
@@ -25,6 +24,8 @@ function createTableList(boardsIds, boardNames) {
     }
 }
 
+
+
 function createBoard() {
     let board = prompt("Please enter board name:", "");
 
@@ -33,26 +34,25 @@ function createBoard() {
             type: "POST",
             url: "?page=createBoard",
             data: "board_name="+board
-        }, function(data) {
-
-            if (!data) {
-                alert('Board with this name allready exists');
-            }
-            // if board was created
-            else {
-                let form = `
-                <form id='newForm' action="?page=joinGame" method="post">
-                    <input type="hidden" name="id_board" value="` + data['id_board'] + `">
-                    <input type="hidden" name="name" value="` + data['name'] + `">
-                </form>
-                `;
-
-                document.body.innerHTML += form;
-                document.getElementById("newForm").submit();
-            }
-
-        });
+        }, joinBoard);
 
     }
+}
 
+function joinBoard(data) {
+    if (!data) {
+        alert('Board with this name allready exists');
+    }
+    // if board was created
+    else {
+        let form = `
+        <form id='newForm' action="?page=joinGame" method="post">
+            <input type="hidden" name="id_board" value="` + data['id_board'] + `">
+            <input type="hidden" name="name" value="` + data['name'] + `">
+        </form>
+        `;
+
+        document.body.innerHTML += form;
+        document.getElementById("newForm").submit();
+    }
 }

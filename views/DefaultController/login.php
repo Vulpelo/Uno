@@ -26,12 +26,13 @@
                     <input type="password" name="password" id="password"  class="form-control" aria-describedby="emailHelp" placeholder="Enter Password">
                 </div>
                 <div class="col-md-12 text-center ">
-                    <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm">Login</button>
+                    <button type="submit" class="btn btn-block mybtn btn-primary tx-tfm">Login</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
 
 </body>
 </html> 
