@@ -20,6 +20,47 @@ class BoardUpdate {
         $stmt->execute();
     }
 
+    // return's true if board was created
+    public function create($board_name) {
+        $db = $this->database->connect();
+        try{
+            $db->beginTransaction();
+
+            $stmt = $db->prepare(
+                'SELECT board.name FROM board
+                WHERE board.name = :board_name'
+            );
+            $stmt->bindParam(':board_name', $board_name, PDO::PARAM_STR);
+            $stmt->execute();
+
+            $board = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($board == null) {
+                $stmt = $db->prepare(
+                    "INSERT INTO `board` (`id_board`, `name`, `clockwise`, `actual_player`, `id_state`) 
+                    VALUES (NULL, :board_name, '0', '0', '1')"
+                );
+                $stmt->bindParam(':board_name', $board_name, PDO::PARAM_STR);
+                $stmt->execute();
+                
+                $db->commit();
+                return true;
+            }
+
+            $db->rollBack();
+            return false;
+        }
+        catch(PDOException $e) {
+            if(stripos($e->getMessage(), 'DATABASE IS LOCKED') !== false) {
+                usleep(2500);
+                $db->commit();
+            } else {
+                $db->rollBack();
+                throw $e;
+            }
+        }
+    }
+
 }
 
 ?>

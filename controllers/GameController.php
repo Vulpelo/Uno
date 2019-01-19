@@ -167,6 +167,22 @@ class GameController extends AppController {
         $this->dataUpdate();
         echo $this->data ? json_encode($this->data) : '';
     }
+
+
+
+    public function createBoard() {
+        $boardUpdate = new BoardUpdate();
+        $boardMapper = new BoardMapperDB();
+
+        $board = null;
+
+        if ($boardUpdate->create($_POST['board_name']) ) {
+            $board = $boardMapper->getBoardByName($_POST['board_name']);
+        }
+
+        echo $board ? json_encode($board) : '';
+    }
+
 }
 
 ?>

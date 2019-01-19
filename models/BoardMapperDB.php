@@ -22,6 +22,19 @@ class BoardMapperDB {
         return $board;
     }
 
+    public function getBoardByName($board_name) {
+        $stmt = $this->database->connect()->prepare(
+            'SELECT * FROM board 
+            WHERE board.name = :board_name'
+        );
+        $stmt->bindParam(':board_name', $board_name, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $board = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $board;
+    }
+
 }
 
 ?>

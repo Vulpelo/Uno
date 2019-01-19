@@ -24,6 +24,7 @@ class Routing
                 'controller' => 'DefaultController',
                 'action' => 'logout'
             ],
+
             'admin_users' => [
                 'controller' => 'AdminController',
                 'action' => 'admin_users'
@@ -36,6 +37,7 @@ class Routing
                 'controller' => 'AdminController',
                 'action' => 'adminPanel'
             ],
+
             'joinGame' => [
                 'controller' => 'GameController',
                 'action' => 'joinGame'
@@ -60,6 +62,11 @@ class Routing
                 'controller' => 'GameController',
                 'action' => 'gamePileOfCards'
             ],
+            'createBoard' => [
+                'controller' => 'GameController',
+                'action' => 'createBoard'
+            ],
+
             'serverList' => [
                 'controller' => 'ServerController',
                 'action' => 'serverList'

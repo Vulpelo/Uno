@@ -6,7 +6,7 @@ class MQuarry {
     //  send({
     //     type: "POST",
     //     url: "some.php",
-    //     data: "name=John"
+    //     data: "name=John&id=5"
     //   }, function( msg ) {
     //     alert( "Data Saved: " + msg );
     //   });
