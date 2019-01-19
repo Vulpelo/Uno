@@ -14,7 +14,9 @@ class UserMapperDB {
     public function getUsersFromBoardList($id_table) {
         if ($id_table !== NULL) {
             $stmt = $this->database->connect()->prepare(
-                'SELECT * FROM user WHERE id_board = :id_table'
+                // 'SELECT * FROM user WHERE id_board = :id_table'
+                'SELECT user.id_user, user.name, user.player_nr, role.name as "role" FROM user LEFT JOIN role ON user.id_role = role.id_role
+                WHERE id_board = :id_table'
             );
             $stmt->bindParam(':id_table', $id_table, PDO::PARAM_STR);
             $stmt->execute();
@@ -24,27 +26,34 @@ class UserMapperDB {
         return $users;
     }
 
-    // get players at the table and amount of cards they have
-    public function getUsersFromBoard($id_board, $beside_id_user) {
-        // if ($id_board) {
-            // if (empty($beside_id_user)) {
-            //     $beside_id_user = -1;
-            // }
+    public function getAllUsers() {
         $stmt = $this->database->connect()->prepare(
-            'SELECT user.id_user, user.player_nr, user.name, COUNT(card.id_card) AS card_count FROM user, card 
-                WHERE user.id_user = card.id_user AND
-                card.id_board = :id_board AND
-                user.id_board = :id_board 
-                GROUP BY user.id_user
-                ORDER BY user.player_nr ASC'
-                //AND user.id_user != :id_user
+            'SELECT * FROM users_view'
+            // 'SELECT user.id_user, user.name, user.player_nr, user.surname, user.email, role.name as "role" 
+            // FROM user LEFT JOIN role ON user.id_role = role.id_role'
         );
-        $stmt->bindParam(':id_board', $id_board, PDO::PARAM_STR);
-        $stmt->bindParam(':id_user', $beside_id_user, PDO::PARAM_STR);
         $stmt->execute();
 
         $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            // }
+        return $users;
+    }
+
+    // get players at the table and amount of cards they have
+    public function getUsersFromBoard($id_board) {
+        $stmt = $this->database->connect()->prepare(
+            'SELECT user.id_user, user.player_nr, user.name , role.name as "role", COUNT(card.id_card) as card_count
+            FROM 
+                user LEFT JOIN role ON user.id_role = role.id_role
+                LEFT JOIN card ON user.id_user = card.id_user
+                    
+            WHERE user.id_board = :id_board 
+                GROUP BY user.id_user
+                ORDER BY user.player_nr ASC'
+        );
+        $stmt->bindParam(':id_board', $id_board, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $users;
     }
 

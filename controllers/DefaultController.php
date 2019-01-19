@@ -16,7 +16,7 @@ class DefaultController extends AppController
         public function index()
         {
             $name = 'Damian';
-            $this->render('index', ['name'=>$name]);
+            $this->render('index', ['session' => $_SESSION]);
         }
 
         public function login()
@@ -29,17 +29,38 @@ class DefaultController extends AppController
                 // If user exists
                 if ($user) {
                     // if password is right
-                    if ($_POST['password'] === $user->getPassword()) {
+                    if ( password_verify($_POST['password'], $user->getPassword()) ) {
                         $_SESSION['id_user'] = $user->getId();
                         $_SESSION['id_board'] = NULL;
+                        $_SESSION['username'] = $user->getName();
                         $_SESSION['role'] = $user->getRole();
 
-                        $this->render('index', ['name' => $user->getName()]);
+                        $this->render('index', ['session' => $_SESSION]);
                         exit();
                     }
                 }
             }
-            $this->render('login');
+            $this->render('login', ['session' => null]);
+        }
+
+        public function logout()
+        {
+            if ($_SESSION != null) {
+
+                $userUpdate = new UserUpdate();
+                $cardUpdate = new CardUpdate();
+
+                $cardUpdate->removeAllUserCards($_SESSION['id_user']);
+                $userUpdate->logout($_SESSION['id_user']);
+
+                if ($_SESSION['role'] == "HOST") {
+                    $userUpdate->setRole($_SESSION['id_user'], 3);
+                }
+
+                session_unset();
+            }
+
+            $this->render('login', ['session' => null]);
         }
 }
 

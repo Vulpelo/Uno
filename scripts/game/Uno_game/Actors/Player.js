@@ -15,6 +15,13 @@ class Player extends Actor {
         this.setModel = rM;
     }
 
+    destructor() {
+        for (let i=0; i<this.arrCards.length; i++) {
+            RenderData.Destroy(this.arrCards[i]);    
+        }
+        this.arrCards = [];
+    }
+
     updateCardsPosition() {
         for (let i=0; i<this.arrCards.length; i++) {
             this.arrCards[i].Position =
@@ -31,23 +38,14 @@ class Player extends Actor {
     addCard(newCard) {
         newCard.Parent = this;
         this.arrCards.push(newCard);
-        // if (this.number == 1) {
-        //     this.Rotation = 1;
-        //     //newCard.Rotation = Vector2d.Left();
-        // }
-        // else if (this.number == 3) {
-        //     this.Rotation = 1;
-        //     //newCard.Rotation = Vector2d.Right();
-        // }
-        RenderData.spawnActor(newCard);
 
-        this.updateCardsPosition();
+        RenderData.spawnActor(newCard);
     }
 
     eventTick() {
-        this.arrCards.forEach(element => {
-            RenderData.Destroy(element);    
-        });
+        for (let i=0; i<this.arrCards.length; i++) {
+            RenderData.Destroy(this.arrCards[i]);    
+        }
         this.arrCards = [];
         
         // if main player
@@ -58,11 +56,16 @@ class Player extends Actor {
         }
         // other players you cant see cards
         else {
-            for (let i=0; i<Server.data.users[this.number].card_count; i++) {
+            let nr = this.number;
+            if (this.number >= Server.data.users.length) {
+                nr = Server.data.users.length-1;
+            }
+            for (let i=0; i<Server.data.users[nr].card_count; i++) {
                 let card = new Card(-1, 'red', 2, this.table);
                 this.addCard(card);
             }
         }
+        this.updateCardsPosition();
     }
 
     giveSpecificCard(id, symbol, color) {

@@ -1,5 +1,6 @@
 <?php
 
+require_once('controllers/AdminController.php');
 require_once('controllers/DefaultController.php');
 require_once('controllers/GameController.php');
 require_once("controllers/ServerController.php");
@@ -19,9 +20,31 @@ class Routing
                 'controller' => 'DefaultController',
                 'action' => 'login'
             ],
+            'logout' => [
+                'controller' => 'DefaultController',
+                'action' => 'logout'
+            ],
+
+            'admin_users' => [
+                'controller' => 'AdminController',
+                'action' => 'admin_users'
+            ],
+            'userDelete' => [
+                'controller' => 'AdminController',
+                'action' => 'userDelete'
+            ],
+            'adminPanel' => [
+                'controller' => 'AdminController',
+                'action' => 'adminPanel'
+            ],
+
             'joinGame' => [
                 'controller' => 'GameController',
                 'action' => 'joinGame'
+            ],
+            'startGame' => [
+                'controller' => 'GameController',
+                'action' => 'startGame'
             ],
             'userList' => [
                 'controller' => 'GameController',
@@ -35,6 +58,15 @@ class Routing
                 'controller' => 'GameController',
                 'action' => 'gameThrowCard'
             ],
+            'gamePileOfCards' => [
+                'controller' => 'GameController',
+                'action' => 'gamePileOfCards'
+            ],
+            'createBoard' => [
+                'controller' => 'GameController',
+                'action' => 'createBoard'
+            ],
+
             'serverList' => [
                 'controller' => 'ServerController',
                 'action' => 'serverList'

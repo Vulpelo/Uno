@@ -6,7 +6,7 @@ class MQuarry {
     //  send({
     //     type: "POST",
     //     url: "some.php",
-    //     data: "name=John"
+    //     data: "name=John&id=5"
     //   }, function( msg ) {
     //     alert( "Data Saved: " + msg );
     //   });
@@ -23,7 +23,12 @@ class MQuarry {
 
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                onreadystatechange(this.response);
+                if (this.response == null) {
+                    onreadystatechange();
+                }
+                else {
+                    onreadystatechange(this.response);
+                }
             }
         };
         xhttp.send(vars);

@@ -31,7 +31,7 @@ class User {
     }
 
 
-    public function getSurname(): string {
+    public function getSurname() {
         return $this->surname;
     }
 
@@ -40,7 +40,7 @@ class User {
     }
 
 
-    public function getRole() : string {
+    public function getRole() {
         return $this->role;
     }
 
@@ -58,7 +58,7 @@ class User {
     }
 
     
-    public function getEmail() : string {
+    public function getEmail() {
         return $this->email;
     }
 

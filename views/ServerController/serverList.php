@@ -2,19 +2,31 @@
 <html>
 <?php include_once(dirname(__DIR__).'/head.html'); ?>
 
-<script src="./public/js/makelist.js"></script>
+<script src="./public/js/serverList_site/makelist.js"></script>
 
 <body>
+<?php include_once(dirname(__DIR__).'/navBar.html'); ?>
 
-<h1>SERVER LIST</h1>
+<div class="container">
+    <div class="row">
+        <h1 class="col-12 pl-0">BOARD LIST</h1>
 
-<table id='ServerList'>
-  <tr>
-    <th>Server name</th>
-    <th>sth</th>
-  </tr>
-</table>
+        <button class="btn btn-primary" type="button" onclick="createBoard()">Create board</button>
 
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th>Server name</th>
+                <th>sth</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody class="users-list" id='ServerList'>
+            </tbody>
+        </table>
+
+    </div>
+</div>
 
 <?php 
   $boardsNames = [];

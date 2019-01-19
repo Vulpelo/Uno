@@ -13,8 +13,10 @@ class InputController {
     }
     
     static mouseMoveHandler(e) {
-        InputController.mousePosition.setX = e.clientX - RenderData.window.offsetLeft;
-        InputController.mousePosition.setY = e.clientY - RenderData.window.offsetTop;
+        let rect = RenderData.window.getBoundingClientRect();
+
+        InputController.mousePosition.setX = e.clientX - rect.left;
+        InputController.mousePosition.setY = e.clientY - rect.top;
     }
     
     static mouseClickHandler(e) {
