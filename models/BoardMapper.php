@@ -13,7 +13,7 @@ class BoardMapper {
     // do listy stołów
     public function getBoards() {
         $stmt = $this->database->connect()->prepare(
-            'SELECT * FROM board'
+            'SELECT * FROM boards_view'
         );
         $stmt->execute();
 

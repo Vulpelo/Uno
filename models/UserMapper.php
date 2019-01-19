@@ -42,7 +42,6 @@ class UserMapper {
             FROM user LEFT outer JOIN role ON user.id_role = role.id_role
             WHERE email = :email"
         );
-        // SELECT * FROM user WHERE email = :email'
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->execute();
 
@@ -88,20 +87,6 @@ class UserMapper {
     public function setUser() {
         // TODO: register user
     }
-
-    // public function getUsersFromTable($id_table) {
-    //     if ($id_table !== NULL) {
-    //         $stmt = $this->database->connect()->prepare(
-    //             'SELECT * FROM user WHERE id_board = :id_table'
-    //         );
-    //         $stmt->bindParam(':id_table', $id_table, PDO::PARAM_STR);
-    //         $stmt->execute();
-
-    //         $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    //     }
-    //     return $users;
-    // }
-
 }
 
 ?>
