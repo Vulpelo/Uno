@@ -28,8 +28,9 @@ class UserMapperDB {
 
     public function getAllUsers() {
         $stmt = $this->database->connect()->prepare(
-            'SELECT user.id_user, user.name, user.player_nr, user.surname, user.email, role.name as "role" 
-            FROM user LEFT JOIN role ON user.id_role = role.id_role'
+            'SELECT * FROM users_view'
+            // 'SELECT user.id_user, user.name, user.player_nr, user.surname, user.email, role.name as "role" 
+            // FROM user LEFT JOIN role ON user.id_role = role.id_role'
         );
         $stmt->execute();
 

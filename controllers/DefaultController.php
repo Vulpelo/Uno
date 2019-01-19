@@ -45,7 +45,7 @@ class DefaultController extends AppController
 
         public function logout()
         {
-            if (session_status() != PHP_SESSION_NONE) {
+            if ($_SESSION != null) {
 
                 $userUpdate = new UserUpdate();
                 $cardUpdate = new CardUpdate();
@@ -61,10 +61,6 @@ class DefaultController extends AppController
             }
 
             $this->render('login', ['session' => null]);
-        }
-
-        public function adminPanel() {
-            
         }
 }
 

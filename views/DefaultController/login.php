@@ -17,23 +17,17 @@
             <?php endif; ?>
 
             <form action="?page=login" method="POST">
-                <div class="form-group row">
-                    <label for="inputEmail" class="col-sm-1 col-form-label">
-                        <i class="material-icons md-48">email</i>
-                    </label>
-                    <div class="col-sm-11">
-                        <input type="text" class="form-control" id="inputEmail" name="email" placeholder="email" required/>
-                    </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="text" name="email"  class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
                 </div>
-                <div class="form-group row">
-                    <label for="inputPassword" class="col-sm-1 col-form-label">
-                        <i class="material-icons md-48">password</i>
-                    </label>
-                    <div class="col-sm-11">
-                        <input type="password" name="password" class="form-control" id="inputPassword" placeholder="password" type="password" required/>
-                    </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Password</label>
+                    <input type="password" name="password" id="password"  class="form-control" aria-describedby="emailHelp" placeholder="Enter Password">
                 </div>
-                <input type="submit" value="Log in" class="btn btn-primary btn-lg float-right" />
+                <div class="col-md-12 text-center ">
+                    <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm">Login</button>
+                </div>
             </form>
         </div>
     </div>
