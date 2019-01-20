@@ -22,7 +22,8 @@ class BoardMapper {
         for ($i = 0; $i < count($boards); $i++) {
             $boards[$i] = new Board(
                 $boards[$i]['id_board'], 
-                $boards[$i]['name']
+                $boards[$i]['name'],
+                $boards[$i]['nr_of_players']
             ); 
         }
         return $boards;

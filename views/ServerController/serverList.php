@@ -16,8 +16,9 @@
         <table class="table table-striped">
             <thead class="thead-dark">
             <tr>
+                <th>#</th>
                 <th>Server name</th>
-                <th>sth</th>
+                <th>Players</th>
                 <th>Action</th>
             </tr>
             </thead>
@@ -31,16 +32,20 @@
 <?php 
   $boardsNames = [];
   $boardsId = [];
+  $boardsNrOfPlayers = [];
   for ($i=0; $i<count($boards); $i++) {
     array_push($boardsId, $boards[$i]->getId());
     array_push($boardsNames, $boards[$i]->getName());
+    array_push($boardsNrOfPlayers, $boards[$i]->getNrOfPlayers());
   }
 ?>
 
 <script type="text/javascript">
   let boardsId = <?php echo json_encode($boardsId); ?>;
   let boardsNames = <?php echo json_encode($boardsNames); ?>;
-  createTableList(boardsId, boardsNames);
+  let boardsNrOfPlayers = <?php echo json_encode($boardsNrOfPlayers); ?>;
+
+  createTableList(boardsId, boardsNames, boardsNrOfPlayers);
 </script>
 
 </body>

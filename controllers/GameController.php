@@ -95,7 +95,7 @@ class GameController extends AppController {
 
         $user = $uMapper->getUser($_SESSION['id_user']);
         $card = $cardMapper->getCard(0, $_SESSION['id_board']);
-        $cards = $cardMapper->getCards($_SESSION['id_user']);
+        $cards = $cardMapper->getUserCardsOnTable($_SESSION['id_user'], $_SESSION['id_board']);
         $users = $uMapper->getUsersFromBoard( $_SESSION['id_board']);
         $board = $boardMapper->getBoard($_SESSION['id_board']); 
 
@@ -171,8 +171,6 @@ class GameController extends AppController {
         $this->dataUpdate();
         echo $this->data ? json_encode($this->data) : '';
     }
-
-
 
     public function createBoard() {
         $boardUpdate = new BoardUpdate();
