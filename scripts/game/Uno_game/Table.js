@@ -1,7 +1,6 @@
 class Table {
     constructor() {
         this.colors = ["red", "green", "blue", "yellow", "black"];
-        this.startAmountOfCards = 7; // TODO: move to server
         this.blockInteraction = false;
         this.clockwiseQueue = false; // TODO: get from server
 
@@ -51,6 +50,7 @@ class Table {
     get ActualCard() {
         return this.actualCard;
     }
+
     set ActualCard(newCard) {
         this.actualCard = newCard;
         this.actualCard.Position = this.center;
@@ -79,6 +79,13 @@ class Table {
         this.addPlayer(gC);
     }
 
+    removePlayers() {
+        for (let i=0; i<this.players.length; i++) {
+            this.players[i].destructor();
+            RenderData.Destroy(this.players[i]);
+        }
+        this.players = [];
+    }
 
     get BlockInteraction() {
         return this.blockInteraction;
@@ -88,113 +95,11 @@ class Table {
     }
 
     start() {
-        // for (let i=0; i<Server.data.users.length; i++) {
-        //     if (i == Server.data.user.player_nr) {
-        //         for (let j=0; j<Server.data.cards.length; j++) {
-        //             this.giveSpecificCard(i, Server.data.cards[j].symbol, Server.data.cards[j].color);
-        //         }
-        //     }
-        //     else {
-        //         for (let j=0; j<Server.data.users[i].card_count; j++) {
-        //             this.giveCard(i);
-        //         }
-        //     }
-        // }
-    }
-
-    removePlayers() {
-        for (let i=0; i<this.players.length; i++) {
-            this.players[i].destructor();
-            RenderData.Destroy(this.players[i]);
-        }
-        this.players = [];
     }
 
     addPlayer(player) {
         RenderData.spawnActor(player);
         this.players.push(player);
-    }
-
-    // giveSpecificCard(player_i, symbol, color) {
-    //     let card = new Card(color, symbol, this);
-
-    //     RenderData.spawnActor(card);
-    //     this.players[player_i].addCard(card);
-    // }
-
-    // giveCard(player_i) {
-    //     let card = this.randomCard();
-
-    //     RenderData.spawnActor(card);
-    //     this.players[player_i].addCard(card);
-    // }
-
-
-
-    reversePlayersQueue() {
-        this.clockwiseQueue = !this.clockwiseQueue;
-    }
-
-    giveActualPlayerCard() {
-        this.giveCard(this.actualPlayer);
-    }
-
-    giveNextPlayerCard() {
-        this.giveCard(this.getNextPlayerIndex(this.actualPlayer));
-    }
-
-    getNextPlayerIndex(actualIndex) {
-        let index = 0;
-        if (this.clockwiseQueue) {
-            index = actualIndex - 1;
-            if (index < 0) {
-                index = this.players.length - 1;
-            }
-        }
-        else {
-            index = actualIndex + 1;
-            if (index >= this.players.length) {
-                index = 0;
-            }
-        }
-        return index;
-    }
-
-    getPlayerFromToIndex(fromIndex, steps) {
-        // removing full loops around queue
-        let index = steps%this.players.length;
-
-        if (this.clockwiseQueue) {
-            index = fromIndex - index;
-            if (index < 0) {
-                index += this.players.length;
-            }
-        }
-        else {
-            index += fromIndex;
-            if (index >= this.players.length) {
-                index -= this.players.length;
-            }
-        }
-        return index;
-    }
-
-    skipPlayer() {
-        this.endTurnActualPlayer++; 
-    }
-
-    randomCard() {
-        let randSymbol = Math.floor(Math.random() * 15);
-        let randColor;
-        // wild card
-        if (randSymbol > 12) {
-            randColor = 4;
-        }
-        else {
-            randColor = Math.floor(Math.random() * 4);
-        }
-        let card = new Card(this.colors[randColor], randSymbol, this);
-        return card;
     }
 
     isActualPlayerCard(card) {
@@ -216,7 +121,7 @@ class Table {
             // this.players[this.actualPlayer].removeCard(card);
             this.setNewActualCard(card);
             return true;
-        } 
+        }
         else {
             return false;
         }        
@@ -244,22 +149,5 @@ class Table {
             let u = new UnoGUI(this);
             RenderData.spawnActor(u);
         }
-    }
-
-
-    endTurn() {
-        // if actual player has no cards he won
-        if (this.players[this.actualPlayer].arrCards.length == 0) {
-            this.hud.Text = "Player " + this.actualPlayer.toString() + " WON";
-            return;
-        }
-
-        // set next player as new actual player
-        this.actualPlayer = this.getPlayerFromToIndex(this.actualPlayer, this.endTurnActualPlayer);
-        this.endTurnActualPlayer = 1; //this.getNextPlayerIndex(this.endTurnActualPlayer);
-
-        this.unoGuiShow(this.players[this.actualPlayer]);
-
-        this.hud.Text = "Player " + this.actualPlayer.toString();
     }
 }

@@ -4,7 +4,6 @@ class TableController extends Actor {
         super();
         this.table = table;
         this.once = true;
-        // this.setNewActualCard(new Card( Server.data.actualCard.id_card, Server.data.actualCard.color, Server.data.actualCard.symbol, this));
     }
 
     eventTick() {
@@ -20,13 +19,16 @@ class TableController extends Actor {
             this.updateCard();
         }
         this.table.ActualPlayer = Server.data.board.actual_player;
-        // this.table.Hud.Text = "Player " + Server.data.board.actual_player + " turn";
     }
 
     updateCard() {
-        RenderData.Destroy(this.table.ActualCard);
-        let card = new Card( Server.data.actualCard.id_card, Server.data.actualCard.color, Server.data.actualCard.symbol, this.table );
-        RenderData.spawnActor(card);
-        this.table.ActualCard = card;
+        if (Server.data.actualCard) {
+            RenderData.Destroy(this.table.ActualCard);
+
+            let card = new Card( Server.data.actualCard.id_card, Server.data.actualCard.color, Server.data.actualCard.symbol, this.table );
+            RenderData.spawnActor(card);
+            this.table.ActualCard = card;
+        }
+
     }
 }
