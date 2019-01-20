@@ -32,7 +32,7 @@ class AdminController extends AppController
             header('Content-type: application/json');
             http_response_code(200);
     
-            $data = $user->getAllUsers();
+            $data = $user->getAllUsersAdmin();
             echo $data ? json_encode($data) : '';
         }
     

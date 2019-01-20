@@ -8,13 +8,13 @@ class UserMapperDB {
 
     public function __construct() {
         $this->database = new Database();
-
     }
 
     public function getUsersFromBoardList($id_table) {
         if ($id_table !== NULL) {
             $stmt = $this->database->connect()->prepare(
-                'SELECT user.id_user, user.name, user.player_nr, role.name as "role" FROM user LEFT JOIN role ON user.id_role = role.id_role
+                'SELECT user.id_user, user.name, user.player_nr, role.name as "role" 
+                FROM user LEFT JOIN role ON user.id_role = role.id_role
                 WHERE id_board = :id_table'
             );
             $stmt->bindParam(':id_table', $id_table, PDO::PARAM_STR);
@@ -25,7 +25,7 @@ class UserMapperDB {
         return $users;
     }
 
-    public function getAllUsers() {
+    public function getAllUsersAdmin() {
         $stmt = $this->database->connect()->prepare(
             'SELECT * FROM users_view'
         );
@@ -39,8 +39,7 @@ class UserMapperDB {
     public function getUsersFromBoard($id_board) {
         $stmt = $this->database->connect()->prepare(
             'SELECT user.id_user, user.player_nr, user.name , role.name as "role", COUNT(card.id_card) as card_count
-            FROM 
-                user LEFT JOIN role ON user.id_role = role.id_role
+            FROM user LEFT JOIN role ON user.id_role = role.id_role
                 LEFT JOIN card ON user.id_user = card.id_user
                     
             WHERE user.id_board = :id_board 
@@ -63,10 +62,8 @@ class UserMapperDB {
         $stmt->execute();
 
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
         return $user;
     }
-
 }
 
 ?>

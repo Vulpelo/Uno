@@ -7,14 +7,18 @@ function addElement(index, id, name)
     let cell2 = row.insertCell(1);
     let cell3 = row.insertCell(2);
 
-    cell1.innerHTML = name;
-    cell2.innerHTML = "cos";
+    cell1.innerHTML = index+1;
+    cell2.innerHTML = name;
     cell3.innerHTML = `
+    <div class="d-flex">
+
     <form action="?page=joinGame" method="POST">
         <input type="hidden" name="id_board" value="` + id + `">
         <input type="hidden" name="name" value="` + name + `">
         <button type="submit" class="btn btn-primary">Join</button>
     </form>
+
+    </div>
     `;
 }
 
@@ -23,8 +27,6 @@ function createTableList(boardsIds, boardNames) {
         addElement(i, boardsIds[i], boardNames[i]);
     }
 }
-
-
 
 function createBoard() {
     let board = prompt("Please enter board name:", "");

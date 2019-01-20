@@ -16,8 +16,8 @@
         <table class="table table-striped">
             <thead class="thead-dark">
             <tr>
+                <th>#</th>
                 <th>Server name</th>
-                <th>sth</th>
                 <th>Action</th>
             </tr>
             </thead>
