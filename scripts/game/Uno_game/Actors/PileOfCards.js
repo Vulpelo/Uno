@@ -2,9 +2,14 @@ class PileOfCards extends Actor {
     constructor(table) {
         super();
         
-        let rM = [new Rectangle(new Vector2d(0,0))];
+        let dim = [40,70];
+
+        let rM = [new Rectangle(new Vector2d(0,0)),
+            new MImage(new Vector2d(0,0), Resources.getImagePath("back"))];
         rM[0].setColor = "#111111";
-        rM[0].setDimensions = [30,50];
+        rM[0].setDimensions = dim;
+
+        rM[1].setDimensions = dim;
 
         this.setModel = rM; 
 

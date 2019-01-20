@@ -27,7 +27,7 @@ class DefaultController extends AppController
                 $user = $mapper->getUser($_POST['email']);
 
                 // If user exists
-                if ($user) {
+                if ($user->getId() != null) {
                     // if password is right
                     if ( password_verify($_POST['password'], $user->getPassword()) ) {
                         $_SESSION['id_user'] = $user->getId();
@@ -38,6 +38,21 @@ class DefaultController extends AppController
                         $this->render('index', ['session' => $_SESSION]);
                         exit();
                     }
+                }
+            }
+            $this->render('login', ['session' => null]);
+        }
+
+        public function register()
+        {
+            $mapper = new UserMapper();
+               
+            if ($this->isPost()) {
+                $user = $mapper->getUser($_POST['email']);
+
+                // If user exists
+                if ($user->getId() == null) {
+                    $mapper->registerUser($_POST['username'], $_POST['email'], password_hash($_POST['password'], PASSWORD_DEFAULT));
                 }
             }
             $this->render('login', ['session' => null]);
@@ -61,6 +76,14 @@ class DefaultController extends AppController
             }
 
             $this->render('login', ['session' => null]);
+        }
+
+        public function userExists() {
+            $mapper = new UserMapper();
+               
+            $user = $mapper->getUser($_POST['email']);
+
+            echo $user->getId() == null? json_encode(false) : json_encode(true);
         }
 }
 

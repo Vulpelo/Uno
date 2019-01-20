@@ -3,15 +3,13 @@
 class User {
     private $id;
     private $name;
-    private $surname;
     private $email;
     private $password;
     private $role;
 
-    public function __construct($id, $username, $surname,  $email, $password, $role, $idTable){
+    public function __construct($id, $username,  $email, $password, $role, $idTable){
         $this->id = $id;
         $this->name = $username;
-        $this->surname = $surname;
         $this->email = $email;
         $this->password = $password;
         $this->role = $role;
@@ -28,15 +26,6 @@ class User {
 
     public function setName(string $name) : void {
         $this->name = $name;
-    }
-
-
-    public function getSurname() {
-        return $this->surname;
-    }
-
-    public function setSurname(string $surname) : void {
-        $this->surname = $surname;
     }
 
 

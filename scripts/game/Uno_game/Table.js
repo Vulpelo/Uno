@@ -16,7 +16,7 @@ class Table {
         this.players = [];
 
         this.pile = new PileOfCards(this);
-        this.pile.Position = new Vector2d(15, 25);
+        this.pile.Position = new Vector2d(30, 40);
         RenderData.spawnActor(this.pile);
 
         this.createPlayers(Server.data.users.length);

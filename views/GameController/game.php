@@ -13,11 +13,10 @@
     
 <div class="container">
 
-    <div class="row row-offcanvas row-offcanvas-right">
+    <div class="row row-offcanvas row-offcanvas-right p">
 
         <div class="col bg-lightgray">
-            <h2>uno</h2>
-            <canvas id="window" width="600" height="500" ></canvas>
+            <canvas class="windowSetting" id="window" width="600" height="500" ></canvas>
         </div>
 
         <div class="col-3 bg-lightblue">
@@ -27,8 +26,7 @@
                 <div id="startButtonPlace"> 
                 </div>
                 <tr>
-                    <th>Player</th>
-                    <th>Cards</th>
+                    <th><br>Players:</th>
                 </tr>
             </table>
         </div>

@@ -145,7 +145,7 @@ class MImage extends SimpleShape {
         ctx.save();
         ctx.translate(pos.getX , pos.getY);
         ctx.rotate(this.getWorldRotation());
-        ctx.drawImage(img, -img.width/2, -img.height/2);
+        ctx.drawImage(img, -this.dimensions[0]/2, -this.dimensions[1]/2, this.dimensions[0], this.dimensions[1]);
         ctx.beginPath();
         ctx.stroke();
         ctx.restore();
