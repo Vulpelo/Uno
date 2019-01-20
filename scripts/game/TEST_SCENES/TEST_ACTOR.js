@@ -1,4 +1,16 @@
 
+class Resources {
+    constructor() {
+        
+    }
+
+    static getImagePath(name) {
+        return Resources.path + name + ".jpg";
+    }
+}
+
+Resources.path = "./resources/cards/";
+
 class TEST_ACTOR extends Actor {
     constructor(name) {
         super();
@@ -64,10 +76,9 @@ class TEST_Angle extends Actor {
 class TEST_Image extends Actor {
     constructor() {
         super();
-
-        let rM = [new MImage(new Vector2d(0,0), 
-            "http://www.pei.pl/wordpress/wp-content/uploads/2017/02/2015.10.08-11.14.29-DSC_5994-obrazy-inspirowane-holenderskimi-krajobrazami.jpg")];
-        rM[0].dimensions = [80, 80];
+        let rM = [new MImage(new Vector2d(40,40), 
+            Resources.getImagePath("b0"))];
+        rM[0].dimensions = [50, 80];
         this.setModel = rM;
     }
 }

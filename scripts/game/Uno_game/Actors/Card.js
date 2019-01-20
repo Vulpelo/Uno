@@ -7,12 +7,25 @@ class Card extends Actor {
         this.cardColor = color;
         this.symbol = symbol;
 
-        let dim = [30,50];
-        let rM = [new Rectangle(new Vector2d(0,0)), new Text(new Vector2d(-dim[0]/2, -dim[1]/2))];
+        let tmp;
+        if (symbol == -1) {
+            tmp = "back";
+        }
+        else {
+            tmp = color[0] + symbol;
+        }
+
+        let dim = [40,70];
+        let rM = [new Rectangle(new Vector2d(0,0)), 
+                new MImage(new Vector2d(0,0), Resources.getImagePath(tmp)),
+                new Text(new Vector2d(-dim[0]/2, -dim[1]/2))];
+
         rM[0].color = this.cardColor;
         rM[0].setDimensions = dim;
+            
+        rM[1].setDimensions = dim;
 
-        rM[1].Text = symbol;
+        rM[2].Text = symbol;
 
         this.setModel = rM;
     }

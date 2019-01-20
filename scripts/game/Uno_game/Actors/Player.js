@@ -61,7 +61,7 @@ class Player extends Actor {
                 nr = Server.data.users.length-1;
             }
             for (let i=0; i<Server.data.users[nr].card_count; i++) {
-                let card = new Card(-1, 'red', 2, this.table);
+                let card = new Card(-1, 'red', -1, this.table);
                 this.addCard(card);
             }
         }

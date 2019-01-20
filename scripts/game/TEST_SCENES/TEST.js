@@ -21,7 +21,7 @@ class TEST {
         RenderData.spawnActor(c2);
 
         let ang = new TEST_Image();
-        ang.Position = new Vector2d(0, 0);
+        ang.Position = new Vector2d(100, 100);
         ang.Rotation = 0;
         RenderData.spawnActor(ang);
 
