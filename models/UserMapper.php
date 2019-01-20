@@ -81,8 +81,15 @@ class UserMapper {
     }
 
     // do rejestrowania
-    public function setUser() {
+    public function registerUser($name, $email, $password) {
         // TODO: register user
+        $stmt = $this->database->connect()->prepare(
+            'INSERT INTO user (name, email, password) VALUES ( :name, :email, :password )'
+        );
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->bindParam(':password', $password, PDO::PARAM_STR);
+        $stmt->execute();
     }
 }
 
