@@ -34,7 +34,6 @@ class BoardMapperDB {
 
         return $board;
     }
-
 }
 
 ?>

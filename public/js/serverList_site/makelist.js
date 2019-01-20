@@ -1,30 +1,35 @@
 
-function addElement(index, id, name)
+function addElement(index, id, name, nrOfPlayers)
 {
     let table = document.getElementById("ServerList");
     let row = table.insertRow(index);
     let cell1 = row.insertCell(0);
     let cell2 = row.insertCell(1);
     let cell3 = row.insertCell(2);
+    let cell4 = row.insertCell(3);
 
     cell1.innerHTML = index+1;
     cell2.innerHTML = name;
-    cell3.innerHTML = `
+    cell3.innerHTML = nrOfPlayers + "/4";
+    
+    cell4.innerHTML = `
     <div class="d-flex">
-
     <form action="?page=joinGame" method="POST">
         <input type="hidden" name="id_board" value="` + id + `">
         <input type="hidden" name="name" value="` + name + `">
-        <button type="submit" class="btn btn-primary">Join</button>
-    </form>
-
-    </div>
-    `;
+        `
+    if (nrOfPlayers >= 4) {
+        cell4.innerHTML += `<button type="submit" class="btn btn-primary">Join</button>`;
+    }
+    else {
+        cell4.innerHTML += `<button type="submit" class="btn btn-primary">Join</button>`;
+    }
+    cell4.innerHTML +=`</form></div>`;
 }
 
-function createTableList(boardsIds, boardNames) {
+function createTableList(boardsIds, boardNames, boardsNrOfPlayers) {
     for (let i=0; i<boardNames.length; i++) {
-        addElement(i, boardsIds[i], boardNames[i]);
+        addElement(i, boardsIds[i], boardNames[i], boardsNrOfPlayers[i]);
     }
 }
 
