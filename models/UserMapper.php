@@ -13,7 +13,7 @@ class UserMapper {
 
     public function getUserById($id_user) {
         $stmt = $this->database->connect()->prepare(
-            "SELECT user.id_user, user.name, user.surname, user.email, user.password, role.name AS role, user.id_board  
+            "SELECT user.id_user, user.name, user.email, user.password, role.name AS role, user.id_board  
             FROM user LEFT outer JOIN role ON user.id_role = role.id_role
             WHERE id_user = :id_user"
         );
@@ -26,7 +26,6 @@ class UserMapper {
         $user = new User(
             $user['id_user'], 
             $user['name'], 
-            $user['surname'], 
             $user['email'], 
             $user['password'], 
             $user['role'],
@@ -38,7 +37,7 @@ class UserMapper {
     // do logowania
     public function getUser(string $email) : User {
         $stmt = $this->database->connect()->prepare(
-            "SELECT user.id_user, user.name, user.surname, user.email, user.password, role.name AS role, user.id_board  
+            "SELECT user.id_user, user.name, user.email, user.password, role.name AS role, user.id_board  
             FROM user LEFT outer JOIN role ON user.id_role = role.id_role
             WHERE email = :email"
         );
@@ -50,7 +49,6 @@ class UserMapper {
         $user = new User(
             $user['id_user'], 
             $user['name'], 
-            $user['surname'], 
             $user['email'], 
             $user['password'], 
             $user['role'],
@@ -61,7 +59,7 @@ class UserMapper {
 
     public function getHostFromTable($id_board) {
         $stmt = $this->database->connect()->prepare(
-            "SELECT user.id_user, user.name, user.surname, user.email, user.password, role.name AS role, user.id_board  
+            "SELECT user.id_user, user.name, user.email, user.password, role.name AS role, user.id_board  
             FROM user LEFT outer JOIN role ON user.id_role = role.id_role
             WHERE role.name = 'HOST' AND
             user.id_board = :id_board"
@@ -74,7 +72,6 @@ class UserMapper {
         $user = new User(
             $user['id_user'], 
             $user['name'], 
-            $user['surname'], 
             $user['email'], 
             $user['password'], 
             $user['role'],
