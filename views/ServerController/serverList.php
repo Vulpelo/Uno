@@ -36,6 +36,10 @@
 
 
 <script src="./public/js/serverList_site/makelist.js"></script>
+<script src="./public/js//updateTableQuary.js"></script>
+<script>
+    start("?page=boardList", "ServerList");
+</script>
 
 </body>
 </html> 
