@@ -1,5 +1,5 @@
 
-function addElement(index, id, name, nrOfPlayers)
+function addElement(index, data)
 {
     let table = document.getElementById("ServerList");
     let row = table.insertRow(index);
@@ -9,42 +9,25 @@ function addElement(index, id, name, nrOfPlayers)
     let cell4 = row.insertCell(3);
 
     cell1.innerHTML = index+1;
-    cell2.innerHTML = name;
-    cell3.innerHTML = nrOfPlayers + "/4";
+    cell2.innerHTML = data['name'];
+    cell3.innerHTML = data['nr_of_players'] + "/4";
     
-    cell4.innerHTML = `
+    let text = `
     <div class="d-flex">
     <form action="?page=joinGame" method="POST">
-        <input type="hidden" name="id_board" value="` + id + `">
-        <input type="hidden" name="name" value="` + name + `">
+        <input type="hidden" name="id_board" value="` + data['id_board'] + `">
+        <input type="hidden" name="name" value="` + data['name'] + `">
         `
-    if (nrOfPlayers >= 4) {
-        cell4.innerHTML += `<button type="submit" class="btn btn-primary">Join</button>`;
+    if (data['nr_of_players'] >= 4) {
+        text += `<button type="submit" class="btn btn-primary" disabled>Join</button>`;
     }
     else {
-        cell4.innerHTML += `<button type="submit" class="btn btn-primary">Join</button>`;
+        text += `<button type="submit" class="btn btn-primary">Join</button>`;
     }
-    cell4.innerHTML +=`</form></div>`;
+    text +=`</form></div>`;
+    cell4.innerHTML = text;
 }
 
-function createTableList(boardsIds, boardNames, boardsNrOfPlayers) {
-    for (let i=0; i<boardNames.length; i++) {
-        addElement(i, boardsIds[i], boardNames[i], boardsNrOfPlayers[i]);
-    }
-}
-
-function createBoard() {
-    let board = prompt("Please enter board name:", "");
-
-    if (board != null && board != "") {
-        MQuarry.send({
-            type: "POST",
-            url: "?page=createBoard",
-            data: "board_name="+board
-        }, joinBoard);
-
-    }
-}
 
 function joinBoard(data) {
     if (!data) {
@@ -61,5 +44,18 @@ function joinBoard(data) {
 
         document.body.innerHTML += form;
         document.getElementById("newForm").submit();
+    }
+}
+
+function createBoard() {
+    let board = prompt("Please enter board name:", "");
+
+    if (board != null && board != "") {
+        MQuarry.send({
+            type: "POST",
+            url: "?page=createBoard",
+            data: "board_name="+board
+        }, joinBoard);
+
     }
 }

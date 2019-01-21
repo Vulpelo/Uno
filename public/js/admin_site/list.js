@@ -1,18 +1,4 @@
-let len=0;
-
-function getUsers() {
-    MQuarry.send({
-        type: "POST",
-        url: "?page=admin_users",
-        data: ""
-        }, done);
-}
-
-function done(data) {
-    createTableList(data);
-}
-
-function addElement(index, id, name, email, role) {
+function addElement(index, data) {
     let table = document.getElementById("users_list");
 
     let row = table.insertRow(index);
@@ -23,24 +9,10 @@ function addElement(index, id, name, email, role) {
     let cell5 = row.insertCell(4);
 
     cell1.innerHTML = index+1;
-    cell2.innerHTML = name;
-    cell3.innerHTML = email;
-    cell4.innerHTML = role;
-    cell5.innerHTML = `<button class="btn btn-danger" type="button" onclick="deleteUser(` + id + `)">Delete</button>`;
-}
-
-function createTableList(data) {
-    let table = document.getElementById("users_list");
-
-    for (let i=0; i<len; i++) {
-        table.deleteRow(0);
-    }
-
-    len = data.length;
-
-    for (let i=0; i<data.length; i++) {
-        addElement(i, data[i]['id_user'], data[i]['name'], data[i]['email'], data[i]['role']);
-    }
+    cell2.innerHTML = data['name'];
+    cell3.innerHTML = data['email'];
+    cell4.innerHTML = data['role'];
+    cell5.innerHTML = `<button class="btn btn-danger" type="button" onclick="deleteUser(` + data['id_user'] + `)">Delete</button>`;
 }
 
 function deleteUser(id_user) {
@@ -48,8 +20,7 @@ function deleteUser(id_user) {
         type: "POST",
         url: "?page=userDelete",
         data: "id_user="+id_user
-        }, empty);
+        }, function() {});
 }
-function empty() {}
 
 getUsers();

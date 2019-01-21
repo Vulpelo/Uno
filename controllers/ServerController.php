@@ -3,8 +3,10 @@
 require_once("AppController.php");
 
 require_once(__DIR__.'/../models/Update/UserUpdate.php');
+require_once(__DIR__.'/../models/Update/BoardUpdate.php');
 
 require_once(__DIR__.'/../models/BoardMapper.php');
+require_once(__DIR__.'/../models/BoardMapperDB.php');
 require_once(__DIR__.'/../models/Board.php');
 require_once(__DIR__.'/../models/UserMapper.php');
 require_once(__DIR__.'/../models/UserMapperDB.php');
@@ -16,24 +18,44 @@ class ServerController extends AppController {
     }
 
     public function serverList() {
-        $mapper = new BoardMapper();
+        $this->render('serverList', ['session' => $_SESSION]);
+    }
+
+    public function boardList() {
+        $mapper = new BoardMapperDB();
         $boards = $mapper->getBoards();
 
-        $this->render('serverList', ['session' => $_SESSION, 'boards'=>$boards]);
+        echo $boards ? json_encode($boards) : '';
     }
 
     public function leaveServer() {
         $userUpdate = new UserUpdate();
         $userMapperDB = new UserMapperDB();
+        $boardMapper = new BoardMapperDB();
+        $boardUpdate = new BoardUpdate();
 
         $userUpdate->setTable($_SESSION['id_user'], NULL);
-        $_SESSION['id_board'] = NULL;
 
         // changes player_nr
         $users = $userMapperDB->getUsersFromBoard($_SESSION['id_board']);
 
         for ($i = 0; $i < count($users); $i++) {
             $userUpdate->setPlayerNr($users[$i]['id_user'], $i);
+        }
+
+        // changes board's actual_player
+        $board = $boardMapper->getBoard($_SESSION['id_board']);
+        if (count($users) != 0 && $board['actual_player'] >= count($users)) {
+            if ($board['clockwise'] == 1) {
+                $board['actual_player'] = 0;
+            }
+            else {
+                $board['actual_player'] = count($users) - 1;
+            }
+            $boardUpdate->updateBoard($_SESSION['id_board'], $board['actual_player'], $board['clockwise']);
+        }
+        else {
+            $boardUpdate->updateBoard($_SESSION['id_board'], 0, $board['clockwise']);
         }
 
         // host migration
@@ -47,6 +69,9 @@ class ServerController extends AppController {
             $userUpdate->setRole($_SESSION['id_user'], 3);
             $_SESSION['role'] = "USER";
         }
+
+
+        $_SESSION['id_board'] = NULL;
 
         $this->serverList();
     }

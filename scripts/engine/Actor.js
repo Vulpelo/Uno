@@ -12,6 +12,10 @@ class Actor extends Object {
         }
     }
 
+    get RenderModel() {
+        return this.renderModel;
+    }
+
     render(window) {
         for (let i=0; i<this.renderModel.length; i++) {
             this.renderModel[i].render(window);
