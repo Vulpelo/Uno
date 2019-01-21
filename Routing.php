@@ -82,6 +82,10 @@ class Routing
             'leaveServer' => [
                 'controller' => 'ServerController',
                 'action' => 'leaveServer'
+            ],
+            'boardList' => [
+                'controller' => 'ServerController',
+                'action' => 'boardList'
             ]
         ];
     }

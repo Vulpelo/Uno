@@ -48,8 +48,7 @@ function deleteUser(id_user) {
         type: "POST",
         url: "?page=userDelete",
         data: "id_user="+id_user
-        }, empty);
+        }, function() {});
 }
-function empty() {}
 
 getUsers();

@@ -1,3 +1,16 @@
+let len=0;
+
+function getBoards() {
+    MQuarry.send({
+        type: "POST",
+        url: "?page=boardList",
+        data: ""
+        }, done);
+}
+
+function done(boards) {
+    createTableList(boards);
+}
 
 function addElement(index, id, name, nrOfPlayers)
 {
@@ -28,24 +41,19 @@ function addElement(index, id, name, nrOfPlayers)
     cell4.innerHTML = text;
 }
 
-function createTableList(boardsIds, boardNames, boardsNrOfPlayers) {
-    for (let i=0; i<boardNames.length; i++) {
-        addElement(i, boardsIds[i], boardNames[i], boardsNrOfPlayers[i]);
+function createTableList(boards) {
+    let table = document.getElementById("ServerList");
+    for (let i=0; i<len; i++) {
+        table.deleteRow(0);
+    }
+    len = boards.length;
+
+    for (let i=0; i<boards.length; i++) {
+        addElement(i, boards[i]['id_board'], boards[i]['name'], boards[i]['nr_of_players']);
     }
 }
 
-function createBoard() {
-    let board = prompt("Please enter board name:", "");
 
-    if (board != null && board != "") {
-        MQuarry.send({
-            type: "POST",
-            url: "?page=createBoard",
-            data: "board_name="+board
-        }, joinBoard);
-
-    }
-}
 
 function joinBoard(data) {
     if (!data) {
@@ -64,3 +72,18 @@ function joinBoard(data) {
         document.getElementById("newForm").submit();
     }
 }
+
+function createBoard() {
+    let board = prompt("Please enter board name:", "");
+
+    if (board != null && board != "") {
+        MQuarry.send({
+            type: "POST",
+            url: "?page=createBoard",
+            data: "board_name="+board
+        }, joinBoard);
+
+    }
+}
+
+getBoards();
