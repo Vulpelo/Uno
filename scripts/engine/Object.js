@@ -18,6 +18,10 @@ class Object {
         this.parent = parent;
     }
 
+    get Parent() {
+        return this.parent;
+    }
+
     get Position() {
         return this.position;
     }

@@ -1,11 +1,14 @@
 class Card extends Actor {
     constructor(id, color, symbol, table) {
         super();
+        this.overlap = false;
         this.id = id;
         this.played = false;
         this.table = table;
         this.cardColor = color;
         this.symbol = symbol;
+
+        this.defoultPosition = this.Position;
 
         let tmp;
         if (symbol == -1) {
@@ -58,8 +61,27 @@ class Card extends Actor {
         }
     }
 
+    onMouseOverlap() {
+        if (this.Parent != null && Server.data.board.actual_player == Server.data.user.player_nr 
+            && this.Parent.number == Server.data.user.player_nr) 
+        {
+            this.Position.setY = -this.renderModel[0].getDimensions[1] - 20;
+            this.overlap = true;
+        }
+    }
+
     update(data) {
         Server.data = data;
+    }
+
+    eventTick() {
+        if (this.Parent != null && Server.data.board.actual_player == Server.data.user.player_nr 
+                && this.Parent.number == Server.data.user.player_nr
+                && !this.overlap)
+        {
+            this.Position.setY = -this.renderModel[0].getDimensions[1];
+        }
+        this.overlap = false;
     }
 
     // plus4Power() {

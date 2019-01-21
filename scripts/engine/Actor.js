@@ -23,4 +23,6 @@ class Actor extends Object {
     }
 
     onMouseClick() {}
+
+    onMouseOverlap() {}
 }

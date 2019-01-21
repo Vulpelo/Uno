@@ -24,10 +24,17 @@ class Player extends Actor {
 
     updateCardsPosition() {
         for (let i=0; i<this.arrCards.length; i++) {
-            this.arrCards[i].Position =
-                new Vector2d((i - Math.floor(this.arrCards.length/2)) *
-                1/2*this.arrCards[i].renderModel[0].getDimensions[0] - this.arrCards[i].renderModel[0].getDimensions[0],
-                -this.arrCards[i].renderModel[0].getDimensions[1]);
+            if (Server.data.user.player_nr == this.number) {
+                this.arrCards[i].Position.setX =
+                    (i - Math.floor(this.arrCards.length/2)) *
+                    0.65*this.arrCards[i].renderModel[0].getDimensions[0] - this.arrCards[i].renderModel[0].getDimensions[0];
+            }
+            else {
+                this.arrCards[i].Position = new Vector2d(
+                    (i - Math.floor(this.arrCards.length/2)) *
+                    0.4*this.arrCards[i].renderModel[0].getDimensions[0] - this.arrCards[i].renderModel[0].getDimensions[0],
+                    -this.arrCards[i].renderModel[0].getDimensions[1]);
+            }
         }
     }
 
@@ -62,11 +69,6 @@ class Player extends Actor {
     }
 
     updatingCards() {
-        for (let i=0; i<this.arrCards.length; i++) {
-            RenderData.Destroy(this.arrCards[i]);    
-        }
-        this.arrCards = [];
-        
         // if main player
         if (Server.data.user.player_nr == this.number) {
             this.updateCardsForMainPlayer();
@@ -113,6 +115,7 @@ class Player extends Actor {
                     Server.data.cards[i]['symbol'], 
                     this.table );
                 card.Parent = this;
+                card.Position.setY = -card.renderModel[0].getDimensions[1];
                 RenderData.spawnActor(card);
                 tmpCards.push(card);
             }
