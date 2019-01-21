@@ -128,41 +128,84 @@ class GameController extends AppController {
 
     public function gameThrowCard() {
         $cardUpdate = new CardUpdate();
+        $cardMapper = new CardMapperDB();
+        $boardUpdate = new BoardUpdate();
+
+        $this->dataUpdate();
+
         // 0 is a board card in the middle of the table
         $cardUpdate->removeAllUserCardsOnBoard(0, $_SESSION['id_board']);
         $cardUpdate->throwCard($_POST['id_card']);
 
-        $this->dataUpdate();
+        // checking cards power and setting variables
+        $card = $cardMapper->getCardByID($_POST['id_card']);
+        $clockwise = $this->data['board']['clockwise'];
+        $this->cardPower($card, $clockwise);
 
+
+        // setting new actual
         $nrOfPlayers = count($this->data['users']);
         $actual = $this->data['board']['actual_player'];
-        $clockwise = $this->data['board']['clockwise'];
+        $this->setNewActual($actual, $clockwise, $nrOfPlayers);
 
-        $newActual = $actual;
+        // updating board with new data
+        // $this->updateBoard($actual, $clockwise, $nrOfPlayers);
 
+        // $boardUpdate->setActual($actual, $_SESSION['id_board']);
+        $boardUpdate->updateBoard($_SESSION['id_board'], $actual, $clockwise);
+
+        $this->gameDataUpdate();
+    }
+
+    private function cardPower($card, &$clockwise) {
+        //* symbol:
+        //    10 - skip;    11 - reverse;   12 - +2 cards
+        //    13 - +4 cards and change color;   14 - change color
+        switch ($card['symbol']) {
+            case 10:
+                // this.skipPower();
+                break;
+            case 11:
+                $this->reversePower($clockwise);
+                break;
+            case 12:
+                // this.plus2Power();
+                break;
+            case 13:
+                // this.plus4Power()
+                break;
+            case 14:
+                // this.changeColorPower();
+                break;
+        }
+    }
+
+    private function reversePower(&$clockwise) {
         if ($clockwise == 1) {
+            $clockwise = 0;
+        }
+        else {
+            $clockwise = 1;
+        }
+    }
+
+    private function setNewActual(&$actual, $clockwise, $nrOfPlayers) {
+        if ($clockwise == 0) {
             if ($actual >= $nrOfPlayers-1) {
-                $newActual = 0;
+                $actual = 0;
             }
             else {
-                $newActual++;
+                $actual = $actual+ 1;
             }
         }
-        else if ($clockwise == 0) {
+        else if ($clockwise == 1) {
             if ($actual <= 0) {
-                $newActual = $nrOfPlayers - 1;
+                $actual = $nrOfPlayers - 1;
             }
             else {
-                $newActual--;
+                $actual--;
             }
         }
-
-        $boardUpdate = new BoardUpdate();
-        $boardUpdate->setActual($newActual, $_SESSION['id_board']);
-
-        $this->dataUpdate();
-
-        echo $this->data ? json_encode($this->data) : '';
     }
 
     public function gamePileOfCards() {

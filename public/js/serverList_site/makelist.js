@@ -12,19 +12,20 @@ function addElement(index, id, name, nrOfPlayers)
     cell2.innerHTML = name;
     cell3.innerHTML = nrOfPlayers + "/4";
     
-    cell4.innerHTML = `
+    let text = `
     <div class="d-flex">
     <form action="?page=joinGame" method="POST">
         <input type="hidden" name="id_board" value="` + id + `">
         <input type="hidden" name="name" value="` + name + `">
         `
     if (nrOfPlayers >= 4) {
-        cell4.innerHTML += `<button type="submit" class="btn btn-primary">Join</button>`;
+        text += `<button type="submit" class="btn btn-primary" disabled>Join</button>`;
     }
     else {
-        cell4.innerHTML += `<button type="submit" class="btn btn-primary">Join</button>`;
+        text += `<button type="submit" class="btn btn-primary">Join</button>`;
     }
-    cell4.innerHTML +=`</form></div>`;
+    text +=`</form></div>`;
+    cell4.innerHTML = text;
 }
 
 function createTableList(boardsIds, boardNames, boardsNrOfPlayers) {

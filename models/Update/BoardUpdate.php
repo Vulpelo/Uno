@@ -20,6 +20,19 @@ class BoardUpdate {
         $stmt->execute();
     }
 
+    public function updateBoard($id_board, $newActual, $newClockwise) {
+        $stmt = $this->database->connect()->prepare(
+            'UPDATE board
+            SET actual_player = :newActual,
+                clockwise = :newClockwise
+            WHERE id_board = :id_board'
+        );
+        $stmt->bindParam(':newActual', $newActual, PDO::PARAM_STR);
+        $stmt->bindParam(':newClockwise', $newClockwise, PDO::PARAM_STR);
+        $stmt->bindParam(':id_board', $id_board, PDO::PARAM_STR);
+        $stmt->execute();
+    }
+
     // return's true if board was created
     public function create($board_name) {
         $db = $this->database->connect();

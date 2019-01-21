@@ -9,6 +9,18 @@ class CardMapperDB {
         $this->database = new Database();
     }
 
+    public function getCardByID($id_card) {
+        $stmt = $this->database->connect()->prepare(
+            'SELECT * FROM card
+            WHERE id_card = :id_card'
+        );
+        $stmt->bindParam(':id_card', $id_card, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $card = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $card;
+    }
+
     public function getCard($id_user, $id_board) {
         $stmt = $this->database->connect()->prepare(
             'SELECT * FROM card
