@@ -43,29 +43,7 @@ class Player extends Actor {
     }
 
     eventTick() {
-        for (let i=0; i<this.arrCards.length; i++) {
-            RenderData.Destroy(this.arrCards[i]);    
-        }
-        this.arrCards = [];
-        
-        // if main player
-        if (Server.data.user.player_nr == this.number) {
-            for (let j=0; j<Server.data.cards.length; j++) {
-                this.giveSpecificCard(Server.data.cards[j].id_card, Server.data.cards[j].symbol, Server.data.cards[j].color);
-            }
-        }
-        // other players you cant see cards
-        else {
-            let nr = this.number;
-            if (this.number >= Server.data.users.length) {
-                nr = Server.data.users.length-1;
-            }
-            for (let i=0; i<Server.data.users[nr].card_count; i++) {
-                let card = new Card(-1, 'red', -1, this.table);
-                this.addCard(card);
-            }
-        }
-        this.updateCardsPosition();
+        this.updatingCards();
 
         if (this.table.ActualPlayer == this.number && this.RenderModel.length == 1) {
             let tmp = this.RenderModel;
@@ -81,6 +59,71 @@ class Player extends Actor {
             tmp = tmp.slice(1);
             this.setModel = tmp;
         }
+    }
+
+    updatingCards() {
+        for (let i=0; i<this.arrCards.length; i++) {
+            RenderData.Destroy(this.arrCards[i]);    
+        }
+        this.arrCards = [];
+        
+        // if main player
+        if (Server.data.user.player_nr == this.number) {
+            this.updateCardsForMainPlayer();
+        }
+        // other players you cant see cards
+        else {
+            // if too many cards, discard some
+            if (this.arrCards.length > Server.data.users[this.number].card_count) {
+                let len = this.arrCards.length - Server.data.users[this.number].card_count;
+
+                for (let i=0; i<len; i++) {
+                    RenderData.Destroy(this.arrCards.pop());    
+                }
+            }
+            // if to little cards, add some
+            else {
+                let len = Server.data.users[this.number].card_count - this.arrCards.length;
+
+                for (let i=0; i<len; i++) {
+                    let card = new Card(-1, 'red', -1, this.table);
+                    this.addCard(card);
+                }
+            }
+        }
+        this.updateCardsPosition();
+    }
+
+    updateCardsForMainPlayer() {
+        let tmpCards = [];
+
+        for (let i=0; i<Server.data.cards.length; i++) {
+            let found = false;
+            for (let j=0; j<this.arrCards.length; j++) {
+                if (this.arrCards[j].Id == Server.data.cards[i]['id_card']) {
+                    tmpCards.push(this.arrCards[j]);
+                    this.arrCards = [].concat( this.arrCards.slice(0,j), this.arrCards.slice(j+1) );
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                let card = new Card(Server.data.cards[i]['id_card'],
+                    Server.data.cards[i]['color'],
+                    Server.data.cards[i]['symbol'], 
+                    this.table );
+                card.Parent = this;
+                RenderData.spawnActor(card);
+                tmpCards.push(card);
+            }
+        }
+
+        // deleting cards player dont have
+        for (let i=0; i<this.arrCards.length; i++) {
+            RenderData.Destroy(this.arrCards[i]);
+        }
+
+        this.arrCards = tmpCards;
     }
 
     giveSpecificCard(id, symbol, color) {
