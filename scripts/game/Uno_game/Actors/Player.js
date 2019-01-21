@@ -8,9 +8,12 @@ class Player extends Actor {
         this.rotation = 0;
         this.number = nr;
         
-        let rM = [new Text(new Vector2d(0,0))];
+        let dim = [100, 20];
+        let rM = [new MImage(new Vector2d(30,-5), Resources.getImagePathPNG("name_background")) , new Text(new Vector2d(0,0))];
 
-        rM[0].Text = this.name;
+        rM[1].Text = this.name;
+        rM[0].setDimensions = dim;
+        
 
         this.setModel = rM;
     }
@@ -52,7 +55,7 @@ class Player extends Actor {
     eventTick() {
         this.updatingCards();
 
-        if (this.table.ActualPlayer == this.number && this.RenderModel.length == 1) {
+        if (this.table.ActualPlayer == this.number && this.RenderModel.length == 2) {
             let tmp = this.RenderModel;
             let mod = new MImage(new Vector2d(0,0), Resources.getImagePathPNG("activePlayer"));
             mod.dimensions = [200,200];
@@ -61,7 +64,7 @@ class Player extends Actor {
 
             this.setModel = tmp;
         }
-        else if (this.table.ActualPlayer != this.number && this.RenderModel.length == 2) {
+        else if (this.table.ActualPlayer != this.number && this.RenderModel.length == 3) {
             let tmp = this.RenderModel;
             tmp = tmp.slice(1);
             this.setModel = tmp;

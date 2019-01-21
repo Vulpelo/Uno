@@ -14,6 +14,9 @@ class Table {
         
         this.players = [];
 
+        this.background = new Background("background");
+        RenderData.spawnActor(this.background);
+
         this.pile = new PileOfCards(this);
         this.pile.Position = new Vector2d(30, 40);
         RenderData.spawnActor(this.pile);
@@ -22,9 +25,6 @@ class Table {
 
         this.hud = new MyHUD(new Vector2d(0, 0));
         RenderData.spawnActor(this.hud);
-
-        this.hud.Text = "Player " + this.actualPlayer.toString();
-
 
         this.tableController = new TableController(this);
         RenderData.spawnActor(this.tableController);
@@ -40,7 +40,6 @@ class Table {
 
     set ActualPlayer(newActual) {
         this.actualPlayer = newActual;
-        this.Hud.Text = Server.data.users[Server.data.board.actual_player].name + "'s turn";
     }
 
     get Hud() {
