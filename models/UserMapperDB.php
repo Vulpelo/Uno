@@ -42,7 +42,7 @@ class UserMapperDB {
             FROM user LEFT JOIN role ON user.id_role = role.id_role
                 LEFT JOIN card ON user.id_user = card.id_user
                     
-            WHERE user.id_board = :id_board 
+            WHERE user.id_board = :id_board
                 GROUP BY user.id_user
                 ORDER BY user.player_nr ASC'
         );

@@ -3,8 +3,12 @@ class Resources {
     }
 
     static getImagePath(name) {
-        return Resources.path + name + ".jpg";
+        return Resources.path + "cards/" + name + ".jpg";
+    }
+
+    static getImagePathPNG(name) {
+        return Resources.path + "images/" + name + ".png";
     }
 }
 
-Resources.path = "./resources/cards/";
+Resources.path = "./resources/";
