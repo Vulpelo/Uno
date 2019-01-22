@@ -38,7 +38,7 @@
 <script src="./public/js/admin_site/list.js"></script>
 <script src="./public/js//updateTableQuary.js"></script>
 <script>
-    start("?page=admin_users", "users_list");
+    table.start("?page=admin_users", "users_list");
 </script>
 
 </body>

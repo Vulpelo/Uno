@@ -1,45 +1,4 @@
-let len=0;
-let URL = "?page=boardList";
-let tableID = "ServerList";
 
-function start(newURL, newtableID) {
-    URL = newURL;
-    tableID = newtableID;
-    getData();
-}
-
-function getData() {
-    MQuarry.send({
-        type: "POST",
-        url: URL,
-        data: ""
-        }, done);
-}
-
-function done(data) {
-    createTableList(data);
-}
-
-function createTableList(data) {
-    clearTable();
-
-    len = data.length;
-
-    add(data);
-}
-
-function clearTable() {
-    let table = document.getElementById(tableID);
-    for (let i=0; i<len; i++) {
-        table.deleteRow(0);
-    }
-}
-
-function add(data) {
-    for (let i=0; i<data.length; i++) {
-        addElement(i, data[i]);
-    }
-}
 
 /*
 function addElement(index, data) {
@@ -74,3 +33,56 @@ RUNNING CODE:
         start("?page=admin_users", "users_list");
     </script>
 */
+
+class TableQuary {
+
+    constructor() {
+        this.len=0;
+        this.URL = "?page=boardList";
+        this.tableID = "ServerList";
+    }
+
+
+    start(newURL, newtableID) {
+        this.URL = newURL;
+        this.tableID = newtableID;
+        this.getData();
+    }
+
+    getData() {
+        MQuarry.send({
+            type: "POST",
+            url: this.URL,
+            data: ""
+            }, done);
+    }
+
+
+
+    createTableList(data) {
+        this.clearTable();
+
+        this.len = data.length;
+
+        this.add(data);
+    }
+
+    clearTable() {
+        let table = document.getElementById(this.tableID);
+        for (let i=0; i<this.len; i++) {
+            table.deleteRow(0);
+        }
+    }
+
+    add(data) {
+        for (let i=0; i<data.length; i++) {
+            addElement(i, data[i]);
+        }
+    }
+}
+
+let table = new TableQuary();
+
+function done(data) {
+    table.createTableList(data);
+}
