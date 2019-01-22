@@ -1,11 +1,14 @@
 class Card extends Actor {
     constructor(id, color, symbol, table) {
         super();
+        this.overlap = false;
         this.id = id;
         this.played = false;
         this.table = table;
         this.cardColor = color;
         this.symbol = symbol;
+
+        this.defoultPosition = this.Position;
 
         let tmp;
         if (symbol == -1) {
@@ -58,47 +61,28 @@ class Card extends Actor {
         }
     }
 
+    onMouseOverlap() {
+        if (this.Parent != null && Server.data.board.actual_player == Server.data.user.player_nr 
+            && this.Parent.number == Server.data.user.player_nr) 
+        {
+            this.Position.setY = -this.renderModel[0].getDimensions[1] - 20;
+            this.overlap = true;
+        }
+    }
+
     update(data) {
         Server.data = data;
     }
 
-    // power() {
-    //     //* symbol:
-    //     //    10 - skip;    11 - reverse;   12 - +2 cards
-    //     //    13 - +4 cards and change color;   14 - change color
-    //     switch (this.symbol) {
-    //         case 10:
-    //             this.skipPower();
-    //             break;
-    //         case 11:
-    //             this.reversePower();
-    //             break;
-    //         case 12:
-    //             this.plus2Power();
-    //             break;
-    //         case 13:
-    //             this.plus4Power()
-    //             break;
-    //         case 14:
-    //             this.changeColorPower();
-    //             break;
-    //     }
-    // }
-
-    // skipPower() {
-    //     this.table.skipPlayer();
-    // }
-
-    // reversePower() {
-    //     this.table.reversePlayersQueue();
-    // }
-
-    // plus2Power() {
-    //     for (let i=0; i<2; i++){
-    //         this.table.giveNextPlayerCard();
-    //     }
-    //     this.skipPower();
-    // }
+    eventTick() {
+        if (this.Parent != null && Server.data.board.actual_player == Server.data.user.player_nr 
+                && this.Parent.number == Server.data.user.player_nr
+                && !this.overlap)
+        {
+            this.Position.setY = -this.renderModel[0].getDimensions[1];
+        }
+        this.overlap = false;
+    }
 
     // plus4Power() {
     //     for (let i=0; i<4; i++){

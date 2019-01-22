@@ -9,7 +9,7 @@ class Physics {
 
     // checking if mouse has clicked one of the elements on screen
     checkMouseClickActorEvent() {
-        if (InputController.leftMouseButtonClicked == true) {
+        // if (InputController.leftMouseButtonClicked == true) {
             let i = 0;
             let d = RenderData.renderObjects;
 
@@ -20,13 +20,16 @@ class Physics {
                         && ( this.pointOverRectangle(InputController.mousePosition, d[i].renderModel[j])
                         || this.pointOverCircle(InputController.mousePosition, d[i].renderModel[j]) )) 
                     {
-                        d[i].onMouseClick(d[i].renderModel[j]);
+                        if (InputController.leftMouseButtonClicked == true) {
+                            d[i].onMouseClick(d[i].renderModel[j]);
+                        }
+                        d[i].onMouseOverlap(d[i].renderModel[j]);
                         return;
                     }
                 }
 
             }
-        }
+        // }
     }
 
     // check if point is inside Rectangle. Returns boolean.
