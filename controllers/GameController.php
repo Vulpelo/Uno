@@ -110,6 +110,19 @@ class GameController extends AppController {
         }
     }
 
+    public function gameSetColor() {
+        $cardMapper = new CardMapperDB();
+        $cardUpdate = new CardUpdate();
+
+        echo 1;
+        $actualCard = $cardMapper->getCard(0, $_SESSION['id_board']);
+
+        if ($actualCard['color'] == "wild") {
+            $cardUpdate->updateCard($actualCard['id_card'], $_POST['color'], $actualCard['symbol'], $actualCard['id_board']);
+        }
+        $this->gameDataUpdate();
+    }
+
     private function randomCard($id_user, $id_board) {
         $cardUpdate = new CardUpdate();
 

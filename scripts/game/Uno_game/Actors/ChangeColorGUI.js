@@ -28,12 +28,26 @@ class ChangeColorGUI extends Actor {
         // TODO: send data to Database to change a color!
         let index = this.renderModel.indexOf(model);
 
-        this.table.actualCard.CardColor = this.table.colors[index];
+        let color = this.table.colors[index];
 
-        this.table.BlockInteraction = false;
+        if (Server.data.board.actual_player == Server.data.user.player_nr) {
 
-        this.table.endTurn();
+            MQuarry.send({
+                type: "POST",
+                url: "?page=gameSetColor",
+                data: "color="+color
+              }, function(data) {console.log("hi");});
+        }
 
-        RenderData.Destroy(this);
+        // this.table.BlockInteraction = false;
+
+        // this.table.endTurn();
+
+        // RenderData.Destroy(this);
+    }
+
+    update(data) {
+        Server.data = data;
+        console.log('asd');
     }
 }

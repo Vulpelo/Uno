@@ -74,6 +74,10 @@ class Routing
                 'controller' => 'GameController',
                 'action' => 'createBoard'
             ],
+            'gameSetColor' => [
+                'controller' => 'GameController',
+                'action' => 'gameSetColor'
+            ],
 
             'serverList' => [
                 'controller' => 'ServerController',

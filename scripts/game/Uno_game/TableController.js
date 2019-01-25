@@ -20,7 +20,7 @@ class TableController extends Actor {
             this.updateCard();
         }
 
-        if (this.table.ActualCard.CardColor == 'wild' && this.table.playerTurn()) {
+        if (this.table.ActualCard != null && this.table.ActualCard.CardColor == 'wild' && this.table.playerTurn()) {
             this.table.showChangeColorGui(true);
         }
         else {

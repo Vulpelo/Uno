@@ -19,6 +19,21 @@ class CardUpdate {
         $stmt->execute();
     }
 
+    public function updateCard($id_card, $color, $symbol, $id_board) {
+        $stmt = $this->database->connect()->prepare(
+            'UPDATE card
+            SET color = :color,
+                symbol = :symbol,
+                id_board = :id_board
+            WHERE id_card = :id_card'
+        );
+        $stmt->bindParam(':id_card', $id_card, PDO::PARAM_STR);
+        $stmt->bindParam(':color', $color, PDO::PARAM_STR);
+        $stmt->bindParam(':symbol', $symbol, PDO::PARAM_STR);
+        $stmt->bindParam(':id_board', $id_board, PDO::PARAM_STR);
+        $stmt->execute();
+    }
+
     public function removeAllUserCardsOnBoard($id_user, $id_board) {
         $stmt = $this->database->connect()->prepare(
             'DELETE FROM card 
