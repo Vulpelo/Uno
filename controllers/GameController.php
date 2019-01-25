@@ -111,15 +111,24 @@ class GameController extends AppController {
     }
 
     public function gameSetColor() {
+        $this->dataUpdate();
+
         $cardMapper = new CardMapperDB();
         $cardUpdate = new CardUpdate();
 
-        echo 1;
         $actualCard = $cardMapper->getCard(0, $_SESSION['id_board']);
 
         if ($actualCard['color'] == "wild") {
             $cardUpdate->updateCard($actualCard['id_card'], $_POST['color'], $actualCard['symbol'], $actualCard['id_board']);
+            if ($actualCard['symbol'] == 14) {
+                $this->skipPower();
+            }
         }
+
+        $this->setNewActual($this->data['board']['actual_player'], $this->data['board']['clockwise']);
+
+        $this->updateBoardData();
+
         $this->gameDataUpdate();
     }
 
@@ -161,9 +170,7 @@ class GameController extends AppController {
         $card = $cardMapper->getCardByID($_POST['id_card']);
         $this->cardPower($card);
 
-        // setting new actual
-        $this->setNewActual($this->data['board']['actual_player'], $this->data['board']['clockwise']);
-
+        $this->updateBoardData();
 
         // $boardUpdate->setActual($actual, $_SESSION['id_board']);
         $boardUpdate->updateBoard($_SESSION['id_board'],
@@ -177,6 +184,7 @@ class GameController extends AppController {
         //* symbol:
         //    10 - skip;    11 - reverse;   12 - +2 cards
         //    13 - +4 cards and change color;   14 - change color
+        $setNewActual = true;
         switch ($card['symbol']) {
             case 11:
                 $this->reversePower();
@@ -188,10 +196,16 @@ class GameController extends AppController {
                 break;
             case 14:
                 $this->drawCardsPower(4);
-                $this->skipPower();
+                // $this->skipPower();
             case 13:
+                $setNewActual = false;
                 $this->changeColorPower();
                 break;
+        }
+
+        // setting new actual
+        if ($setNewActual) {
+            $this->setNewActual($this->data['board']['actual_player'], $this->data['board']['clockwise']);
         }
     }
 
@@ -238,6 +252,15 @@ class GameController extends AppController {
                 $actual--;
             }
         }
+    }
+
+    private function updateBoardData() {
+        $boardUpdate = new BoardUpdate();
+
+        // $boardUpdate->setActual($actual, $_SESSION['id_board']);
+        $boardUpdate->updateBoard($_SESSION['id_board'],
+        $this->data['board']['actual_player'],
+        $this->data['board']['clockwise']);
     }
 
     public function gamePileOfCards() {

@@ -36,7 +36,7 @@ class ChangeColorGUI extends Actor {
                 type: "POST",
                 url: "?page=gameSetColor",
                 data: "color="+color
-              }, function(data) {console.log("hi");});
+              }, this.update);
         }
 
         // this.table.BlockInteraction = false;
@@ -48,6 +48,6 @@ class ChangeColorGUI extends Actor {
 
     update(data) {
         Server.data = data;
-        console.log('asd');
+        console.log(data);
     }
 }
