@@ -27,6 +27,7 @@
                 </div>
                 <tr>
                     <th><br>Players:</th>
+                    <th>Wins:</th>
                 </tr>
             </table>
         </div>

@@ -134,6 +134,10 @@ class MImage extends SimpleShape {
         this.image = imageSorce;
     }
 
+    set Image(path) {
+        this.image = path;
+    }
+
     render(window) {
         let pos = this.getWorldPosition();
 
