@@ -1,11 +1,12 @@
 class Table {
     constructor() {
-        this.colors = ["red", "green", "blue", "yellow", "black"];
+        this.colors = ["red", "green", "blue", "yellow", "wild"];
         this.blockInteraction = false;
         this.clockwiseQueue = false; // TODO: get from server
 
         this.center = new Vector2d(RenderData.window.clientWidth/2, RenderData.window.clientHeight/2);
 
+        this.changeColorGui = null;
         this.actualCard = null; // TODO: get from server
         this.actualPlayer = 1;
         this.endTurnActualPlayer = 1;
@@ -93,6 +94,10 @@ class Table {
         this.blockInteraction = nblock;
     }
 
+    playerTurn() {
+        return Server.data.board.actual_player == Server.data.user.player_nr;
+    }
+
     start() {
     }
 
@@ -106,8 +111,9 @@ class Table {
     }
 
     canThrowCard(card) {
+        // TODO: cant throw card if 13 or 14, need to change color first
         return this.isActualPlayerCard(card) && (this.actualCard.CardColor == this.colors[4] || card.CardColor == this.colors[4] 
-        || this.actualCard.CardColor == card.CardColor || this.actualCard.Symbol == card.Symbol);
+        || this.actualCard.CardColor == card.CardColor || this.actualCard.Symbol == card.Symbol) && this.actualCard.CardColor[0] != 'w';
     }
 
     // If the card was thown function return's true.
@@ -147,6 +153,21 @@ class Table {
         if (this.canHaveUno(player)) {
             let u = new UnoGUI(this);
             RenderData.spawnActor(u);
+        }
+    }
+
+    showChangeColorGui(show) {
+        if (show) {
+            if (this.changeColorGui == null) {
+                this.changeColorGui = new ChangeColorGUI(this);
+                RenderData.spawnActor(this.changeColorGui);
+            }
+        }
+        else {
+            if (this.changeColorGui != null) {
+                RenderData.Destroy(this.changeColorGui);
+                this.changeColorGui = null;
+            }
         }
     }
 }

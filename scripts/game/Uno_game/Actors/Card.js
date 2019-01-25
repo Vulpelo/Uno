@@ -57,13 +57,12 @@ class Card extends Actor {
                 url: "?page=gameThrowCard",
                 data: "id_card="+this.id
               }, this.update);
-        // RenderData.Destroy(this);
         }
     }
 
     onMouseOverlap() {
-        if (this.Parent != null && Server.data.board.actual_player == Server.data.user.player_nr 
-            && this.Parent.number == Server.data.user.player_nr) 
+        if (this.Parent != null && this.table.playerTurn() 
+                && this.Parent.number == Server.data.user.player_nr) 
         {
             this.Position.setY = -this.renderModel[0].getDimensions[1] - 20;
             this.overlap = true;

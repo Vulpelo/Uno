@@ -17,7 +17,7 @@ class GameController extends AppController {
 
     public function __construct() {
         parent::__construct();
-        $this->colors = ["red", "green", "blue", "yellow", "black"];
+        $this->colors = ["red", "green", "blue", "yellow", "wild"];
         $this->startNrOfCards = 7;
     }
 
@@ -169,29 +169,32 @@ class GameController extends AppController {
                 $this->reversePower();
                 break;
             case 12:
-                $this->plus2Power();
+                $this->drawCardsPower(2);
             case 10:
                 $this->skipPower();
                 break;
-            case 13:
-                // this.plus4Power()
-                break;
             case 14:
-                // this.changeColorPower();
+                $this->drawCardsPower(4);
+                $this->skipPower();
+            case 13:
+                $this->changeColorPower();
                 break;
         }
     }
 
-    private function plus2Power() {
+    private function drawCardsPower($amount) {
         $playerNr = $this->data['board']['actual_player'];
-        $amount = 2;
-        $this->setNewActual($playerNr, $this->data['board']['clockwise']);
 
+        $this->setNewActual($playerNr, $this->data['board']['clockwise']);
         $this->giveRandomCards($amount, $this->data['users'][$playerNr]['id_user'], $this->data['board']['id_board']);
     }
 
     private function skipPower() {
         $this->setNewActual($this->data['board']['actual_player'], $this->data['board']['clockwise']);
+    }
+
+    private function changeColorPower() {
+
     }
 
     private function reversePower() {

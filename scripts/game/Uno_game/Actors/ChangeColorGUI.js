@@ -25,6 +25,7 @@ class ChangeColorGUI extends Actor {
     }
 
     onMouseClick(model) {
+        // TODO: send data to Database to change a color!
         let index = this.renderModel.indexOf(model);
 
         this.table.actualCard.CardColor = this.table.colors[index];

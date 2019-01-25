@@ -15,9 +15,18 @@ class TableController extends Actor {
             this.table.createPlayers(Server.data.users.length); 
         }
 
-        if (this.table.ActualCard == null || this.table.ActualCard.Id !== Server.data.actualCard.id_card) {
+        if (this.table.ActualCard == null || this.table.ActualCard.Id !== Server.data.actualCard.id_card 
+            || this.table.ActualCard.CardColor !== Server.data.actualCard.color) {
             this.updateCard();
         }
+
+        if (this.table.ActualCard.CardColor == 'wild' && this.table.playerTurn()) {
+            this.table.showChangeColorGui(true);
+        }
+        else {
+            this.table.showChangeColorGui(false);
+        }
+
         this.table.ActualPlayer = Server.data.board.actual_player;
     }
 

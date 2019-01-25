@@ -12,7 +12,7 @@
         <h1 class="col-12 pl-0">ADMIN PANEL</h1>
 
         <div class="row">
-            <button class="btn btn-dark btn-lg" type="button" onclick="getUsers()">Refresh</button>
+            <button class="btn btn-dark btn-lg" type="button" onclick="table.getData()">Refresh</button>
         </div>
 
         <h4 class="mt-4">Your data:</h4>
@@ -36,7 +36,7 @@
 
 
 <script src="./public/js/admin_site/list.js"></script>
-<script src="./public/js//updateTableQuary.js"></script>
+<script src="./public/js/updateTableQuary.js"></script>
 <script>
     table.start("?page=admin_users", "users_list");
 </script>

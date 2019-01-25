@@ -15,7 +15,7 @@
         </div>
 
         <div class="column">
-            <button class="btn btn-dark" type="button" onclick="getBoards()">Refresh</button>
+            <button class="btn btn-dark" type="button" onclick="table.getData()">Refresh</button>
         </div>
 
         <table class="table table-striped">
