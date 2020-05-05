@@ -29,3 +29,11 @@ After installation, run Apache and MySQL using XAMPP
 
 1. Move project under folder of your XAMPP folder destination. (E.g.  C:\xampp\htdocs\uno) ,
 2. In browser's url enter http://localhost/uno
+
+## Screenshots
+
+![Login Page](/example/loginPage.jpg)
+
+![Homepage](/example/homepage.jpg)
+
+![Game table](/example/table.jpg)
