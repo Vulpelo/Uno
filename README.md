@@ -27,5 +27,6 @@ After installation, run Apache and MySQL using XAMPP
 
 ### To run project 
 
-1. Move project under folder of your XAMPP folder destination. (E.g.  C:\xampp\htdocs\uno) ,
-2. In browser's url enter http://localhost/uno
+1. Move project under folder of your XAMPP folder destination. (E.g.  C:\xampp\htdocs\uno),
+2. Make copy of 'Parameters.php.template' file under name 'Parameters.php', 
+3. In browser's url enter http://localhost/uno
