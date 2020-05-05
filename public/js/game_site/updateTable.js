@@ -64,7 +64,59 @@ function showStartButton(theHost) {
             let b = document.getElementById("startButtonPlace");
 
             let elem = document.createElement("div");
-            elem.innerHTML = '<button class="btn btn-primary btn-sm" onclick="startGame()">Start</button>';
+
+            elem.innerHTML = `
+                <h7>Settings:</h7>
+
+                <div class="row">
+                    <div class="col">
+                        <input type="checkbox" name="zeros" value="zeros" disabled> 0<br>
+                    </div>
+                    <div class="col">
+                        <input type="checkbox" name="sevens" value="sevens" disabled> 7<br>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <input type="checkbox" name="jump_in" value="jump_in" disabled> Jump in<br>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col">
+                        <input type="checkbox" name="chalange" value="chalange" disabled> Challange/Decline<br>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <input type="checkbox" name="jump_in" value="jump_in" disabled> Stacking<br>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col">
+                        <input type="checkbox" name="jump_in" value="jump_in" disabled checked> Need to play card if have one<br>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <input type="checkbox" name="jump_in" value="jump_in" disabled checked> Draw till have card to play<br>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <input type="checkbox" name="jump_in" value="jump_in" disabled> Call uno<br>
+                    </div>
+                </div>
+
+
+                <button class="btn btn-primary btn-sm" onclick="startGame()">Start</button>
+            `;
+
             elem.id = "startButton";
         
             b.appendChild(elem);

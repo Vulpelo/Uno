@@ -4,6 +4,14 @@
 
 <script src="./public/js/game_site/updateTable.js"></script>
 
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+<script src="./public/js/DefaultController/login.js"></script>
+<script src="./public/js/DefaultController/register.js"></script>
+
+
 <body>
 <?php include_once(dirname(__DIR__).'/navBar.html'); ?>
 
@@ -21,13 +29,14 @@
 
         <div class="col-3 bg-lightblue">
             <h2>Table: <?= $name ?></h2>
+            <a class="btn btn-danger btn-sm"  href="?page=leaveServer">Leave</a>
+            
             <table id='PlayerList'>
-                <a class="btn btn-danger btn-sm"  href="?page=leaveServer">Leave</a>
                 <div id="startButtonPlace"> 
                 </div>
                 <tr>
                     <th><br>Players:</th>
-                    <th>Wins:</th>
+                    <th><br>Wins:</th>
                 </tr>
             </table>
         </div>
