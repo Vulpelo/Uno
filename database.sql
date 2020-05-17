@@ -38,8 +38,8 @@ CREATE TABLE uno.user (
 );
 
 
-CREATE VIEW boards_view AS SELECT `id_board`, `name`, `actual_player`, `id_state`, `nr_of_players` FROM uno.board;
+CREATE VIEW boards_view AS SELECT board.`id_board`, board.`name`, `actual_player`, `id_state`, count(user.id_user) as `nr_of_players` FROM uno.board left join uno.user on uno.user.id_board =  uno.board.id_board group by board.id_board;
 
-CREATE VIEW users_view AS SELECT `id_user`, `name`, `player_nr`, role.name as `role`, `password`, `email` FROM uno.user, uno.role where uno.user.id_role = uno.role.id_role;
+CREATE VIEW users_view AS SELECT `id_user`, user.`name` as `name`, `player_nr`, role.name as `role`, `password`, `email` FROM uno.user, uno.role where uno.user.id_role = uno.role.id_role;
 
 CREATE VIEW users_boards_view AS SELECT `id_user`, `player_nr`, user.name as `name`, role.name as `role` FROM uno.user, uno.board, uno.role WHERE uno.user.id_board = uno.board.id_board AND uno.user.id_role = uno.role.id_role;
