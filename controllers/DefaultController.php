@@ -16,7 +16,11 @@ class DefaultController extends AppController
         public function index()
         {
             $name = 'Damian';
-            $this->render('index', ['session' => $_SESSION]);
+            if (isset($_SESSION['id_user'])) {
+                $this->render('index', ['session' => $_SESSION]);
+            } else {
+                header('Location: ./');
+            }
         }
 
         public function login()
