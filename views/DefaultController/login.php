@@ -9,7 +9,7 @@
 <script src="./public/js/DefaultController/login.js"></script>
 <script src="./public/js/DefaultController/register.js"></script>
 
-<body>
+<body class="cover">
 <?php include_once(dirname(__DIR__).'/navBar.html'); ?>
 
 <div class="container">

@@ -3,6 +3,11 @@
   text-align: center;
 }
 
+.cover {
+  background: url('../../resources/images/indexBackground.png') no-repeat center center fixed;
+  background-size: cover;
+}
+
 .bg-blue {
   background-color: #005783 !important;
 }
@@ -39,7 +44,7 @@
   border: 5px #5f94af;
   border-style: outset;
   border-radius: 10px;
-  background-color: rgb(231, 233, 243);
+  background-color: rgba(0, 82, 162, 0.85);;
 }
 
 
@@ -54,16 +59,18 @@
 }
 .panel-login>.panel-heading a{
 text-decoration: none;
-color: #666;
+color: #fff;
 font-weight: bold;
 font-size: 15px;
+text-shadow: 0 0 12px #000;
+outline: none;
 -webkit-transition: all 0.1s linear;
 -moz-transition: all 0.1s linear;
 transition: all 0.1s linear;
 }
 .panel-login>.panel-heading a.active{
-color: #029f5b;
-font-size: 18px;
+color: #d7b700;
+font-size: 19px;
 }
 .panel-login>.panel-heading hr{
 margin-top: 10px;
