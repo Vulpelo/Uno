@@ -22,7 +22,7 @@ function registerUser() {
                 });
         }
         else {
-            alert("Passwords aren't mached");
+            alert("Passwords aren't matched");
         }
     }
     else {

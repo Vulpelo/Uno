@@ -144,4 +144,33 @@ background-color: #1CA347;
 border-color: #1CA347;
 }
 
-
+.settings-column {
+  width: 20vw;
+}
+.settings-column input {
+  border: 1px solid rgba(0, 0, 0, 0.38);
+  border-radius: 3px;
+  padding: 4px;
+  margin: 10px 0;
+  width: 19vw;
+}
+.settings-column button {
+  background: none;
+  border: none;
+  color: #065fd4;
+  cursor: pointer;
+  font-weight: bold;
+  letter-spacing: 0.01em;
+  margin: 12px;
+  outline: none;
+  text-transform: uppercase;
+}
+.settings-column span {
+  display: block;
+  padding: 4px;
+  margin: 10px 0;
+}
+.settings-row {
+  display: flex;
+  flex-direction: row;
+}

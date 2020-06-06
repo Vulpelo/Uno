@@ -3,7 +3,8 @@
 require_once('controllers/AdminController.php');
 require_once('controllers/DefaultController.php');
 require_once('controllers/GameController.php');
-require_once("controllers/ServerController.php");
+require_once('controllers/ServerController.php');
+require_once('controllers/UserController.php');
 
 class Routing
 {
@@ -33,6 +34,15 @@ class Routing
                 'action' => 'userExists'
             ],
 
+            'changePassword' => [
+                'controller' => 'UserController',
+                'action' => 'changePassword'
+            ],
+            'userSettings' => [
+                'controller' => 'UserController',
+                'action' => 'userSettings'
+            ],
+            
             'admin_users' => [
                 'controller' => 'AdminController',
                 'action' => 'admin_users'

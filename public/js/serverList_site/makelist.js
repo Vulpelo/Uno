@@ -1,4 +1,4 @@
-
+document.title = "Uno - board list"
 function addElement(index, data)
 {
     let table = document.getElementById("ServerList");
