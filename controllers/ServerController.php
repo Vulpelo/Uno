@@ -18,7 +18,11 @@ class ServerController extends AppController {
     }
 
     public function serverList() {
-        $this->render('serverList', ['session' => $_SESSION]);
+        if (isset($_SESSION['id_user'])) {
+            $this->render('serverList', ['session' => $_SESSION]);
+        } else {
+            header('Location: ./');
+        }
     }
 
     public function boardList() {
@@ -29,6 +33,11 @@ class ServerController extends AppController {
     }
 
     public function leaveServer() {
+        if (!isset($_SESSION['id_user'])) {
+            http_response_code(401);
+            exit;
+        }
+        
         $userUpdate = new UserUpdate();
         $userMapperDB = new UserMapperDB();
         $boardMapper = new BoardMapperDB();

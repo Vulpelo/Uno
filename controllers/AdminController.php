@@ -16,7 +16,11 @@ class AdminController extends AppController
 
         public function adminPanel() {
             $user = new UserMapper();
-            $this->render('index', ['user' => $user->getUser($_SESSION['id_user']), 'session'=> $_SESSION]);
+            if (isset($_SESSION['id_user'])) {
+                $this->render('index', ['user' => $user->getUser($_SESSION['id_user']), 'session'=> $_SESSION]);
+            } else {
+                header('Location: ./');
+            }
         }
 
         public function index(): void
@@ -27,6 +31,10 @@ class AdminController extends AppController
     
         public function admin_users(): void
         {
+            if (!isset($_SESSION['id_user'])) {
+                http_response_code(401);
+                exit;
+            }
             $user = new UserMapperDB();
     
             header('Content-type: application/json');
@@ -38,6 +46,10 @@ class AdminController extends AppController
     
         public function userDelete(): void
         {
+            if (!isset($_SESSION['id_user'])) {
+                http_response_code(401);
+                exit;
+            }
             if (!isset($_POST['id_user'])) {
                 http_response_code(404);
                 return;
