@@ -14,4 +14,8 @@ function logIn() {
         }, empty);
 }
 
+function openIndex() {
+    window.location.replace('?page=index');
+}
+
 function empty() {}

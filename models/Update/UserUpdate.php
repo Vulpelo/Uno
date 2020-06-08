@@ -42,6 +42,17 @@ class UserUpdate {
         $stmt->execute();
     }
 
+    public function setPassword($id_user, String $password) {
+        $stmt = $this->database->connect()->prepare(
+            'UPDATE user
+                SET password = :passwordHash
+            WHERE id_user = :id_user'
+        );
+        $stmt->bindParam(':passwordHash', $password, PDO::PARAM_STR);
+        $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+
     public function logout($id_user) {
         $stmt = $this->database->connect()->prepare(
             'UPDATE user
