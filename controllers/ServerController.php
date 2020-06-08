@@ -52,26 +52,28 @@ class ServerController extends AppController {
             $userUpdate->setPlayerNr($users[$i]['id_user'], $i);
         }
 
-        // changes board's actual_player
-        $board = $boardMapper->getBoard($_SESSION['id_board']);
-        if (count($users) != 0 && $board['actual_player'] >= count($users)) {
-            if ($board['clockwise'] == 1) {
-                $board['actual_player'] = 0;
+        if (count($users) > 0) {
+            // changes board's actual_player
+            $board = $boardMapper->getBoard($_SESSION['id_board']);
+            if ($board['actual_player'] >= count($users)) {
+                if ($board['clockwise'] == 1) {
+                    $board['actual_player'] = 0;
+                }
+                else {
+                    $board['actual_player'] = count($users) - 1;
+                }
+                $boardUpdate->updateBoard($_SESSION['id_board'], $board['actual_player'], $board['clockwise']);
             }
             else {
-                $board['actual_player'] = count($users) - 1;
+                $boardUpdate->updateBoard($_SESSION['id_board'], 0, $board['clockwise']);
             }
-            $boardUpdate->updateBoard($_SESSION['id_board'], $board['actual_player'], $board['clockwise']);
-        }
-        else {
-            $boardUpdate->updateBoard($_SESSION['id_board'], 0, $board['clockwise']);
-        }
 
-        // host migration
-        if ( $this->isHost($_SESSION['id_user']) == 1) {
-            if (count($users) > 0) {
+            // host migration
+            if ( $this->isHost($_SESSION['id_user']) == 1) {
                 $userUpdate->setRole($users[0]['id_user'], 2);
             }
+        } else {
+            $boardUpdate->delete($board['id_board']);
         }
 
         if ($_SESSION['role'] != 'ADMIN') {

@@ -22,17 +22,17 @@ class BoardMapperDB {
         return $board;
     }
 
-        // do listy stołów
-        public function getBoards() {
-            $stmt = $this->database->connect()->prepare(
-                'SELECT * FROM boards_view'
-            );
-            $stmt->execute();
-    
-            $boards = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-            return $boards;
-        }
+    // do listy stołów
+    public function getBoards() {
+        $stmt = $this->database->connect()->prepare(
+            'SELECT * FROM boards_view'
+        );
+        $stmt->execute();
+
+        $boards = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $boards;
+    }
 
     public function getBoardByName($board_name) {
         $stmt = $this->database->connect()->prepare(
