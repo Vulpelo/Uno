@@ -69,11 +69,15 @@ class ServerController extends AppController {
             }
 
             // host migration
-            if ( $this->isHost($_SESSION['id_user']) == 1) {
-                $userUpdate->setRole($users[0]['id_user'], 2);
+            if ($_SESSION['role'] == "HOST" || 
+                ($_SESSION['role'] == "ADMIN" && noHostInUserList($users) == 1)) 
+            {
+                if ($users[0]['role'] != "ADMIN") {
+                    $userUpdate->setRole($users[0]['id_user'], 2);
+                }
             }
         } else {
-            $boardUpdate->delete($board['id_board']);
+            $boardUpdate->delete($_SESSION['id_board']);
         }
 
         if ($_SESSION['role'] != 'ADMIN') {
@@ -81,10 +85,18 @@ class ServerController extends AppController {
             $_SESSION['role'] = "USER";
         }
 
-
         $_SESSION['id_board'] = NULL;
 
         $this->serverList();
+    }
+
+    private function noHostInUserList($users) {
+        for ($i = 0; $i < count($users); $i++) {
+            if ($users[$i]['role'] == "HOST") {
+                return 0;
+            }
+        }
+        return 1;
     }
 
     private function isHost($id_user) {

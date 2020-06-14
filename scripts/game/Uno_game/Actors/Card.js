@@ -20,15 +20,12 @@ class Card extends Actor {
 
         let dim = [40,70];
         let rM = [new Rectangle(new Vector2d(0,0)), 
-                new MImage(new Vector2d(0,0), Resources.getImagePath(tmp)),
-                new Text(new Vector2d(-dim[0]/2, -dim[1]/2))];
+                new MImage(new Vector2d(0,0), Resources.getImagePath(tmp))];
 
         rM[0].color = this.cardColor;
         rM[0].setDimensions = dim;
             
         rM[1].setDimensions = dim;
-
-        rM[2].Text = symbol;
 
         this.setModel = rM;
     }
@@ -82,17 +79,4 @@ class Card extends Actor {
         }
         this.overlap = false;
     }
-
-    // plus4Power() {
-    //     for (let i=0; i<4; i++){
-    //         this.table.giveNextPlayerCard();
-    //     }
-    //     this.skipPower();
-    //     this.changeColorPower();
-    // }
-
-    // changeColorPower() {
-    //     let a = new ChangeColorGUI(this.table);
-    //     RenderData.spawnActor(a, 0);
-    // }
 }
